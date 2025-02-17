@@ -6,7 +6,7 @@ gantt
     Planificación del proyecto      :done, plan, 2025-02-15, 2025-02-20
 
     section Instalación dependencias & Config sistemas de trabajo
-    Crear entorno de desarroyo :d1, 2025-02-20, 2025-02-06
+    Crear entorno de desarroyo :d1, 2025-02-20, 2025-03-06
 
     section Desarrollo - Usuario
     Crear modelo de usuario adoptante :u1, 2025-03-07, 2025-03-12
