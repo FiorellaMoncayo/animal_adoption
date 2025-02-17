@@ -3,47 +3,46 @@ Diagrama de Gantt del Proyecto
 ```mermaid
 gantt
     title animal_adoption_TUONS
-    dateFormat  YYYY-MM-DD
+    dateFormat  DD-MM
 
     section Planificación
-    Definición del proyecto :done, 2025-02-06, 2025-02-16
-    Investigación :done, 2025-02-10, 2025-02-18 
-    Requisitos de usuario :done, plan, 2025-02-15, 2025-02-20   
+    Definición del proyecto :done, 06-02, 16-02
+    Investigación :done, 10-02, 18-02
+    Requisitos de usuario :done, plan, 15-02, 20-02   
 
     section Diseño
-    Diseño UX/UI :d1, 2025-02-20, 2025-02-22
-    Arquitectura Sistema :d2, 2025-02-22, 2025-02-24
+    Diseño UX/UI :d1, 20-02, 22-02
+    Arquitectura Sistema :d2, 22-02, 24-02
 
     section Desarrollo Backend
-    Backend :u0, 2025-02-22, 2025-04-07
-    Crear modelo de usuario adoptante :u1, 2025-02-22, 2025-02-27
-    Implementar creación de usuario :u2, 2025-02-24, 2025-03-02
-    Implementar lectura de usuario  :u3, 2025-02-24, 2025-03-01
-    Implementar actualización de usuario :u4, 2025-02-24, 2025-03-05
-    Implementar eliminación de usuario :u5, 2025-02-24, 2025-03-03
+    Backend :u0, 22-02, 07-04
+    Crear modelo de usuario adoptante :u1, 22-02, 27-02
+    Implementar creación de usuario :u2, 24-02, 02-03
+    Implementar lectura de usuario  :u3, 24-02, 01-03
+    Implementar actualización de usuario :u4, 24-02, 05-03
+    Implementar eliminación de usuario :u5, 24-02, 03-03
 
-    Crear modelo de refugio         :r1, 2025-03-06, 2025-03-16
-    Implementar creación de refugio :r2, 2025-03-08, 2025-03-20
-    Implementar lectura de refugio  :r3, 2025-03-08, 2025-03-17
-    Implementar actualización de refugio :r4, 2025-03-08, 2025-03-22
-    Implementar eliminación de refugio :r5, 2025-03-08, 2025-03-18
+    Crear modelo de refugio         :r1, 06-03, 16-03
+    Implementar creación de refugio :r2, 08-03, 20-03
+    Implementar lectura de refugio  :r3, 08-03, 17-03
+    Implementar actualización de refugio :r4, 08-03, 22-03
+    Implementar eliminación de refugio :r5, 08-03, 18-03
 
-    Crear modelo de animal         :a1, 2025-03-23, 2025-03-28
-    Implementar creación de animal :a2, 2025-03-25, 2025-04-05
-    Implementar lectura de animal  :a3, 2025-03-25, 2025-04-01
-    Implementar actualización de animal :a4, 2025-03-25, 2025-04-07
-    Implementar eliminación de animal :a5, 2025-03-25, 2025-04-02
+    Crear modelo de animal         :a1, 23-03, 28-03
+    Implementar creación de animal :a2, 25-03, 05-04
+    Implementar lectura de animal  :a3, 25-03, 01-04
+    Implementar actualización de animal :a4, 25-03, 07-04
+    Implementar eliminación de animal :a5, 25-03, 02-04
 
     section Desarrollo Frontend
-
-    Desarrollo Frontend :d1, 2025-04-02, 2025-05-02
+    Desarrollo Frontend :d1, 02-04, 02-05
 
     section Pruebas
-    Pruebas unitarias :p1, 2025-05-21, 2025-05-27
-    Pruebas de integración :p2, 2025-05-27, 2025-06-02
-    Corrección de errores :p3, 2025-06-02, 2025-06-05
+    Pruebas unitarias :p1, 02-05, 09-05
+    Pruebas de integración :p2, 09-05, 16-05
+    Corrección de errores :p3, 16-05, 20-05
 
     section Despliegue
-    Implementación en producción :i1, 2025-06-05, 2025-06-13
-    Mantenimiento y mejoras :i2, 2025-06-13, 2025-06-30
+    Implementación en producción :i1, 20-05, 23-05
+    Mantenimiento y mejoras :i2, 23-05, 31-05
 
