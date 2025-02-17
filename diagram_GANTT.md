@@ -15,7 +15,7 @@ gantt
     Arquitectura Sistema :d2, 22-02, 24-02
 
     section Desarrollo Backend
-    Backend :u0, 22-02, 05-04
+    Backend :u0, 22-02, 28-03
     Crear modelo de usuario adoptante :u1, 22-02, 27-02
     Implementar creación de usuario :u2, 24-02, 05-03
     Implementar lectura de usuario  :u3, 24-02, 01-03
