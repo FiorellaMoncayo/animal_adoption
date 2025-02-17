@@ -15,27 +15,27 @@ gantt
     Arquitectura Sistema :d2, 22-02, 24-02
 
     section Desarrollo Backend
-    Backend :u0, 22-02, 07-04
+    Backend :u0, 22-02, 05-04
     Crear modelo de usuario adoptante :u1, 22-02, 27-02
-    Implementar creación de usuario :u2, 24-02, 02-03
+    Implementar creación de usuario :u2, 24-02, 05-03
     Implementar lectura de usuario  :u3, 24-02, 01-03
     Implementar actualización de usuario :u4, 24-02, 05-03
     Implementar eliminación de usuario :u5, 24-02, 03-03
 
     Crear modelo de refugio         :r1, 06-03, 16-03
-    Implementar creación de refugio :r2, 08-03, 20-03
+    Implementar creación de refugio :r2, 08-03, 19-03
     Implementar lectura de refugio  :r3, 08-03, 17-03
-    Implementar actualización de refugio :r4, 08-03, 22-03
+    Implementar actualización de refugio :r4, 08-03, 20-03
     Implementar eliminación de refugio :r5, 08-03, 18-03
 
     Crear modelo de animal         :a1, 23-03, 28-03
     Implementar creación de animal :a2, 25-03, 05-04
     Implementar lectura de animal  :a3, 25-03, 01-04
-    Implementar actualización de animal :a4, 25-03, 07-04
+    Implementar actualización de animal :a4, 25-03, 05-04
     Implementar eliminación de animal :a5, 25-03, 02-04
 
     section Desarrollo Frontend
-    Desarrollo Frontend :d1, 02-04, 02-05
+    Desarrollo Frontend :d1, 05-04, 02-05
 
     section Pruebas
     Pruebas unitarias :p1, 02-05, 09-05
