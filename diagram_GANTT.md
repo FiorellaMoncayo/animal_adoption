@@ -5,7 +5,7 @@ gantt
     section Planificación
     Planificación del proyecto      :done, plan, 2025-02-15, 2025-02-20
 
-    section Instalación dependencias & Config sistemas de trabajo
+    section Instalación & Config entorno
     Crear entorno de desarroyo :d1, 2025-02-20, 2025-03-06
 
     section Desarrollo - Usuario
