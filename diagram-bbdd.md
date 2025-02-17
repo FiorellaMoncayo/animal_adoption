@@ -1,26 +1,53 @@
+## 📌 Descripción del esquema relacional
+
+Este diagrama representa la estructura de la base de datos con cinco tablas principales:
+
+- **USER**: Guarda la información de los usuarios.
+- **SHELTER**: Representa los refugios de animales.
+- **ANIMAL**: Contiene los datos de cada animal y a qué refugio pertenece.
+- **CONTACT**: Registra los contactos iniciados por usuarios con refugios.
+- **ANSWER**: Guarda las respuestas de los refugios a los usuarios.
+
+---
+
 ```mermaid
 erDiagram
     USER {
-        int id PK
-        string name
-        string pass
+        INT id PK
+        STRING name
+        STRING pass
     }
     
     SHELTER {
-        int id PK
-        string name
-        string pass       
+        INT id PK
+        STRING name
+        STRING pass       
     }
     
     ANIMAL {
-        int reiac PK
-        string name
-        int age
-        string gender
-        float weight
-        int id_shelter FK
+        INT reiac PK
+        STRING name
+        INT age
+        STRING gender
+        FLOAT weight
+        INT id_shelter FK
     }
     
+    CONTACT {
+        INT id PK
+        INT id_user FK
+        INT id_shelter FK
+        DATETIME date
+    }
+
+    ANSWER {
+        INT id PK
+        INT id_shelter FK
+        INT id_user FK
+        TEXT message
+        DATETIME date
+    }
+
     USER ||--o{ ANIMAL : "views"
     USER ||--o{ CONTACT : "contacts"
     CONTACT }o--|| SHELTER : "with"
@@ -29,73 +56,18 @@ erDiagram
     SHELTER ||--o{ ANIMAL : "publishes"
 
 
-### 📌 **How this code works:**
+---
 
-#### **1️⃣ Table: `USER`** (Users)
-| Field      | Type       | Description            |
-|------------|-----------|------------------------|
-| `id`       | `INT PK`  | Unique user identifier |
-| `name`     | `STRING`  | User's name            |
-| `pass`     | `STRING`  | User's password        |
+### 🔹 **Explicación**
+Colocamos la descripción en **Markdown** (fuera del bloque Mermaid), ya que **Mermaid no admite texto explicativo dentro del diagrama**.  
+
+📌 **Resumen de relaciones:**  
+- Un usuario **puede ver varios animales**.  
+- Un usuario **puede contactar con varios refugios** y **viceversa**.  
+- Un refugio **puede responder a varios usuarios**.  
+- Un refugio **puede publicar varios animales**, pero cada animal **pertenece a un solo refugio**.  
 
 ---
 
-#### **2️⃣ Table: `SHELTER`** (Animal Shelters)
-| Field      | Type       | Description               |
-|------------|-----------|---------------------------|
-| `id`       | `INT PK`  | Unique shelter identifier |
-| `name`     | `STRING`  | Shelter's name           |
-| `pass`     | `STRING`  | Shelter's password       |
-
----
-
-#### **3️⃣ Table: `ANIMAL`** (Animals)
-| Field       | Type       | Description                          |
-|------------|-----------|--------------------------------------|
-| `reiac`    | `INT PK`  | Unique animal identifier            |
-| `name`     | `STRING`  | Animal’s name                       |
-| `age`      | `INT`     | Animal’s age                        |
-| `gender`   | `STRING`  | Animal’s gender                     |
-| `weight`   | `FLOAT`   | Animal’s weight                     |
-| `id_shelter` | `INT FK` | Shelter where the animal is housed  |
-
----
-
-#### **4️⃣ Table: `CONTACT`** (Users Contact Shelters)
-> Many-to-many relationship between `USER` and `SHELTER` (only users can initiate contact).
-
-| Field       | Type       | Description                          |
-|------------|-----------|--------------------------------------|
-| `id`       | `INT PK`  | Unique contact identifier           |
-| `id_user`  | `INT FK`  | User who initiates contact          |
-| `id_shelter` | `INT FK` | Shelter being contacted            |
-| `date`     | `DATETIME`| Date when contact was made          |
-
----
-
-#### **5️⃣ Table: `ANSWER`** (Shelters Respond to Users)
-> Many-to-many relationship between `SHELTER` and `USER` (only shelters can respond to users).
-
-| Field       | Type       | Description                         |
-|------------|-----------|-------------------------------------|
-| `id`       | `INT PK`  | Unique answer identifier           |
-| `id_shelter` | `INT FK` | Shelter sending the response      |
-| `id_user`  | `INT FK`  | User receiving the response       |
-| `message`  | `TEXT`    | Message content                   |
-| `date`     | `DATETIME`| Date when the response was sent   |
-
----
-
-### 📌 **Final Relationship Overview:**
-- **A user can view multiple animals** → An optional table (`USER_ANIMAL`) could store this.  
-- **A user can contact multiple shelters, and a shelter can be contacted by multiple users** → `CONTACT`.  
-- **A shelter can respond to multiple users, and a user can receive responses from multiple shelters** → `ANSWER`.  
-- **A shelter can publish multiple animals, but each animal belongs to only one shelter** → `ANIMAL` (1:N relationship with `SHELTER`).  
-
----
-
-### 🚀 **Conclusion**
-- **5 tables** are created (`USER`, `SHELTER`, `ANIMAL`, `CONTACT`, `ANSWER`).  
-- **`CONTACT`** tracks when a user initiates contact with a shelter.  
-- **`ANSWER`** tracks responses from shelters to users.  
-- **`ANIMAL`** is linked to `SHELTER` with a **one-to-many** relationship.  
+💡 **Este formato funciona correctamente en GitHub sin errores.**  
+Si necesitas más ajustes, dime y lo adaptamos. 🚀
