@@ -46,3 +46,4 @@ graph TD
     Refugio --> L
     Refugio --> M
     Refugio --> N
+    Refugio -->|"📡 Interactúa con TUONS"| Tuons
