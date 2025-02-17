@@ -1,12 +1,12 @@
-## 📌 Descripción del esquema relacional
+## 📌 Relational Schema Description
 
-Este diagrama representa la estructura de la base de datos con cinco tablas principales:
+This diagram represents the structure of the database with five main tables:
 
-- **USER**: Guarda la información de los usuarios.
-- **SHELTER**: Representa los refugios de animales.
-- **ANIMAL**: Contiene los datos de cada animal y a qué refugio pertenece.
-- **CONTACT**: Registra los contactos iniciados por usuarios con refugios.
-- **ANSWER**: Guarda las respuestas de los refugios a los usuarios.
+- **USER**: Stores user information.
+- **SHELTER**: Represents animal shelters.
+- **ANIMAL**: Contains data about each animal and the shelter it belongs to.
+- **CONTACT**: Records the contacts initiated by users with shelters.
+- **ANSWER**: Stores the responses from shelters to users.
 
 ---
 
@@ -58,16 +58,9 @@ erDiagram
 
 ---
 
-### 🔹 **Explicación**
-Colocamos la descripción en **Markdown** (fuera del bloque Mermaid), ya que **Mermaid no admite texto explicativo dentro del diagrama**.  
+📌 **Summary of relationships:**  
+- A user **can view multiple animals**.  
+- A user **can contact multiple shelters** and **vice versa**.  
+- A shelter **can respond to multiple users**.  
+- A shelter **can publish multiple animals**, but each animal **belong to only one shelter**.  
 
-📌 **Resumen de relaciones:**  
-- Un usuario **puede ver varios animales**.  
-- Un usuario **puede contactar con varios refugios** y **viceversa**.  
-- Un refugio **puede responder a varios usuarios**.  
-- Un refugio **puede publicar varios animales**, pero cada animal **pertenece a un solo refugio**.  
-
----
-
-💡 **Este formato funciona correctamente en GitHub sin errores.**  
-Si necesitas más ajustes, dime y lo adaptamos. 🚀
