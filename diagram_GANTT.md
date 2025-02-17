@@ -5,6 +5,9 @@ gantt
     section Planificación
     Planificación del proyecto      :done, plan, 2025-02-15, 2025-02-20
 
+    section Instalación dependencias & Config sistemas de trabajo
+    Crear entorno de desarroyo :d1, 2025-02-20, 2025-02-06
+
     section Desarrollo - Usuario
     Crear modelo de usuario adoptante :u1, 2025-03-07, 2025-03-12
     Implementar creación de usuario :u2, 2025-03-09, 2025-03-15
@@ -20,7 +23,7 @@ gantt
     Implementar eliminación de refugio :r5, 2025-03-22, 2025-04-02
 
     section Desarrollo - Animal
-    Crear modelo de animal         :active, a1, 2025-04-06, 2025-04-11
+    Crear modelo de animal         :a1, 2025-04-06, 2025-04-11
     Implementar creación de animal :a2, 2025-04-08, 2025-04-19
     Implementar lectura de animal  :a3, 2025-04-08, 2025-04-15
     Implementar actualización de animal :a4, 2025-04-08, 2025-04-21
