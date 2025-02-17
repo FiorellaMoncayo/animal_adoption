@@ -9,7 +9,6 @@ graph TD
     %% Casos de uso del Usuario
     subgraph "👤 **Acciones del Usuario**"
         A["🔍 **Busco un animal**"]
-        B["📩 **Pido un animal**"]
         C["📜 **Registro (Sign)**"]
         D["🔑 **Inicio sesión (Log)**"]
         E["✏️ **Actualizo datos (Upd)**"]
@@ -30,7 +29,6 @@ graph TD
 
     %% Conexiones
     Usuario -->|"📌 Realiza acciones"| A
-    Usuario --> B
     Usuario --> C
     Usuario --> D
     Usuario --> E
@@ -39,6 +37,7 @@ graph TD
     Usuario --> H
     H -->|"📡 Envía solicitud"| Tuons
     Tuons -->|"📨 Contacta al refugio"| Refugio
+    Tuons -->|"📤 Responde al usuario"| Usuario
     
     Refugio --> I
     Refugio --> J
@@ -47,3 +46,4 @@ graph TD
     Refugio --> M
     Refugio --> N
     Refugio -->|"📡 Interactúa con TUONS"| Tuons
+
