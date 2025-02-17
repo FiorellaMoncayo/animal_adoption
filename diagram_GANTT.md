@@ -1,3 +1,5 @@
+Diagrama de Gantt del Proyecto
+
 ```mermaid
 gantt
     title animal_adoption_TUONS
@@ -13,7 +15,7 @@ gantt
     Arquitectura Sistema :d2, 2025-02-27, 2025-03-06
 
     section Desarrollo Frontend
-    Frontend :u0, 2025-03-07, 2025-03-19
+    Frontend :u0, 2025-03-07, 2025-04-16
     Crear modelo de usuario adoptante :u1, 2025-03-07, 2025-03-12
     Implementar creación de usuario :u2, 2025-03-09, 2025-03-15
     Implementar lectura de usuario  :u3, 2025-03-09, 2025-03-14
@@ -37,3 +39,13 @@ gantt
     section Desarrollo Backend
 
     Desarrollo Backend :d1, 2025-04-17, 2025-05-17
+
+    section Pruebas
+    Pruebas unitarias :p1, 2025-05-17, 2025-05-24
+    Pruebas de integración :p2, 2025-05-24, 2025-05-30
+    Corrección de errores :p3, 2025-05-30, 2025-06-01
+
+    section Despliegue
+    Implementación en producción :i1, 2025-06-02, 2025-06-10
+    Mantenimiento y mejoras :i2, 2025-06-10, 2025-06-30
+
