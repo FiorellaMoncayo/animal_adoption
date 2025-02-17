@@ -14,8 +14,8 @@ gantt
     Diseño UX/UI :d1, 2025-02-20, 2025-02-27
     Arquitectura Sistema :d2, 2025-02-27, 2025-03-06
 
-    section Desarrollo Frontend
-    Frontend :u0, 2025-03-07, 2025-04-16
+    section Desarrollo Backend
+    Backend :u0, 2025-03-07, 2025-04-16
     Crear modelo de usuario adoptante :u1, 2025-03-07, 2025-03-12
     Implementar creación de usuario :u2, 2025-03-09, 2025-03-15
     Implementar lectura de usuario  :u3, 2025-03-09, 2025-03-14
@@ -36,16 +36,16 @@ gantt
     Implementar actualización de animal :a4, 2025-04-08, 2025-04-21
     Implementar eliminación de animal :a5, 2025-04-08, 2025-04-16
 
-    section Desarrollo Backend
+    section Desarrollo Frontend
 
-    Desarrollo Backend :d1, 2025-04-17, 2025-05-17
+    Desarrollo Frontend :d1, 2025-04-21, 2025-05-21
 
     section Pruebas
-    Pruebas unitarias :p1, 2025-05-17, 2025-05-24
-    Pruebas de integración :p2, 2025-05-24, 2025-05-30
-    Corrección de errores :p3, 2025-05-30, 2025-06-01
+    Pruebas unitarias :p1, 2025-05-21, 2025-05-27
+    Pruebas de integración :p2, 2025-05-27, 2025-06-02
+    Corrección de errores :p3, 2025-06-02, 2025-06-05
 
     section Despliegue
-    Implementación en producción :i1, 2025-06-02, 2025-06-10
-    Mantenimiento y mejoras :i2, 2025-06-10, 2025-06-30
+    Implementación en producción :i1, 2025-06-05, 2025-06-13
+    Mantenimiento y mejoras :i2, 2025-06-13, 2025-06-30
 
