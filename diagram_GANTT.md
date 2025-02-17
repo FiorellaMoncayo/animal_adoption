@@ -15,7 +15,7 @@ gantt
     Arquitectura Sistema :d2, 2025-02-27, 2025-03-06
 
     section Desarrollo Backend
-    Backend :u0, 2025-03-07, 2025-04-16
+    Backend :u0, 2025-03-07, 2025-04-21
     Crear modelo de usuario adoptante :u1, 2025-03-07, 2025-03-12
     Implementar creación de usuario :u2, 2025-03-09, 2025-03-15
     Implementar lectura de usuario  :u3, 2025-03-09, 2025-03-14
