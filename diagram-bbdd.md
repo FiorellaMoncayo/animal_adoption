@@ -54,7 +54,7 @@ erDiagram
     SHELTER ||--o{ ANSWER : "answers"
     ANSWER }o--|| USER : "to"
     SHELTER ||--o{ ANIMAL : "publishes"
-
+```
 
 ---
 
