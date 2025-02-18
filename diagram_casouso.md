@@ -11,10 +11,10 @@ graph TD
         A["🔍 **Busco un animal**"]
         C["📜 **Registro (Sign)**"]
         D["🔑 **Inicio sesión (Log)**"]
+        H["📞 **Solicito contacto con refugio**"]
         E["✏️ **Actualizo datos (Upd)**"]
         F["❌ **Elimino mi cuenta (Del)**"]
-        G["👀 **Veo animales disponibles**"]
-        H["📞 **Solicito contacto con refugio**"]
+        G["👀 **Veo animales disponibles**"]        
     end
     
     %% Casos de uso del Refugio
