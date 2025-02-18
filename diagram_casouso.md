@@ -1,53 +1,52 @@
 ```mermaid
 graph TD
 
-    %% Actores principales
-    Usuario(("**🧑 USUARIO**"))
-    Refugio(("**🏠 REFUGIO**"))
-    Tuons["**🔗 TUONS**"]
+    %% Main Actors
+    User(("**🧑 USER**"))
+    Shelter(("**🏠 SHELTER**"))
+    Tuons["**📱 TUONS**"]
 
-    %% Casos de uso del Usuario
-    subgraph "👤 **Acciones del Usuario**"
-        A["🔍 **Busco un animal**"]
-        C["📜 **Registro (Sign)**"]
-        D["🔑 **Inicio sesión (Log)**"]
-        H["📞 **Solicito contacto con refugio**"]
-        E["✏️ **Actualizo datos (Upd)**"]
-        F["❌ **Elimino mi cuenta (Del)**"]
-        G["👀 **Veo animales disponibles**"]        
+    %% User Use Cases
+    subgraph "👤 **User Actions**"
+        A["🔍 **Search for an animal**"]
+        C["📜 **Register (Sign up)**"]
+        D["🔑 **Log in**"]
+        H["📞 **Request contact with shelter**"]
+        E["✏️ **Update profile (Upd)**"]
+        F["❌ **Delete my account (Del)**"]
+        G["👀 **View available animals**"]        
     end
     
-    %% Casos de uso del Refugio
-    subgraph "🏠 **Acciones del Refugio**"
-        I["📝 **Publico un animal**"]
-        J["🔀 **Asigno un animal**"]
-        K["📜 **Registro (Sign)**"]
-        L["🔑 **Inicio sesión (Log)**"]
-        M["✏️ **Actualizo datos Refujio (Upd)**"]
-        N["✏️ **Actualizo datos Animal (Upd)**"]
-        O["❌ **Elimino mi Refujio (Del)**"]
-        P["❌ **Elimino Animal (Del)**"]
+    %% Shelter Use Cases
+    subgraph "🏠 **Shelter Actions**"
+        I["📝 **Post an animal**"]
+        J["🔀 **Assign an animal**"]
+        K["📜 **Register (Sign up)**"]
+        L["🔑 **Log in**"]
+        M["✏️ **Update shelter details (Upd)**"]
+        N["✏️ **Update animal details (Upd)**"]
+        O["❌ **Delete shelter (Del)**"]
+        P["❌ **Delete animal (Del)**"]
     end
 
-    %% Conexiones
-    Usuario -->|"📌 Realiza acciones"| A
-    Usuario --> C
-    Usuario --> D
-    Usuario --> E
-    Usuario --> F
-    Usuario --> G
-    Usuario --> H
-    H -->|"📡 Envía solicitud"| Tuons
-    Tuons -->|"📨 Contacta al refugio"| Refugio
-    Tuons -->|"📤 Responde al usuario"| Usuario
+    %% Connections
+    User -->|"📌 Performs actions"| A
+    User --> C
+    User --> D
+    User --> E
+    User --> F
+    User --> G
+    User --> H
+    H -->|"📡 Sends request"| Tuons
+    Tuons -->|"📨 Contacts the shelter"| Shelter
+    Tuons -->|"📤 Responds to user"| User
     
-    Refugio --> I
-    Refugio --> J
-    Refugio --> K
-    Refugio --> L
-    Refugio --> M
-    Refugio --> N
-    Refugio --> O
-    Refugio --> P
-    Refugio -->|"📡 Interactúa con TUONS"| Tuons
-
+    Shelter --> I
+    Shelter --> J
+    Shelter --> K
+    Shelter --> L
+    Shelter --> M
+    Shelter --> N
+    Shelter --> O
+    Shelter --> P
+    Shelter -->|"📡 Interacts with TUONS"| Tuons
