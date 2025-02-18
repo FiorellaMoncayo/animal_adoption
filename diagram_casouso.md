@@ -23,8 +23,10 @@ graph TD
         J["🔀 **Asigno un animal**"]
         K["📜 **Registro (Sign)**"]
         L["🔑 **Inicio sesión (Log)**"]
-        M["✏️ **Actualizo datos (Upd)**"]
-        N["❌ **Elimino datos (Del)**"]
+        M["✏️ **Actualizo datos Refujio (Upd)**"]
+        N["✏️ **Actualizo datos Animal (Upd)**"]
+        O["❌ **Elimino mi Refujio (Del)**"]
+        P["❌ **Elimino Animal (Del)**"]
     end
 
     %% Conexiones
@@ -45,5 +47,7 @@ graph TD
     Refugio --> L
     Refugio --> M
     Refugio --> N
+    Refugio --> O
+    Refugio --> P
     Refugio -->|"📡 Interactúa con TUONS"| Tuons
 
