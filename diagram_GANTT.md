@@ -36,6 +36,9 @@ gantt
 
     section Desarrollo Frontend
     Desarrollo Frontend :d1, 28-03, 30-04
+    Crear pantallas :d2, 28-03, 06-04
+    Conectar backend con frontend: d3, 06-04, 20-04
+    Desarroyo final retoques frontend: d4, 20-04, 30-04
 
     section Pruebas
     Pruebas unitarias :p1, 30-04, 07-05
