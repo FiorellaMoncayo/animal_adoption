@@ -48,7 +48,7 @@ erDiagram
         DATETIME date
     }
 
-    USER ||--|| ANIMAL : "views"
+    USER ||--o{ ANIMAL : "views"
     USER ||--o{ CONTACT : "contacts"
     CONTACT }o--|| SHELTER : "with"
     SHELTER ||--o{ ANSWER : "answers"
