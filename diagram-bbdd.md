@@ -37,7 +37,10 @@ erDiagram
         INT id PK
         INT id_user FK
         INT id_shelter FK
-        DATETIME date
+        TEXT request
+        DATETIME dateStart
+        TEXT answer
+        DATETIME dateEnd
     }
 
     ANSWER {
@@ -51,8 +54,6 @@ erDiagram
     USER ||--o{ ANIMAL : "views"
     USER ||--o{ CONTACT : "contacts"
     CONTACT }o--|| SHELTER : "with"
-    SHELTER ||--o{ ANSWER : "answers"
-    ANSWER }o--|| USER : "to"
     SHELTER ||--o{ ANIMAL : "publishes"
 ```
 
