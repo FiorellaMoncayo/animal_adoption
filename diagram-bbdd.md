@@ -43,15 +43,6 @@ erDiagram
         DATETIME dateEnd
     }
 
-    ANSWER {
-        INT id PK
-        INT id_shelter FK
-        INT id_user FK
-        TEXT message
-        DATETIME date
-    }
-
-    USER ||--o{ ANIMAL : "views"
     USER ||--o{ CONTACT : "contacts"
     CONTACT }o--|| SHELTER : "with"
     SHELTER ||--o{ ANIMAL : "publishes"
