@@ -1,4 +1,4 @@
-package com.example.animal_adoptation.interfaces.api;
+package com.example.animal_adoptation.interfaces;
 
 public class UserController {
 

@@ -30,6 +30,15 @@
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
+	
+		<!-- Lombok -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.32</version> <!-- Usa una versión más reciente si está disponible -->
+			<scope>provided</scope>
+		</dependency>
+		
 		<dependency>
 	        <groupId>org.springframework.boot</groupId>
 	        <artifactId>spring-boot-starter-test</artifactId>
@@ -69,6 +78,11 @@
 	        <artifactId>spring-boot-devtools</artifactId>
 	        <optional>true</optional>
     	</dependency>
+	    <dependency>
+	    	<groupId>com.example</groupId>
+	    	<artifactId>accessing-data-mysql-complete</artifactId>
+	    	<version>0.0.1-SNAPSHOT</version>
+	    </dependency>
 	</dependencies>
 
 
