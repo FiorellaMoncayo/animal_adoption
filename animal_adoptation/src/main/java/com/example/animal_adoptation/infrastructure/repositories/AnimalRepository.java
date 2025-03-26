@@ -1,5 +1,5 @@
 package com.example.animal_adoptation.infrastructure.repositories;
 
-public class ShelterRepositorie {
+public class AnimalRepository {
 
 }
