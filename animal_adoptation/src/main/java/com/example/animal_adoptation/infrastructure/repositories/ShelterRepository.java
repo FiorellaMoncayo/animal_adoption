@@ -8,3 +8,8 @@
 //public interface ShelterRepository extends JpaRepository<Shelter, String> {
 //    Optional<Shelter> findByShelterName ( Integer id);
 //}
+package com.example.animal_adoptation.infrastructure.repositories;
+
+public interface ShelterRepository {
+
+}

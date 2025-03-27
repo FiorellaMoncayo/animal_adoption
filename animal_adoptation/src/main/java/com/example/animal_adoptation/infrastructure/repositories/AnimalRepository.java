@@ -1,3 +1,9 @@
+package com.example.animal_adoptation.infrastructure.repositories;
+
+public class AnimalRepository {
+
+}
+
 //package com.example.animal_adoptation.infrastructure.repositories;
 //
 //import com.example.animal_adoptation.domain.models.Animal;
