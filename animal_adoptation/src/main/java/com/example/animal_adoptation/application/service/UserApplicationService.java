@@ -22,6 +22,16 @@ public class UserApplicationService {
                 .map(user -> new UserDTO(user.getId(), user.getUsername(), user.getPassword()));
     }
 
+    public Optional<UserDTO> createUser(UserDTO userDTO) {
+        UserBBD userBBD = new UserBBD();
+        userBBD.setUsername(userDTO.getUsername());
+        userBBD.setPassword(userDTO.getPassword());
+        UserBBD savedUser = userPersistenceService.save(userBBD);
+        return Optional.of(new UserDTO(savedUser.getId(), savedUser.getUsername(), savedUser.getPassword()));
+
+    }
+
+
 //    public Optional<UserDTO> findById(Integer id) {
 //        return userPersistenceService.findById(id)
 //                .map(user -> new UserDTO(user.getId(), user.getUsername(), user.getPassword()));
