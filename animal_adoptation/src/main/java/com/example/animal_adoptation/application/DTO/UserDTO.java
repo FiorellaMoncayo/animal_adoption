@@ -1,4 +1,4 @@
-package com.example.animal_adoptation.interfaces.DTO;
+package com.example.animal_adoptation.application.DTO;
 
 import com.example.animal_adoptation.domain.models.User;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -19,14 +19,18 @@ public class UserPersistenceService {
         this.userRepository = userRepository;
     }
 
-    public Optional<UserBBD> findById(Integer id) {
-        return userRepository.findById(id);
-    }
+    //lo que mento a modo de prueba
+//    public Optional<UserBBD> findById(Integer id) {
+//        return userRepository.findById(id);
+//    }
+//
+//    public UserBBD save(UserBBD user) {
+//        return userRepository.save(user);
+//    }
 
-    public UserBBD save(UserBBD user) {
-        return userRepository.save(user);
+    public Optional<UserBBD> findByUsername (String username){
+        return userRepository.findByUsername(username);
     }
-
 
 
 
