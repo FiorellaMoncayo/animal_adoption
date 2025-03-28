@@ -17,7 +17,8 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 @Tag(name = "User API", description = "API for managing users")
 @RequestMapping("/users")
 public interface UserApi {
-	
+
+	//read(fnd)
 	@Operation(summary = "Find a user")
 	@ApiResponse(description = "Succesful operation", responseCode = "200", content = @Content(schema = @Schema(implementation = UserDTO.class)))
 	@ApiResponse(description = "User not found", responseCode = "404")
@@ -25,8 +26,11 @@ public interface UserApi {
 	ResponseEntity<UserDTO>findByUsername(
 			@Parameter(description= "Username of the user to be obtained", required= true, in=ParameterIn.PATH)
 			@PathVariable ("username") String username);
+	//create
+	@Operation(summary = "Create user")
+	@PostMapping("/create")
+	ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO);
 
-	//	@PostMapping("/user")
-	//	ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO);
+
 	
 }

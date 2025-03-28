@@ -24,13 +24,22 @@ public class UserPersistenceService {
 //        return userRepository.findById(id);
 //    }
 //
-//    public UserBBD save(UserBBD user) {
-//        return userRepository.save(user);
-//    }
+    public UserBBD save(UserBBD user) {
+        return userRepository.save(user);
+    }
 
     public Optional<UserBBD> findByUsername (String username){
         return userRepository.findByUsername(username);
     }
+
+
+    public UserBBD createUser(UserBBD userBBD) {
+        if (userRepository.findByUsername(userBBD.getUsername()).isPresent()) {
+            throw new RuntimeException("User already exists");
+        }
+        return userRepository.save(userBBD);
+    }
+
 
 
 
