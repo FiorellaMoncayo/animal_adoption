@@ -5,7 +5,8 @@ import com.example.animal_adoptation.domain.models.User;
 import java.util.Optional;
 
 public interface UserRepositoryPort {
-    Optional<User> findById(Integer id);
+    //Optional<User> findById(Integer id);
+    Optional<User> findByUsername (String username);
 }
 
 
