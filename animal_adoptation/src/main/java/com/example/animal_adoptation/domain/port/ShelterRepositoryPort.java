@@ -1,10 +1,9 @@
-//package com.example.animal_adoptation.domain.port;
-//
-//import com.example.animal_adoptation.domain.models.Animal;
-//import com.example.animal_adoptation.domain.models.Shelter;
-//import java.util.Optional;
-//
-//
-//public interface ShelterRepositoryPort {
-//    Optional<Shelter> findByUsername(Integer id);
-//}
+package com.example.animal_adoptation.domain.port;
+
+import java.util.Optional;
+
+import com.example.animal_adoptation.domain.models.Shelter;
+
+public interface ShelterRepositoryPort {
+	Optional<Shelter> findBySheltername (String sheltername);
+}
