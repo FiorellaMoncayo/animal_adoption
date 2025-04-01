@@ -1,22 +1,16 @@
-//package com.example.animal_adoptation.domain.models;
-//
-//import jakarta.persistence.Column;
-//import jakarta.persistence.Entity;
-//import jakarta.persistence.GeneratedValue;
-//import jakarta.persistence.GenerationType;
-//import jakarta.persistence.Id;
-//import jakarta.persistence.Table;
-//import lombok.AllArgsConstructor;
-//import lombok.Builder;
-//import lombok.Data;
-//import lombok.NoArgsConstructor;
-//
-//
-//
-//@Data
-//@AllArgsConstructor
-//@NoArgsConstructor
-//@Builder
-//public class Shelter {
-//
-//}
+package com.example.animal_adoptation.domain.models;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class Shelter {
+	private Integer id;
+	private String sheltername;
+	private String password;
+}
