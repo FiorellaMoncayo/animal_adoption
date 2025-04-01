@@ -16,17 +16,11 @@ public class UserController implements UserApi {
     public UserController(UserApplicationService userService) {
         this.userService = userService;
     }
-//    @PostMapping("/user")
-//    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
-//        UserDTO newUser = userService.createUser(userDTO);
-//        return ResponseEntity.ok(newUser);
-//    }
 
     //read (find) user
     public ResponseEntity<UserDTO> findByUsername(String username) {
         return userService.findByUsername(username).map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
-
     }
 
     //create
