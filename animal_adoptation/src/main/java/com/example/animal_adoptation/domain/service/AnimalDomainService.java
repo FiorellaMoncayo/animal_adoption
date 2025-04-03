@@ -1,4 +1,13 @@
 package com.example.animal_adoptation.domain.service;
 
-public class AnimalDomainService {
+import java.util.Optional;
+
+import com.example.animal_adoptation.application.DTO.AnimalDTO;
+import com.example.animal_adoptation.domain.models.Animal;
+
+public interface AnimalDomainService {
+	
+	Optional<Animal> findByReiac(Integer reiac);
+	Optional<Animal> findByName(String name);
+    Optional<Animal> createAnimal(AnimalDTO animalDTO);
 }

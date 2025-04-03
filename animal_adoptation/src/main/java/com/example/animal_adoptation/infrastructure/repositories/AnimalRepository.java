@@ -1,6 +1,18 @@
 package com.example.animal_adoptation.infrastructure.repositories;
 
-public class AnimalRepository {
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.example.animal_adoptation.domain.models.Animal;
+import com.example.animal_adoptation.infrastructure.entities.AnimalBBD;
+import com.example.animal_adoptation.infrastructure.entities.UserBBD;
+
+public interface AnimalRepository extends JpaRepository<AnimalBBD, Integer>{
+	
+	Optional<Animal> findByReiac(Integer reiac);
+	Optional<Animal> findByName(String name);
+    //Optional<Animal> createAnimal(AnimalBBD animalBBD);
 
 }
 
