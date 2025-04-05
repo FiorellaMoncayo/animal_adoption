@@ -13,24 +13,37 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 
-
 @Tag(name = "User API", description = "API for managing users")
 @RequestMapping("/users")
 public interface UserApi {
-
-	//read(fnd)
 	@Operation(summary = "Find a user")
-	@ApiResponse(description = "Succesful operation", responseCode = "200", content = @Content(schema = @Schema(implementation = UserDTO.class)))
+	@ApiResponse(description = "Successful operation", responseCode = "200", content = @Content(schema = @Schema(implementation = UserDTO.class)))
 	@ApiResponse(description = "User not found", responseCode = "404")
 	@GetMapping("/username/{username}")
-	ResponseEntity<UserDTO>findByUsername(
-			@Parameter(description= "Username of the user to be obtained", required= true, in=ParameterIn.PATH)
-			@PathVariable ("username") String username);
-	//create
+	ResponseEntity<UserDTO> findByUsername(
+			@Parameter(description = "Username to find", required = true, in = ParameterIn.PATH)
+			@PathVariable("username") String username);
+
 	@Operation(summary = "Create user")
+	@ApiResponse(description = "User created", responseCode = "201")
+	@ApiResponse(description = "Invalid input", responseCode = "400")
 	@PostMapping("/create")
 	ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO);
 
+	@Operation(summary = "Update user password")
+	@ApiResponse(description = "User updated", responseCode = "200")
+	@ApiResponse(description = "User not found", responseCode = "404")
+	@PutMapping("/{username}")
+	ResponseEntity<UserDTO> updateUser(
+			@Parameter(description = "Username to update Password", required = true, in = ParameterIn.PATH)
+			@PathVariable("username") String username,
+			@RequestBody UserDTO userDTO);
 
-	
+	@Operation(summary = "Delete user")
+	@ApiResponse(description = "User deleted", responseCode = "204")
+	@ApiResponse(description = "User not found", responseCode = "404")
+	@DeleteMapping("/{username}")
+	ResponseEntity<Void> deleteUser(
+			@Parameter(description = "Username to delete", required = true, in = ParameterIn.PATH)
+			@PathVariable("username") String username);
 }

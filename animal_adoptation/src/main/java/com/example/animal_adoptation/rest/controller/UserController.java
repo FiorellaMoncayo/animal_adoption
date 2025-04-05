@@ -7,23 +7,25 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/users")
 public class UserController implements UserApi {
-
     private final UserApplicationService userService;
 
     public UserController(UserApplicationService userService) {
         this.userService = userService;
     }
 
-    //read (find) user
-    public ResponseEntity<UserDTO> findByUsername(String username) {
-        return userService.findByUsername(username).map(ResponseEntity::ok)
+    @Override
+    public ResponseEntity<UserDTO> findByUsername(@PathVariable String username) {
+        return userService.findByUsername(username)
+                .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    //create
+    @Override
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
         if (userDTO.getUsername() == null || userDTO.getUsername().isEmpty() ||
                 userDTO.getPassword() == null || userDTO.getPassword().isEmpty()) {
@@ -35,5 +37,31 @@ public class UserController implements UserApi {
                 .orElse(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
     }
 
+    @Override
+    public ResponseEntity<UserDTO> updateUser(@PathVariable String username, @RequestBody UserDTO userDTO) {
+        if (userDTO.getUsername() == null || userDTO.getUsername().isEmpty() ||
+                userDTO.getPassword() == null || userDTO.getPassword().isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
 
+        if (!username.equals(userDTO.getUsername())) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        return userService.updateUser(userDTO)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @Override
+    public ResponseEntity<Void> deleteUser(@PathVariable String username) {
+        if (username == null || username.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        Optional<UserDTO> result = userService.deleteUser(username);
+        return result.isPresent()
+                ? ResponseEntity.noContent().build()
+                : ResponseEntity.notFound().build();
+    }
 }
