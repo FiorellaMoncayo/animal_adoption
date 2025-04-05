@@ -12,7 +12,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/users")
 public class UserController implements UserApi {
-
     private final UserApplicationService userService;
 
     public UserController(UserApplicationService userService) {
