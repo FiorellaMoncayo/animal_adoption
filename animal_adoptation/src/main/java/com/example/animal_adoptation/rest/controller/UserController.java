@@ -16,20 +16,15 @@ public class UserController implements UserApi {
     public UserController(UserApplicationService userService) {
         this.userService = userService;
     }
-//    @PostMapping("/user")
-//    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
-//        UserDTO newUser = userService.createUser(userDTO);
-//        return ResponseEntity.ok(newUser);
-//    }
 
-    //read (find) user
-    public ResponseEntity<UserDTO> findByUsername(String username) {
-        return userService.findByUsername(username).map(ResponseEntity::ok)
+    @Override
+    public ResponseEntity<UserDTO> findByUsername(@PathVariable String username) {
+        return userService.findByUsername(username)
+                .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
-
     }
 
-    //create
+    @Override
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
         if (userDTO.getUsername() == null || userDTO.getUsername().isEmpty() ||
                 userDTO.getPassword() == null || userDTO.getPassword().isEmpty()) {
@@ -41,5 +36,33 @@ public class UserController implements UserApi {
                 .orElse(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
     }
 
+    //update para el password:
+    @Override
+    public ResponseEntity<UserDTO> updateUser(@PathVariable String username, @RequestBody UserDTO userDTO) {
+        if (userDTO.getUsername() == null || userDTO.getUsername().isEmpty() ||
+                userDTO.getPassword() == null || userDTO.getPassword().isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
 
+        if (!username.equals(userDTO.getUsername())) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        return userService.updateUser(userDTO)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    //update para el username:
+
+    @Override
+    public ResponseEntity<Object> deleteUser(@PathVariable String username) {
+        if (username == null || username.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        return userService.deleteUser(username)
+                .map(userDTO -> ResponseEntity.noContent().build())
+                .orElse(ResponseEntity.notFound().build());
+    }
 }

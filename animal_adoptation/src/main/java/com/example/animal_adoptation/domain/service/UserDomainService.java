@@ -1,14 +1,11 @@
 package com.example.animal_adoptation.domain.service;
 
-import com.example.animal_adoptation.application.DTO.UserDTO;
 import com.example.animal_adoptation.domain.models.User;
-import com.example.animal_adoptation.infrastructure.entities.UserBBD;
-
 import java.util.Optional;
 
 public interface UserDomainService {
-
-    Optional<User> findByUsername (String username);
-    Optional<User> createUser (UserDTO userDTO);
-
+    Optional<User> findByUsername(String username);
+    Optional<User> createUser(User user);
+    Optional<User> updateUser(User user);
+    Optional<User> deleteUser(String username);  // Changed from void to Optional<User>
 }
