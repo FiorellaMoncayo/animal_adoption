@@ -19,7 +19,6 @@ public interface UserRepository extends JpaRepository<UserBBD, Integer> {
     @Query("UPDATE UserBBD u SET u.password = :password WHERE u.username = :username")
     int updatePassword(@Param("username") String username,
                        @Param("password") String password);
-
     @Modifying
     @Transactional
     @Query("DELETE FROM UserBBD u WHERE u.username = :username")

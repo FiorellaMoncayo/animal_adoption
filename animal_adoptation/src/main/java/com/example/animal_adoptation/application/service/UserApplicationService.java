@@ -5,9 +5,7 @@ import com.example.animal_adoptation.domain.models.User;
 import com.example.animal_adoptation.domain.service.UserDomainService;
 import org.springframework.stereotype.Service;
 import org.springframework.dao.DataIntegrityViolationException;
-
 import java.util.Optional;
-
 import static com.example.animal_adoptation.infrastructure.service.persistence.UserPersistenceService.logger;
 
 @Service
