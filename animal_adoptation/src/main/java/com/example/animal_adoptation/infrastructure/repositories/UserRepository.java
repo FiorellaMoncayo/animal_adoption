@@ -12,8 +12,8 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserBBD, Integer> {
-    Optional <UserBBD> findByUsername (String username);
-    // no está implementado todavia el update de password
+    Optional<UserBBD> findByUsername(String username);
+
     @Modifying
     @Transactional
     @Query("UPDATE UserBBD u SET u.password = :password WHERE u.username = :username")
@@ -32,4 +32,3 @@ public interface UserRepository extends JpaRepository<UserBBD, Integer> {
                    @Param("newUsername") String newUsername,
                    @Param("password") String password);
 }
-

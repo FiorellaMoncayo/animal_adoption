@@ -44,7 +44,7 @@ public interface UserApi {
 	@ApiResponse(description = "User deleted", responseCode = "204")
 	@ApiResponse(description = "User not found", responseCode = "404")
 	@DeleteMapping("/{username}")
-	ResponseEntity<Object> deleteUser(
+	ResponseEntity<Void> deleteUser(
 			@Parameter(description = "Username to delete", required = true, in = ParameterIn.PATH)
 			@PathVariable("username") String username);
 }

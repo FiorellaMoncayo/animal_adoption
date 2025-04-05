@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/users")
 public class UserController implements UserApi {
@@ -36,7 +38,6 @@ public class UserController implements UserApi {
                 .orElse(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
     }
 
-    //update para el password:
     @Override
     public ResponseEntity<UserDTO> updateUser(@PathVariable String username, @RequestBody UserDTO userDTO) {
         if (userDTO.getUsername() == null || userDTO.getUsername().isEmpty() ||
@@ -53,16 +54,15 @@ public class UserController implements UserApi {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    //update para el username:
-
     @Override
-    public ResponseEntity<Object> deleteUser(@PathVariable String username) {
+    public ResponseEntity<Void> deleteUser(@PathVariable String username) {
         if (username == null || username.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
 
-        return userService.deleteUser(username)
-                .map(userDTO -> ResponseEntity.noContent().build())
-                .orElse(ResponseEntity.notFound().build());
+        Optional<UserDTO> result = userService.deleteUser(username);
+        return result.isPresent()
+                ? ResponseEntity.noContent().build()
+                : ResponseEntity.notFound().build();
     }
 }

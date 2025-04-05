@@ -50,7 +50,7 @@ public class UserApplicationService {
     }
 
     public Optional<UserDTO> updateUser(UserDTO userDTO) {
-        if (userDTO == null || userDTO.getId() == null) {
+        if (userDTO == null) {
             logger.warn("Invalid user data");
             return Optional.empty();
         }
@@ -64,11 +64,8 @@ public class UserApplicationService {
             User user = convertToDomain(userDTO);
             return userDomainService.updateUser(user)
                     .map(this::convertToDTO);
-        } catch (DataIntegrityViolationException e) {
-            logger.warn("Sorry, username alredy exists: {}", userDTO.getUsername());
-            return Optional.empty();
         } catch (RuntimeException e) {
-            logger.error("Error updating username", e);
+            logger.error("Error updating user", e);
             return Optional.empty();
         }
     }
@@ -90,7 +87,7 @@ public class UserApplicationService {
 
     private User convertToDomain(UserDTO userDTO) {
         return new User(
-                userDTO.getId(),
+                null,
                 userDTO.getUsername(),
                 userDTO.getPassword()
         );

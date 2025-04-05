@@ -58,23 +58,19 @@ public class UserPersistenceService implements UserRepositoryPort {
     @Override
     public Optional<User> updateUser(User user) {
         try {
-            Optional<UserBBD> existingUser = userRepository.findById(user.getId());
+            Optional<UserBBD> existingUser = userRepository.findByUsername(user.getUsername());
             if (existingUser.isEmpty()) {
+                logger.warn("User not found for username: {}", user.getUsername());
                 return Optional.empty();
             }
 
-            if (!existingUser.get().getUsername().equals(user.getUsername())) {
-                userRepository.findByUsername(user.getUsername())
-                        .ifPresent(u -> {
-                            throw new DataIntegrityViolationException("Username already taken, try another");
-                        });
+            int rowsAffected = userRepository.updatePassword(user.getUsername(), user.getPassword());
+            if (rowsAffected == 0) {
+                return Optional.empty();
             }
-            UserBBD updatedEntity = convertToEntity(user);
-            UserBBD savedEntity = userRepository.save(updatedEntity);
-            return Optional.of(convertToDomain(savedEntity));
-        } catch (DataIntegrityViolationException e) {
-            logger.error("Username conflict while updating user: {}", e.getMessage());
-            throw new IllegalArgumentException("Username not available", e);
+
+            return userRepository.findByUsername(user.getUsername())
+                    .map(this::convertToDomain);
         } catch (Exception e) {
             logger.error("Error updating user: {}", e.getMessage());
             return Optional.empty();
@@ -84,11 +80,12 @@ public class UserPersistenceService implements UserRepositoryPort {
     @Override
     public Optional<User> deleteUser(String username) {
         try {
-            return userRepository.findByUsername(username)
-                    .map(user -> {
-                        userRepository.delete(user);
-                        return convertToDomain(user);
-                    });
+            Optional<UserBBD> user = userRepository.findByUsername(username);
+            if (user.isPresent()) {
+                userRepository.deleteByUsername(username);
+                return Optional.of(convertToDomain(user.get()));
+            }
+            return Optional.empty();
         } catch (Exception e) {
             logger.error("Error deleting user {}: {}", username, e.getMessage());
             return Optional.empty();
