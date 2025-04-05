@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.animal_adoptation.application.DTO.AnimalDTO;
 import com.example.animal_adoptation.infrastructure.entities.AnimalBBD;
-import com.example.animal_adoptation.infrastructure.service.AnimalPersistenceService;
+import com.example.animal_adoptation.infrastructure.service.persistence.AnimalPersistenceService;
 
 @Service
 public class AnimalApplicationService {

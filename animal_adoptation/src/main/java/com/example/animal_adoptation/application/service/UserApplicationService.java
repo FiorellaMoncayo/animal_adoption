@@ -1,48 +1,101 @@
 package com.example.animal_adoptation.application.service;
 
-import com.example.animal_adoptation.infrastructure.entities.UserBBD;
-import com.example.animal_adoptation.infrastructure.service.UserPersistenceService;
 import com.example.animal_adoptation.application.DTO.UserDTO;
+import com.example.animal_adoptation.domain.models.User;
+import com.example.animal_adoptation.domain.service.UserDomainService;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
+import org.springframework.dao.DataIntegrityViolationException;
 import java.util.Optional;
+import static com.example.animal_adoptation.infrastructure.service.persistence.UserPersistenceService.logger;
 
 @Service
 public class UserApplicationService {
 
-    private final UserPersistenceService userPersistenceService;
+    private final UserDomainService userDomainService;
 
-    public UserApplicationService(UserPersistenceService userPersistenceService) {
-        this.userPersistenceService = userPersistenceService;
+    public UserApplicationService(UserDomainService userDomainService) {
+        this.userDomainService = userDomainService;
     }
 
-    public Optional<UserDTO> findByUsername (String username){
-        return userPersistenceService.findByUsername(username)
-                .map(user -> new UserDTO(user.getId(), user.getUsername(), user.getPassword()));
+    public Optional<UserDTO> findByUsername(String username) {
+        if (username == null || username.isBlank()) {
+            throw new IllegalArgumentException("Username cannot be empty");
+        }
+        return userDomainService.findByUsername(username)
+                .map(this::convertToDTO);
     }
 
     public Optional<UserDTO> createUser(UserDTO userDTO) {
-        UserBBD userBBD = new UserBBD();
-        userBBD.setUsername(userDTO.getUsername());
-        userBBD.setPassword(userDTO.getPassword());
-        UserBBD savedUser = userPersistenceService.save(userBBD);
-        return Optional.of(new UserDTO(savedUser.getId(), savedUser.getUsername(), savedUser.getPassword()));
+        if (userDTO == null) {
+            return Optional.empty();
+        }
+        if (userDTO.getUsername() == null || userDTO.getUsername().isBlank() ||
+                userDTO.getPassword() == null || userDTO.getPassword().isBlank()) {
+            return Optional.empty();
+        }
 
+        try {
+            User user = convertToDomain(userDTO);
+            return userDomainService.createUser(user)
+                    .map(this::convertToDTO);
+        } catch (DataIntegrityViolationException e) {
+            logger.warn("Sorry, try another username!: {}", userDTO.getUsername());
+            return Optional.empty();
+        } catch (RuntimeException e) {
+            logger.error("Error creating user", e);
+            return Optional.empty();
+        }
     }
 
+    public Optional<UserDTO> updateUser(UserDTO userDTO) {
+        if (userDTO == null) {
+            logger.warn("Invalid user data");
+            return Optional.empty();
+        }
+        if (userDTO.getUsername() == null || userDTO.getUsername().isBlank() ||
+                userDTO.getPassword() == null || userDTO.getPassword().isBlank()) {
+            logger.warn("Incomplete user data");
+            return Optional.empty();
+        }
 
-//    public Optional<UserDTO> findById(Integer id) {
-//        return userPersistenceService.findById(id)
-//                .map(user -> new UserDTO(user.getId(), user.getUsername(), user.getPassword()));
-//    }
+        try {
+            User user = convertToDomain(userDTO);
+            return userDomainService.updateUser(user)
+                    .map(this::convertToDTO);
+        } catch (RuntimeException e) {
+            logger.error("Error updating user", e);
+            return Optional.empty();
+        }
+    }
 
-//    @Transactional
-//    public UserDTO createUser(UserDTO userDTO) {
-//        UserBBD userBBD = new UserBBD(null, userDTO.getUsername(), userDTO.getPassword());
-//        UserBBD savedUser = userPersistenceService.save(userBBD);
-//        return new UserDTO(savedUser.getId(), savedUser.getUsername(), savedUser.getPassword());
-//    }
+    public Optional<UserDTO> deleteUser(String username) {
+        if (username == null || username.isBlank()) {
+            logger.warn("Invalid username");
+            return Optional.empty();
+        }
 
+        try {
+            return userDomainService.deleteUser(username)
+                    .map(this::convertToDTO);
+        } catch (RuntimeException e) {
+            logger.error("Error deleting user: {}", username, e);
+            return Optional.empty();
+        }
+    }
 
+    private User convertToDomain(UserDTO userDTO) {
+        return new User(
+                null,
+                userDTO.getUsername(),
+                userDTO.getPassword()
+        );
+    }
+
+    private UserDTO convertToDTO(User user) {
+        return new UserDTO(
+                user.getId(),
+                user.getUsername(),
+                user.getPassword()
+        );
+    }
 }

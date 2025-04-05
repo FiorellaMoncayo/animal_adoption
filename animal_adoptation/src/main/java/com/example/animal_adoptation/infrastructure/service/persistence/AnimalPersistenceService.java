@@ -1,8 +1,7 @@
-package com.example.animal_adoptation.infrastructure.service;
+package com.example.animal_adoptation.infrastructure.service.persistence;
 
 import com.example.animal_adoptation.domain.models.Animal;
 import com.example.animal_adoptation.infrastructure.entities.AnimalBBD;
-import com.example.animal_adoptation.infrastructure.entities.UserBBD;
 import com.example.animal_adoptation.infrastructure.repositories.AnimalRepository;
 import java.util.Optional;
 
