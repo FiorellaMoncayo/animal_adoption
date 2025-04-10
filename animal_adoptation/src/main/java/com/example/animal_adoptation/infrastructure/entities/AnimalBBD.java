@@ -26,8 +26,10 @@ public class AnimalBBD {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
+    
     @Column(name = "reiac")
     private Integer reiac;
+    
     @Column(name="name")
     private String name;
 }

@@ -27,6 +27,7 @@ public class AnimalDTO {
 	@JsonProperty("name")
 	private String name;
 
+	// Constructor que convierte de Animal a AnimalDTO
 	public AnimalDTO(Animal animal) {
 		Optional.ofNullable(animal).ifPresent(a -> {
 		this.id = a.getId();
@@ -35,6 +36,7 @@ public class AnimalDTO {
 		});
 	}
 
+	// Método para convertir de AnimalDTO a Animal
 	public Animal toModel() {
 		return new Animal(id, reiac, name);
 	}
