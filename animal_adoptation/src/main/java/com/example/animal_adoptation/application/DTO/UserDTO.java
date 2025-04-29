@@ -31,7 +31,7 @@ public class UserDTO {
         }
     }
 
-    // Método para convertir de UserDTO a User
+    // Metodo para convertir de UserDTO a User
     public User toModel() {
         return new User(id, username, password);
     }
