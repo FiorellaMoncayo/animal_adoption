@@ -1,20 +1,109 @@
-//package com.example.animal_adoptation.infrastructure.service;
-//
-//import com.example.animal_adoptation.domain.models.Animal;
-//import com.example.animal_adoptation.domain.models.Shelter;
-//import com.example.animal_adoptation.infrastructure.repositories.AnimalRepository;
-//import com.example.animal_adoptation.infrastructure.repositories.ShelterRepository;
-//
-//import java.util.Optional;
-//
-//public class ShelterPersistenceService {
-//    private final ShelterRepository shelterRepository;
-//
-//    public ShelterPersistenceService(ShelterRepository shelterRepository) {
-//        this.shelterRepository = shelterRepository;
-//    }
-//
-//    public Optional<Shelter> findByUsername(Integer id) {
-//        return shelterRepository.findByShelterName (id);
-//    }
-//}
+
+package com.example.animal_adoptation.infrastructure.service.persistence;
+import com.example.animal_adoptation.domain.models.Shelter;
+import com.example.animal_adoptation.domain.port.ShelterRepositoryPort;
+import com.example.animal_adoptation.infrastructure.entities.ShelterBBD;
+import com.example.animal_adoptation.infrastructure.repositories.ShelterRepository;
+import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
+
+import java.util.Optional;
+
+@Service
+public class ShelterPersistenceService implements ShelterRepositoryPort {
+    public static final Logger logger = LoggerFactory.getLogger(ShelterPersistenceService.class);
+    private final ShelterRepository shelterRepository;
+
+    public ShelterPersistenceService(ShelterRepository shelterRepository) {
+        this.shelterRepository = shelterRepository;
+    }
+
+
+    @Override
+    public Shelter save(Shelter domainShelter) {
+        try {
+            ShelterBBD entity = convertToEntity(domainShelter);
+            ShelterBBD savedEntity = shelterRepository.save(entity);
+            return convertToDomain(savedEntity);
+        } catch (DataIntegrityViolationException e) {
+            logger.error("Error saving shelter: {}", e.getMessage());
+            throw new IllegalArgumentException("Shelter data violation rules", e);
+        }
+    }
+    @Override
+    public Optional<Shelter> findBysheltername(String sheltername) {
+        if (sheltername == null || sheltername.isBlank()) {
+            throw new IllegalArgumentException("Sheltername cannot be empty");
+        }
+        return shelterRepository.findBysheltername(sheltername)
+                .map(this::convertToDomain);
+    }
+    @Override
+    public Optional<Shelter> createShelter(Shelter shelter) {
+        if (shelterRepository.findBysheltername(shelter.getSheltername()).isPresent()) {
+            throw new DataIntegrityViolationException("Shelter already exists");
+        }
+        try {
+            Shelter createdShelter = save(shelter);
+            return Optional.of(createdShelter);
+        } catch (Exception e) {
+            logger.error("Error creating shelter: {}", e.getMessage());
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<Shelter> updateShelter(Shelter shelter) {
+        try {
+            Optional<ShelterBBD> existingShelter = shelterRepository.findBysheltername(shelter.getSheltername());
+            if (existingShelter.isEmpty()) {
+                logger.warn("Shelter not found for sheltername: {}", shelter.getSheltername());
+                return Optional.empty();
+            }
+            int rowsAffected = shelterRepository.updatePassword(
+                    //existingShelter.get().getId(),
+                    shelter.getSheltername(),
+                    shelter.getPassword()
+            );
+            if (rowsAffected == 0) {
+                return Optional.empty();
+            }
+            return shelterRepository.findBysheltername(shelter.getSheltername())
+                    .map(this::convertToDomain);
+        } catch (Exception e) {
+            logger.error("Error updating shelter: {}", e.getMessage());
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<Shelter> deleteShelter(String sheltername) {
+        try {
+            Optional<ShelterBBD> shelter = shelterRepository.findBysheltername(sheltername);
+            if (shelter.isPresent()) {
+                shelterRepository.deleteBysheltername(sheltername);
+                return Optional.of(convertToDomain(shelter.get()));
+            }
+            return Optional.empty();
+        } catch (Exception e) {
+            logger.error("Error deleting shelter {}: {}", sheltername, e.getMessage());
+            return Optional.empty();
+        }
+    }
+
+
+
+    private ShelterBBD convertToEntity(Shelter domain) {
+        ShelterBBD entity = new ShelterBBD();
+        //entity.setId(domain.getId());
+        entity.setSheltername(domain.getSheltername());
+        entity.setPassword(domain.getPassword());
+        return entity;
+    }
+
+    private Shelter convertToDomain(ShelterBBD entity) {
+        return new Shelter(entity.getId(), entity.getSheltername(), entity.getPassword());
+    }
+}

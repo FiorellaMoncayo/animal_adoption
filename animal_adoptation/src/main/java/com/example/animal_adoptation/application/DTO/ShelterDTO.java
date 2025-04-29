@@ -1,7 +1,6 @@
-package com.example.animal_adoptation.interfaces.DTO;
+package com.example.animal_adoptation.application.DTO;
 
 import com.example.animal_adoptation.domain.models.Shelter;
-import com.example.animal_adoptation.domain.models.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
@@ -34,9 +33,9 @@ public class ShelterDTO {
         }
     }
 
-    // Método para convertir de UserDTO a User
-    public User toModel() {
-        return new User(id, sheltername, password);
+    // Metodo para convertir de UserDTO a User
+    public Shelter toModel() {
+        return new Shelter(id, sheltername, password);
     }
 }
 

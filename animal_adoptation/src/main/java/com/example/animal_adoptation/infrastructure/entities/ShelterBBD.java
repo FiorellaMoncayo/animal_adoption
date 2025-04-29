@@ -30,7 +30,7 @@ public class ShelterBBD {
     private int id;
     
     @Column(name="sheltername", nullable = false)
-    private String name;
+    private String sheltername;
     
     @Column(name="password", nullable = false)
     private String password;
