@@ -29,7 +29,7 @@ public interface AnimalApi {
 	@GetMapping("/{reiac}")
 	ResponseEntity<AnimalDTO>findByReiac(
 			@Parameter(description= "Username of the user to be obtained", required= true, in=ParameterIn.PATH)
-			@PathVariable ("reiac") Integer reiac);
+			@PathVariable ("reiac") int reiac);
 	
 	@Operation(summary = "Find a animal")
 	@ApiResponse(description = "Succesful operation", responseCode = "200", content = @Content(schema = @Schema(implementation = AnimalDTO.class)))

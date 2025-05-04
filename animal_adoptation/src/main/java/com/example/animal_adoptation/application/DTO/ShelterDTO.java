@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class ShelterDTO {
 
     @JsonProperty("id")
-    private Integer id;
+    private int id;
 
     @JsonProperty("sheltername")
     private String sheltername;

@@ -15,7 +15,7 @@ import jakarta.transaction.Transactional;
 
 public interface AnimalRepository extends JpaRepository<AnimalBBD, Integer>{
 	
-	Optional<AnimalBBD> findByReiac(Integer reiac);
+	Optional<AnimalBBD> findByReiac(int reiac);
 	Optional<AnimalBBD> findByName(String name);
     //Optional<Animal> createAnimal(AnimalBBD animalBBD);
 	

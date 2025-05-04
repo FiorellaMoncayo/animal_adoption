@@ -19,10 +19,10 @@ import lombok.NoArgsConstructor;
 public class AnimalDTO {
 	
 	@JsonProperty("id")
-    private Integer id;
+    private int id;
 	
 	@JsonProperty("reaic")
-	private Integer reiac;
+	private int reiac;
 
 	@JsonProperty("name")
 	private String name;
