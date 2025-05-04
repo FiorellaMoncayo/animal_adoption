@@ -24,7 +24,7 @@ public class AnimalController implements AnimalApi {
 	}
 
 	@Override
-	public ResponseEntity<AnimalDTO> findByReiac(@PathVariable Integer reiac) {
+	public ResponseEntity<AnimalDTO> findByReiac(@PathVariable int reiac) {
 		return animalService.findByReiac(reiac).map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
 	}

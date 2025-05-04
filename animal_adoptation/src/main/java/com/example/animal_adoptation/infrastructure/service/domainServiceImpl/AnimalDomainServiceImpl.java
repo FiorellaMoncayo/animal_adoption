@@ -17,7 +17,7 @@ public class AnimalDomainServiceImpl implements AnimalDomainService{
     }
 
     @Override
-    public Optional<Animal> findByReiac(Integer reiac) {
+    public Optional<Animal> findByReiac(int reiac) {
         return animalPersistenceService.findByReiac(reiac);
     }
     
@@ -38,7 +38,7 @@ public class AnimalDomainServiceImpl implements AnimalDomainService{
 	}
 
 	@Override
-	public Optional<Animal> deleteAnimal(Integer reiac) {
+	public Optional<Animal> deleteAnimal(int reiac) {
 		// TODO Auto-generated method stub
 		return Optional.empty();
 	}

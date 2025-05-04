@@ -25,10 +25,10 @@ public class AnimalBBD {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Integer id;
+    private int id;
     
     @Column(name = "reiac")
-    private Integer reiac;
+    private int reiac;
     
     @Column(name="name")
     private String name;

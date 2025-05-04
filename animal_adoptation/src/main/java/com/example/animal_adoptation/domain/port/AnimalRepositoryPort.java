@@ -6,10 +6,10 @@ import java.util.Optional;
 
 public interface AnimalRepositoryPort {
 	
-    Optional<Animal> findByReiac(Integer reiac);
+    Optional<Animal> findByReiac(int reiac);
     Optional<Animal> findByName(String name);
     Optional<Animal> createAnimal(Animal animal);
     Animal save(Animal animal);
     Optional<Animal> updateAnimal(Animal animal);
-    Optional<Animal> deleteAnimal(Integer reiac);
+    Optional<Animal> deleteAnimal(int reiac);
 }
