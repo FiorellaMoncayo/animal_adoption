@@ -61,7 +61,7 @@ public class AnimalApplicationService {
         if (animalDTO == null) {
             return Optional.empty();
         }
-        if (animalDTO.getReiac() == null ||
+        if (animalDTO.getReiac() == 0 ||
         		animalDTO.getName() == null || animalDTO.getName().isBlank()) {
             return Optional.empty();
         }
