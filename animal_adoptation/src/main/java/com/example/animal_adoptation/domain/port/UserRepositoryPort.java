@@ -9,4 +9,5 @@ public interface UserRepositoryPort {
     User save(User user);
     Optional<User> updateUser(User user);
     Optional<User> deleteUser(String username);
+    Optional<User> authenticate(String username, String password);
 }

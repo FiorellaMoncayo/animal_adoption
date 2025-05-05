@@ -3,6 +3,7 @@ package com.example.animal_adoptation.infrastructure.service.domainServiceImpl;
 import com.example.animal_adoptation.domain.service.UserDomainService;
 import com.example.animal_adoptation.domain.models.User;
 import com.example.animal_adoptation.infrastructure.service.persistence.UserPersistenceService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 
@@ -12,6 +13,16 @@ public class UserDomainServiceImpl implements UserDomainService {
 
     public UserDomainServiceImpl(UserPersistenceService userPersistenceService) {
         this.userPersistenceService = userPersistenceService;
+    }
+
+    @Override
+    public Optional<User> authenticate(String username, String rawPassword) {
+        return userPersistenceService.findByUsername(username)
+                .filter(user -> passwordMatches(rawPassword, user.getPassword()));
+    }
+
+    private boolean passwordMatches(String rawPassword, String hashedPassword) {
+        return new BCryptPasswordEncoder().matches(rawPassword, hashedPassword);
     }
 
     @Override

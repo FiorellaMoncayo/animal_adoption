@@ -16,6 +16,12 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 @Tag(name = "User API", description = "API for managing users")
 @RequestMapping("/users")
 public interface UserApi {
+	@Operation(summary = "Login user")
+	@ApiResponse(description = "User logged in", responseCode = "200", content = @Content(schema = @Schema(implementation = UserDTO.class)))
+	@ApiResponse(description = "Invalid credentials", responseCode = "401")
+	@PostMapping("/login")
+	ResponseEntity<UserDTO> login(@RequestBody UserDTO userDTO);
+
 	@Operation(summary = "Find a user")
 	@ApiResponse(description = "Successful operation", responseCode = "200", content = @Content(schema = @Schema(implementation = UserDTO.class)))
 	@ApiResponse(description = "User not found", responseCode = "404")

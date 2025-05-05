@@ -19,6 +19,18 @@ public class UserController implements UserApi {
     }
 
     @Override
+    //@PostMapping("/login")
+    public ResponseEntity<UserDTO> login(@RequestBody UserDTO userDTO) {
+        if (userDTO.getUsername() == null || userDTO.getPassword() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        return userService.authenticate(userDTO.getUsername(), userDTO.getPassword())
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
+    }
+
+    @Override
     public ResponseEntity<UserDTO> findByUsername(@PathVariable String username) {
         return userService.findByUsername(username)
                 .map(ResponseEntity::ok)

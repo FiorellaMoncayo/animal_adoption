@@ -17,6 +17,11 @@ public class UserApplicationService {
         this.userDomainService = userDomainService;
     }
 
+    public Optional<UserDTO> authenticate(String username, String password) {
+        return userDomainService.authenticate(username, password)
+                .map(user -> new UserDTO(user.getId(), user.getUsername(), null)); // Nunca devuelvas el password
+    }
+
     public Optional<UserDTO> findByUsername(String username) {
         if (username == null || username.isBlank()) {
             throw new IllegalArgumentException("Username cannot be empty");

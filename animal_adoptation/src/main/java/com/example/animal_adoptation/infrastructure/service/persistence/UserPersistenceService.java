@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
@@ -15,15 +16,23 @@ import java.util.Optional;
 public class UserPersistenceService implements UserRepositoryPort {
     public static final Logger logger = LoggerFactory.getLogger(UserPersistenceService.class);
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserPersistenceService(UserRepository userRepository) {
+    public UserPersistenceService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    public Optional<User> authenticate(String username, String rawPassword) {
+        return findByUsername(username)
+                .filter(user -> passwordEncoder.matches(rawPassword, user.getPassword()));
     }
 
     @Override
     public User save(User domainUser) {
         try {
             UserBBD entity = convertToEntity(domainUser);
+            entity.setPassword(passwordEncoder.encode(domainUser.getPassword()));
             UserBBD savedEntity = userRepository.save(entity);
             return convertToDomain(savedEntity);
         } catch (DataIntegrityViolationException e) {
