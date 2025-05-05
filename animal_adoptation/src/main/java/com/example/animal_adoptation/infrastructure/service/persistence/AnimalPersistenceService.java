@@ -30,9 +30,9 @@ public class AnimalPersistenceService implements AnimalRepositoryPort{
         }
     }
     
-    @Override    
-    public Optional<Animal> findByReiac(Integer reiac) {
-    	if (reiac == null) {
+    @Override
+    public Optional<Animal> findByReiac(int reiac) {
+    	if (reiac == 0) {
             throw new IllegalArgumentException("Reiac cannot be empty");
         }
         return animalRepository.findByReiac(reiac)
@@ -69,7 +69,7 @@ public class AnimalPersistenceService implements AnimalRepositoryPort{
 	}
 
 	@Override
-	public Optional<Animal> deleteAnimal(Integer reiac) {
+	public Optional<Animal> deleteAnimal(int reiac) {
 		// TODO Auto-generated method stub
 		return Optional.empty();
 	}

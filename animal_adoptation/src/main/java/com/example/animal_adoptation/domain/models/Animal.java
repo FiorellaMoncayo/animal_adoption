@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Animal {
 	
-	private int id;
+	private Integer id;
 	private int reiac;
 	private String name;
 }

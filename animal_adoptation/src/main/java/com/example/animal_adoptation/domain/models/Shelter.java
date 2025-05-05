@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class Shelter {
-	private int id;
+	private Integer id;
 	private String sheltername;
 	private String password;
 }

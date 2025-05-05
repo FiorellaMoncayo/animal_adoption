@@ -37,7 +37,7 @@ public class AnimalController implements AnimalApi {
 	
 	@Override
 	public ResponseEntity<AnimalDTO> createAnimal(@RequestBody AnimalDTO animalDTO) {
-		if (animalDTO.getReiac() == null || animalDTO.getName().isEmpty() || animalDTO.getName() == null) {
+		if (animalDTO.getReiac() == 0 || animalDTO.getName().isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
 
