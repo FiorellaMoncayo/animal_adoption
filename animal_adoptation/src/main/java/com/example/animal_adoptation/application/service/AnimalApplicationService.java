@@ -8,7 +8,9 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.example.animal_adoptation.application.DTO.AnimalDTO;
+import com.example.animal_adoptation.application.DTO.UserDTO;
 import com.example.animal_adoptation.domain.models.Animal;
+import com.example.animal_adoptation.domain.models.User;
 import com.example.animal_adoptation.domain.service.AnimalDomainService;
 import com.example.animal_adoptation.infrastructure.entities.AnimalBBD;
 import com.example.animal_adoptation.infrastructure.service.persistence.AnimalPersistenceService;
@@ -75,6 +77,41 @@ public class AnimalApplicationService {
             return Optional.empty();
         } catch (RuntimeException e) {
             logger.error("Error creating animal", e);
+            return Optional.empty();
+        }
+    }
+    
+    public Optional<AnimalDTO> updateAnimal(AnimalDTO animalDTO) {
+        if (animalDTO == null) {
+            logger.warn("Invalid animal data");
+            return Optional.empty();
+        }
+        if (animalDTO.getReiac() == 0 || animalDTO.getName().isBlank() || animalDTO.getName().isBlank()) {
+            logger.warn("Incomplete animal data");
+            return Optional.empty();
+        }
+
+        try {
+            Animal animal = convertToDomain(animalDTO);
+            return animalDomainService.updateAnimal(animal)
+                    .map(this::convertToDTO);
+        } catch (RuntimeException e) {
+            logger.error("Error updating animal", e);
+            return Optional.empty();
+        }
+    }
+
+    public Optional<AnimalDTO> deleteAnimal(Integer id) {
+        if (id == null) {
+            logger.warn("Invalid id");
+            return Optional.empty();
+        }
+
+        try {
+            return animalDomainService.deleteAnimal(id)
+                    .map(this::convertToDTO);
+        } catch (RuntimeException e) {
+            logger.error("Error deleting animal: {}", id, e);
             return Optional.empty();
         }
     }

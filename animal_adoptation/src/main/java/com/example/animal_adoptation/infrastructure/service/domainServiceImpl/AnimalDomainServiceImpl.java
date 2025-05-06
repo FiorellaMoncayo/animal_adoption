@@ -33,14 +33,19 @@ public class AnimalDomainServiceImpl implements AnimalDomainService{
 
 	@Override
 	public Optional<Animal> updateAnimal(Animal animal) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
+		if (animal.getReiac() == 0 || animal.getName().isBlank() ||
+				animal.getName() == null) {
+            throw new IllegalArgumentException("Animal data incomplete");
+        }
+        return animalPersistenceService.updateAnimal(animal);
 	}
 
 	@Override
-	public Optional<Animal> deleteAnimal(int reiac) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
+	public Optional<Animal> deleteAnimal(Integer id) {
+		if (id == null) {
+            throw new IllegalArgumentException("Username cannot be empty");
+        }
+        return animalPersistenceService.deleteAnimal(id);
 	}
 
 }

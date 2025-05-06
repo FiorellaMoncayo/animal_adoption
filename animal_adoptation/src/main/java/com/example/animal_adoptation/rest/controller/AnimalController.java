@@ -1,5 +1,7 @@
 package com.example.animal_adoptation.rest.controller;
 
+import java.util.Optional;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,5 +47,33 @@ public class AnimalController implements AnimalApi {
                 .map(createdUser -> ResponseEntity.status(HttpStatus.CREATED).body(createdUser))
                 .orElse(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
 	}
+	
+	@Override
+    public ResponseEntity<AnimalDTO> updateAnimal(@PathVariable int reiac, @PathVariable String name, @RequestBody AnimalDTO animalDTO) {
+        if (animalDTO.getId() == null || animalDTO.getName().isEmpty() ||
+        		animalDTO.getName() == null || animalDTO.getReiac() == 0) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        if (reiac != animalDTO.getReiac() && name != animalDTO.getName() || animalDTO.getName() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        return animalService.updateAnimal(animalDTO)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @Override
+    public ResponseEntity<Void> deleteAnimal(@PathVariable Integer id) {
+        if (id == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        Optional<AnimalDTO> result = animalService.deleteAnimal(id);
+        return result.isPresent()
+                ? ResponseEntity.noContent().build()
+                : ResponseEntity.notFound().build();
+    }
 	
 }

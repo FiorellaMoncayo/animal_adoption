@@ -10,5 +10,5 @@ public interface AnimalDomainService {
 	Optional<Animal> findByName(String name);
     Optional<Animal> createAnimal(Animal animal);
     Optional<Animal> updateAnimal(Animal animal);
-    Optional<Animal> deleteAnimal(int reiac);
+    Optional<Animal> deleteAnimal(Integer id);
 }
