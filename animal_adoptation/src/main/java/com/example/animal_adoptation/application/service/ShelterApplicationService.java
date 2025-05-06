@@ -1,6 +1,7 @@
 package com.example.animal_adoptation.application.service;
 
 import com.example.animal_adoptation.application.DTO.ShelterDTO;
+import com.example.animal_adoptation.application.DTO.UserDTO;
 import com.example.animal_adoptation.domain.models.Shelter;
 import com.example.animal_adoptation.domain.service.ShelterDomainService;
 import org.slf4j.Logger;
@@ -19,6 +20,11 @@ public class ShelterApplicationService {
 
     public ShelterApplicationService(ShelterDomainService shelterDomainService) {
         this.shelterDomainService = shelterDomainService;
+    }
+
+    public Optional<ShelterDTO> authenticate(String sheltername, String password) {
+        return shelterDomainService.authenticate(sheltername, password)
+                .map(shelter -> new ShelterDTO(shelter.getId(), shelter.getSheltername(), null));
     }
 
     public Optional<ShelterDTO> findBysheltername(String sheltername) {

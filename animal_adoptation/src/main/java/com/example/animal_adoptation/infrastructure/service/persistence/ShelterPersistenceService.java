@@ -4,6 +4,7 @@ import com.example.animal_adoptation.domain.models.Shelter;
 import com.example.animal_adoptation.domain.port.ShelterRepositoryPort;
 import com.example.animal_adoptation.infrastructure.entities.ShelterBBD;
 import com.example.animal_adoptation.infrastructure.repositories.ShelterRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,16 +16,23 @@ import java.util.Optional;
 public class ShelterPersistenceService implements ShelterRepositoryPort {
     public static final Logger logger = LoggerFactory.getLogger(ShelterPersistenceService.class);
     private final ShelterRepository shelterRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public ShelterPersistenceService(ShelterRepository shelterRepository) {
+    public ShelterPersistenceService(ShelterRepository shelterRepository, PasswordEncoder passwordEncoder) {
         this.shelterRepository = shelterRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
+    public Optional<Shelter> authenticate(String sheltername, String rawPassword) {
+        return findBysheltername(sheltername)
+                .filter(shelter -> passwordEncoder.matches(rawPassword, shelter.getPassword()));
+    }
 
     @Override
     public Shelter save(Shelter domainShelter) {
         try {
             ShelterBBD entity = convertToEntity(domainShelter);
+            entity.setPassword(passwordEncoder.encode(domainShelter.getPassword()));
             ShelterBBD savedEntity = shelterRepository.save(entity);
             return convertToDomain(savedEntity);
         } catch (DataIntegrityViolationException e) {
@@ -32,6 +40,7 @@ public class ShelterPersistenceService implements ShelterRepositoryPort {
             throw new IllegalArgumentException("Shelter data violation rules", e);
         }
     }
+
     @Override
     public Optional<Shelter> findBysheltername(String sheltername) {
         if (sheltername == null || sheltername.isBlank()) {
@@ -40,6 +49,7 @@ public class ShelterPersistenceService implements ShelterRepositoryPort {
         return shelterRepository.findBysheltername(sheltername)
                 .map(this::convertToDomain);
     }
+
     @Override
     public Optional<Shelter> createShelter(Shelter shelter) {
         if (shelterRepository.findBysheltername(shelter.getSheltername()).isPresent()) {

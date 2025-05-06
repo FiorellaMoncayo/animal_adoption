@@ -19,7 +19,7 @@ public class UserApplicationService {
 
     public Optional<UserDTO> authenticate(String username, String password) {
         return userDomainService.authenticate(username, password)
-                .map(user -> new UserDTO(user.getId(), user.getUsername(), null)); // Nunca devuelvas el password
+                .map(user -> new UserDTO(user.getId(), user.getUsername(), null));
     }
 
     public Optional<UserDTO> findByUsername(String username) {

@@ -11,4 +11,5 @@ public interface ShelterRepositoryPort {
 	Optional<Shelter> createShelter(Shelter shelter);
 	Optional<Shelter> updateShelter(Shelter shelter);
 	Optional<Shelter> deleteShelter(String sheltername);
+	Optional<Shelter> authenticate(String sheltername, String password);
 }

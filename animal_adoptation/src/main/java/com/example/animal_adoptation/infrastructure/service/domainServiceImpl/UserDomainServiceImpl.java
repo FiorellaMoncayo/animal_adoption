@@ -9,6 +9,7 @@ import java.util.Optional;
 
 @Service
 public class UserDomainServiceImpl implements UserDomainService {
+
     private final UserPersistenceService userPersistenceService;
 
     public UserDomainServiceImpl(UserPersistenceService userPersistenceService) {

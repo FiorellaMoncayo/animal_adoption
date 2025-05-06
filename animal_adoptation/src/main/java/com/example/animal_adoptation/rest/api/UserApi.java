@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 
 @Tag(name = "User API", description = "API for managing users")
 @RequestMapping("/users")
+
 public interface UserApi {
 	@Operation(summary = "Login user")
 	@ApiResponse(description = "User logged in", responseCode = "200", content = @Content(schema = @Schema(implementation = UserDTO.class)))

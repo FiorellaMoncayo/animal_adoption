@@ -24,7 +24,6 @@ public class UserController implements UserApi {
         if (userDTO.getUsername() == null || userDTO.getPassword() == null) {
             return ResponseEntity.badRequest().build();
         }
-
         return userService.authenticate(userDTO.getUsername(), userDTO.getPassword())
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());

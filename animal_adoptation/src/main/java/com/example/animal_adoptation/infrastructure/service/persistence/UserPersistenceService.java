@@ -40,6 +40,7 @@ public class UserPersistenceService implements UserRepositoryPort {
             throw new IllegalArgumentException("User data violation rules", e);
         }
     }
+
     @Override
     public Optional<User> findByUsername(String username) {
         if (username == null || username.isBlank()) {

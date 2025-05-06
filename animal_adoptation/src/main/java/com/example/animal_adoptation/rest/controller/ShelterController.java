@@ -14,9 +14,22 @@ import java.util.Optional;
 @RequestMapping("/shelters")
 public class ShelterController implements ShelterApi {
     private final ShelterApplicationService shelterService;
+
     public ShelterController(ShelterApplicationService shelterService){
         this.shelterService= shelterService;
     }
+
+    @Override
+    public ResponseEntity<ShelterDTO> login(@RequestBody ShelterDTO shelterDTO) {
+        if(shelterDTO.getSheltername() == null || shelterDTO.getPassword() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return shelterService.authenticate(shelterDTO.getSheltername(), shelterDTO.getPassword())
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
+    }
+
+
     @Override
     public ResponseEntity<ShelterDTO> findBysheltername(@PathVariable String sheltername) {
         return shelterService.findBysheltername(sheltername)
