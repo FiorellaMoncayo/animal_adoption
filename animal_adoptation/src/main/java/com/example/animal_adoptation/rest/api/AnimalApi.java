@@ -46,5 +46,20 @@ public interface AnimalApi {
 	@PostMapping("/new")
 	ResponseEntity<AnimalDTO> createAnimal(@RequestBody AnimalDTO animalDTO);
 	
+	//create
+	@Operation(summary = "Update animal")
+	@ApiResponse(description = "Animal updated", responseCode = "201")
+	@ApiResponse(description = "Invalid input", responseCode = "400")
+	@PostMapping("/update")
+	ResponseEntity<AnimalDTO> updateAnimal(@PathVariable int reiac, @PathVariable String name, @RequestBody AnimalDTO animalDTO);
+
+	
+	//create
+	@Operation(summary = "Delete animal")
+	@ApiResponse(description = "Animal deleted", responseCode = "201")
+	@ApiResponse(description = "Invalid input", responseCode = "400")
+	@PostMapping("/delete")
+	ResponseEntity<Void> deleteAnimal(@PathVariable Integer id);
+	
 	
 }

@@ -19,15 +19,11 @@ public interface AnimalRepository extends JpaRepository<AnimalBBD, Integer>{
 	Optional<AnimalBBD> findByName(String name);
     //Optional<Animal> createAnimal(AnimalBBD animalBBD);
 	
+	@Modifying
+    @Transactional
+    @Query("UPDATE AnimalBBD u SET u.reiac = :reiac, u.name = :name WHERE u.id = :id")
+    int updateAnimal(@Param("id") Integer id,
+				    @Param("reiac") int reiac,
+				    @Param("name") String name);
+	
 }
-
-//package com.example.animal_adoptation.infrastructure.repositories;
-//
-//import com.example.animal_adoptation.domain.models.Animal;
-//import org.springframework.data.jpa.repository.JpaRepository;
-//
-//import java.util.Optional;
-//
-//public interface AnimalRepository extends JpaRepository<Animal, String> {
-//    Optional<Animal> findByReiac (Integer reiac);
-//}

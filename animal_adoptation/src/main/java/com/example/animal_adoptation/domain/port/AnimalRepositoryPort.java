@@ -11,5 +11,5 @@ public interface AnimalRepositoryPort {
     Optional<Animal> createAnimal(Animal animal);
     Animal save(Animal animal);
     Optional<Animal> updateAnimal(Animal animal);
-    Optional<Animal> deleteAnimal(int reiac);
+    Optional<Animal> deleteAnimal(Integer id);
 }
