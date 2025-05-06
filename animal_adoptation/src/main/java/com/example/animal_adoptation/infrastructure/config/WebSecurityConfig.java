@@ -12,18 +12,19 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // Desactiva CSRF para pruebas
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/users/create",
-                                "/users/login",
-                                "/v3/api-docs/**",
-                                "/swagger-ui/**",
-                                "/swagger-ui.html"
-                        ).permitAll()
-                        .anyRequest().authenticated()
-                )
-                .httpBasic(Customizer.withDefaults()); // O usa .formLogin() si quieres login por formulario
+            .csrf(csrf -> csrf.disable()) // Desactiva CSRF para pruebas
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers(
+                    "/users/**",
+                    "/shelters/**",
+                    "/animal/**",
+                    "/v3/api-docs/**",
+                    "/swagger-ui/**",
+                    "/swagger-ui.html"
+                ).permitAll()
+                .anyRequest().authenticated()
+            )
+            .httpBasic(Customizer.withDefaults()); // O usa .formLogin() si quieres login por formulario
 
         return http.build();
     }
