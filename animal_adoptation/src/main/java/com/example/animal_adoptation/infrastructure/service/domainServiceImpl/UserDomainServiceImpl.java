@@ -49,10 +49,10 @@ public class UserDomainServiceImpl implements UserDomainService {
     }
 
     @Override
-    public Optional<User> deleteUser(String username) {
-        if (username == null || username.isBlank()) {
-            throw new IllegalArgumentException("Username cannot be empty");
+    public Optional<User> deleteUser(Integer id) {
+        if (id == null) {
+            throw new IllegalArgumentException("ID cannot be null");
         }
-        return userPersistenceService.deleteUser(username);
+        return userPersistenceService.deleteUser(id);
     }
 }

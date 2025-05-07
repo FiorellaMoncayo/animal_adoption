@@ -55,7 +55,7 @@ public class UserPersistenceService implements UserRepositoryPort {
         if (id == null) {
             throw new IllegalArgumentException("ID cannot be null");
         }
-        return userRepository.findByUserId(id)
+        return userRepository.findById(id)
                 .map(this::convertToDomain);
     }
 
@@ -96,16 +96,16 @@ public class UserPersistenceService implements UserRepositoryPort {
     }
 
     @Override
-    public Optional<User> deleteUser(String username) {
+    public Optional<User> deleteUser(Integer id) {
         try {
-            Optional<UserBBD> user = userRepository.findByUsername(username);
+            Optional<UserBBD> user = userRepository.findById(id);
             if (user.isPresent()) {
-                userRepository.deleteByUsername(username);
+                userRepository.deleteById(id);
                 return Optional.of(convertToDomain(user.get()));
             }
             return Optional.empty();
         } catch (Exception e) {
-            logger.error("Error deleting user {}: {}", username, e.getMessage());
+            logger.error("Error deleting user {}: {}", id, e.getMessage());
             return Optional.empty();
         }
     }

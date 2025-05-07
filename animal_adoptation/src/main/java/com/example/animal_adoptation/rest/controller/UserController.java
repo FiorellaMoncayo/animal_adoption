@@ -71,12 +71,12 @@ public class UserController implements UserApi {
     }
 
     @Override
-    public ResponseEntity<Void> deleteUser(@PathVariable String username) {
-        if (username == null || username.isEmpty()) {
+    public ResponseEntity<Void> deleteUser(@PathVariable Integer id) {
+        if (id == null) {
             return ResponseEntity.badRequest().build();
         }
 
-        Optional<UserDTO> result = userService.deleteUser(username);
+        Optional<UserDTO> result = userService.deleteUser(id);
         return result.isPresent()
                 ? ResponseEntity.noContent().build()
                 : ResponseEntity.notFound().build();
