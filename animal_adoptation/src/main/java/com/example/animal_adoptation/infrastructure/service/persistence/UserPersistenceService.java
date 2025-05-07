@@ -51,6 +51,15 @@ public class UserPersistenceService implements UserRepositoryPort {
     }
 
     @Override
+    public Optional<User> findByUserId(Integer id) {
+        if (id == null) {
+            throw new IllegalArgumentException("ID cannot be null");
+        }
+        return userRepository.findByUserId(id)
+                .map(this::convertToDomain);
+    }
+
+    @Override
     public Optional<User> createUser(User user) {
         if (userRepository.findByUsername(user.getUsername()).isPresent()) {
             throw new DataIntegrityViolationException("User already exists");

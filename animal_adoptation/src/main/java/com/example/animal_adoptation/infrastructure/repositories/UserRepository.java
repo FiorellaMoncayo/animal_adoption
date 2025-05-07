@@ -1,5 +1,6 @@
 package com.example.animal_adoptation.infrastructure.repositories;
 
+import aj.org.objectweb.asm.commons.Remapper;
 import com.example.animal_adoptation.infrastructure.entities.UserBBD;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,6 +14,8 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<UserBBD, Integer> {
     Optional<UserBBD> findByUsername(String username);
+
+    Optional<UserBBD> findByUserId(Integer id);
 
     @Modifying
     @Transactional

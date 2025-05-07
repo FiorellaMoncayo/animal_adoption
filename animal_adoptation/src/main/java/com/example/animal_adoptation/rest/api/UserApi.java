@@ -31,6 +31,14 @@ public interface UserApi {
 			@Parameter(description = "Username to find", required = true, in = ParameterIn.PATH)
 			@PathVariable("username") String username);
 
+	@Operation(summary = "Find a user id")
+	@ApiResponse(description = "Successful operation", responseCode = "200", content = @Content(schema = @Schema(implementation = UserDTO.class)))
+	@ApiResponse(description = "Id not found", responseCode = "404")
+	@GetMapping("/username/{id}")
+	ResponseEntity<UserDTO> findByUserId(
+			@Parameter(description = "User id to find", required = true, in = ParameterIn.PATH)
+			@PathVariable("user id") Integer id);
+
 	@Operation(summary = "Create user")
 	@ApiResponse(description = "User created", responseCode = "201")
 	@ApiResponse(description = "Invalid input", responseCode = "400")

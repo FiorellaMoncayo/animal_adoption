@@ -6,6 +6,7 @@ import java.util.Optional;
 public interface UserDomainService {
     Optional<User> authenticate(String username, String rawPassword);
     Optional<User> findByUsername(String username);
+    Optional<User> findByUserId(Integer id);
     Optional<User> createUser(User user);
     Optional<User> updateUser(User user);
     Optional<User> deleteUser(String username);
