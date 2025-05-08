@@ -15,4 +15,5 @@ public class Animal {
 	private Integer id;
 	private int reiac;
 	private String name;
+	private Shelter shelter;
 }
