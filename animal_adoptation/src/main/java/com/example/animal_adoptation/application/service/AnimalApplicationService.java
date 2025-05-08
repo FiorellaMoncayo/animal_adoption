@@ -1,48 +1,28 @@
 package com.example.animal_adoptation.application.service;
 
-import static com.example.animal_adoptation.infrastructure.service.persistence.UserPersistenceService.logger;
-
-import java.util.Optional;
-
+import com.example.animal_adoptation.application.DTO.AnimalDTO;
+import com.example.animal_adoptation.domain.models.Animal;
+import com.example.animal_adoptation.domain.models.Shelter;
+import com.example.animal_adoptation.domain.service.AnimalDomainService;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import com.example.animal_adoptation.application.DTO.AnimalDTO;
-import com.example.animal_adoptation.application.DTO.UserDTO;
-import com.example.animal_adoptation.domain.models.Animal;
-import com.example.animal_adoptation.domain.models.User;
-import com.example.animal_adoptation.domain.service.AnimalDomainService;
-import com.example.animal_adoptation.infrastructure.entities.AnimalBBD;
-import com.example.animal_adoptation.infrastructure.service.persistence.AnimalPersistenceService;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static com.example.animal_adoptation.infrastructure.service.persistence.UserPersistenceService.logger;
 
 @Service
 public class AnimalApplicationService {
 
-	private final AnimalDomainService animalDomainService;
+    private final AnimalDomainService animalDomainService;
 
     public AnimalApplicationService(AnimalDomainService animalDomainService) {
         this.animalDomainService = animalDomainService;
     }
 
-	/*
-	 * public Optional<AnimalDTO> findByReiac (Integer reiac){ return
-	 * animalPersistenceService.findByReiac(reiac) .map(animal -> new
-	 * AnimalDTO(animal.getId(), animal.getReiac(), animal.getName())); }
-	 * 
-	 * public Optional<AnimalDTO> findByName (String name){ return
-	 * animalPersistenceService.findByName(name) .map(animal -> new
-	 * AnimalDTO(animal.getId(), animal.getReiac(), animal.getName())); }
-	 */
-    
-	/*
-	 * public Optional<AnimalDTO> createAnimal(AnimalDTO animalDTO) { AnimalBBD
-	 * animalBBD = new AnimalBBD(); animalBBD.setReiac(animalDTO.getReiac());
-	 * animalBBD.setName(animalDTO.getName()); AnimalBBD savedAnimal =
-	 * animalPersistenceService.save(animalBBD); return Optional.of(new
-	 * AnimalDTO(savedAnimal.getId(), savedAnimal.getReiac(),
-	 * savedAnimal.getName())); }
-	 */
-    
     public Optional<AnimalDTO> findByReiac(Integer reiac) {
         if (reiac == null) {
             throw new IllegalArgumentException("Reiac cannot be empty");
@@ -50,7 +30,7 @@ public class AnimalApplicationService {
         return animalDomainService.findByReiac(reiac)
                 .map(this::convertToDTO);
     }
-    
+
     public Optional<AnimalDTO> findByName(String name) {
         if (name == null || name.isBlank()) {
             throw new IllegalArgumentException("Name cannot be empty");
@@ -58,13 +38,23 @@ public class AnimalApplicationService {
         return animalDomainService.findByName(name)
                 .map(this::convertToDTO);
     }
-    
+
+    public List<AnimalDTO> findByShelter(Integer id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("Invalid shelter ID");
+        }
+        return animalDomainService.findByShelter(id)
+                .map(this::convertAllToDTO)
+                .orElse(Collections.emptyList());
+    }
+
     public Optional<AnimalDTO> createAnimal(AnimalDTO animalDTO) {
         if (animalDTO == null) {
             return Optional.empty();
         }
         if (animalDTO.getReiac() == 0 ||
-        		animalDTO.getName() == null || animalDTO.getName().isBlank()) {
+                animalDTO.getName() == null || animalDTO.getName().isBlank() ||
+                animalDTO.getShelterId() == null) {
             return Optional.empty();
         }
 
@@ -80,13 +70,14 @@ public class AnimalApplicationService {
             return Optional.empty();
         }
     }
-    
+
     public Optional<AnimalDTO> updateAnimal(AnimalDTO animalDTO) {
         if (animalDTO == null) {
             logger.warn("Invalid animal data");
             return Optional.empty();
         }
-        if (animalDTO.getReiac() == 0 || animalDTO.getName().isBlank() || animalDTO.getName().isBlank()) {
+        if (animalDTO.getReiac() == 0 || animalDTO.getName() == null || animalDTO.getName().isBlank() ||
+                animalDTO.getShelterId() == null) {
             logger.warn("Incomplete animal data");
             return Optional.empty();
         }
@@ -115,20 +106,35 @@ public class AnimalApplicationService {
             return Optional.empty();
         }
     }
-    
+
     private Animal convertToDomain(AnimalDTO animalDTO) {
-        return new Animal(
-                null,
-                animalDTO.getReiac(),
-                animalDTO.getName()
-        );
+        Animal animal = new Animal();
+        animal.setId(animalDTO.getId());
+        animal.setReiac(animalDTO.getReiac());
+        animal.setName(animalDTO.getName());
+        if (animalDTO.getShelterId() != null) {
+            Shelter shelter = new Shelter();
+            shelter.setId(animalDTO.getShelterId());
+            animal.setShelter(shelter);
+        }
+        return animal;
     }
 
     private AnimalDTO convertToDTO(Animal animal) {
         return new AnimalDTO(
-        		animal.getId(),
-        		animal.getReiac(),
-        		animal.getName()
+                animal.getId(),
+                animal.getReiac(),
+                animal.getName(),
+                animal.getShelter() != null ? animal.getShelter().getId() : null
         );
+    }
+
+    private List<AnimalDTO> convertAllToDTO(List<Animal> animals) {
+        if (animals == null) {
+            return Collections.emptyList();
+        }
+        return animals.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
     }
 }
