@@ -32,7 +32,7 @@ public class UserApplicationService {
 
     public Optional<UserDTO> findByUserId(Integer id) {
         if (id == null) {
-            throw new IllegalArgumentException("Id cannot be null");
+            throw new IllegalArgumentException("ID cannot be null");
         }
         return userDomainService.findByUserId(id)
                 .map(this::convertToDTO);

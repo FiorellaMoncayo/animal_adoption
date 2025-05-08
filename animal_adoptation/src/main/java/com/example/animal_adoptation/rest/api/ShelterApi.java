@@ -1,6 +1,5 @@
 package com.example.animal_adoptation.rest.api;
 
-
 import com.example.animal_adoptation.application.DTO.ShelterDTO;
 import com.example.animal_adoptation.application.DTO.UserDTO;
 import com.example.animal_adoptation.domain.models.Shelter;
@@ -32,27 +31,35 @@ public interface ShelterApi {
             @Parameter(description = "Shelter to find", required = true, in = ParameterIn.PATH)
             @PathVariable("sheltername") String sheltername);
 
+    @Operation(summary = "Find a shelter id")
+    @ApiResponse(description = "Successful operation", responseCode = "200", content = @Content(schema = @Schema(implementation = ShelterDTO.class)))
+    @ApiResponse(description = "Id not found", responseCode = "404")
+    @GetMapping("/id/{id}")
+    ResponseEntity<ShelterDTO> findByShelterId(
+            @Parameter(description = "User id to find", required = true, in = ParameterIn.PATH)
+            @PathVariable("id") Integer id);
+
     @Operation(summary = "Create shelter")
     @ApiResponse(description = "Shelter created", responseCode = "201")
     @ApiResponse(description = "Invalid input", responseCode = "400")
     @PostMapping("/create")
     ResponseEntity<ShelterDTO> createShelter(@RequestBody ShelterDTO shelterDTO);
 
-    @Operation(summary = "Update shelter password")
+    @Operation(summary = "Update shelter")
     @ApiResponse(description = "Shelter updated", responseCode = "200")
     @ApiResponse(description = "Shelter not found", responseCode = "404")
-    @PutMapping("/{sheltername}")
+    @PutMapping("/{id}")
     ResponseEntity<ShelterDTO> updateShelter(
-            @Parameter(description = "Shelter to update Password", required = true, in = ParameterIn.PATH)
-            @PathVariable("sheltername") String sheltername,
+            @Parameter(description = "Shelter id to update", required = true, in = ParameterIn.PATH)
+            @PathVariable("id") Integer id,
             @RequestBody ShelterDTO shelterDTO);
 
     @Operation(summary = "Delete shelter")
     @ApiResponse(description = "Shelter deleted", responseCode = "204")
     @ApiResponse(description = "Shelter not found", responseCode = "404")
-    @DeleteMapping("/{sheltername}")
+    @DeleteMapping("/{id}")
     ResponseEntity<Void> deleteShelter(
-            @Parameter(description = "Shelter to delete", required = true, in = ParameterIn.PATH)
-            @PathVariable("sheltername") String sheltername);
+            @Parameter(description = "Shelter id to delete", required = true, in = ParameterIn.PATH)
+            @PathVariable("id") Integer id);
 }
 

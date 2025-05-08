@@ -35,14 +35,27 @@ public class ShelterApplicationService {
                 .map(this::convertToDTO);
     }
 
+    public Optional<ShelterDTO> findByShelterId(Integer id) {
+        if (id == null) {
+            throw  new IllegalArgumentException("ID cannot be null");
+        }
+        return shelterDomainService.findByShelterId(id)
+                .map(this::convertToDTO);
+    }
+
     public Optional<ShelterDTO> createShelter(ShelterDTO shelterDTO) {
-        if (shelterDTO == null || isInvalidShelterData(shelterDTO)) {
+        if (shelterDTO == null) {
             return Optional.empty();
+        }
+        if (shelterDTO.getSheltername() == null || shelterDTO.getSheltername().isBlank() ||
+                shelterDTO.getPassword() == null || shelterDTO.getPassword().isBlank()) {
+            return  Optional.empty();
         }
 
         try {
             Shelter shelter = convertToDomain(shelterDTO);
-            return shelterDomainService.createShelter(shelter).map(this::convertToDTO);
+            return shelterDomainService.createShelter(shelter)
+                    .map(this::convertToDTO);
         } catch (DataIntegrityViolationException e) {
             logger.warn("Sheltername already exists: {}", shelterDTO.getSheltername());
             return Optional.empty();
@@ -53,11 +66,10 @@ public class ShelterApplicationService {
     }
 
     public Optional<ShelterDTO> updateShelter(ShelterDTO shelterDTO) {
-        if (shelterDTO == null || isInvalidShelterData(shelterDTO)) {
+        if (shelterDTO == null || shelterDTO.getId() == null) {
             logger.warn("Invalid or incomplete shelter data");
             return Optional.empty();
         }
-
         try {
             Shelter shelter = convertToDomain(shelterDTO);
             return shelterDomainService.updateShelter(shelter)
@@ -68,17 +80,17 @@ public class ShelterApplicationService {
         }
     }
 
-    public Optional<ShelterDTO> deleteShelter(String sheltername) {
-        if (sheltername == null || sheltername.isBlank()) {
-            logger.warn("Invalid sheltername");
+    public Optional<ShelterDTO> deleteShelter(Integer id) {
+        if (id == null) {
+            logger.warn("Invalid ID");
             return Optional.empty();
         }
 
         try {
-            return shelterDomainService.deleteShelter(sheltername)
+            return shelterDomainService.deleteShelter(id)
                     .map(this::convertToDTO);
         } catch (RuntimeException e) {
-            logger.error("Error deleting shelter: {}", sheltername, e);
+            logger.error("Error deleting shelter {}: {}", id, e.getMessage(), e);
             return Optional.empty();
         }
     }
@@ -90,7 +102,7 @@ public class ShelterApplicationService {
 
     private Shelter convertToDomain(ShelterDTO shelterDTO) {
         return new Shelter(
-                null,
+                shelterDTO.getId(),
                 shelterDTO.getSheltername(),
                 shelterDTO.getPassword()
         );

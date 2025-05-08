@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-
 @RestController
 @RequestMapping("/shelters")
 public class ShelterController implements ShelterApi {
@@ -29,7 +28,6 @@ public class ShelterController implements ShelterApi {
                 .orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
     }
 
-
     @Override
     public ResponseEntity<ShelterDTO> findBysheltername(@PathVariable String sheltername) {
         return shelterService.findBysheltername(sheltername)
@@ -37,6 +35,12 @@ public class ShelterController implements ShelterApi {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @Override
+    public ResponseEntity<ShelterDTO> findByShelterId(@PathVariable Integer id) {
+        return shelterService.findByShelterId(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 
     @Override
     public ResponseEntity<ShelterDTO> createShelter(@RequestBody ShelterDTO shelterDTO) {
@@ -51,13 +55,8 @@ public class ShelterController implements ShelterApi {
     }
 
     @Override
-    public ResponseEntity<ShelterDTO> updateShelter(@PathVariable String sheltername, @RequestBody ShelterDTO shelterDTO) {
-        if (shelterDTO.getSheltername() == null || shelterDTO.getSheltername().isEmpty() ||
-                shelterDTO.getPassword() == null || shelterDTO.getPassword().isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        if (!sheltername.equals(shelterDTO.getSheltername())) {
+    public ResponseEntity<ShelterDTO> updateShelter(@PathVariable Integer id, @RequestBody ShelterDTO shelterDTO) {
+        if (shelterDTO.getId() == null || !id.equals(shelterDTO.getId())) {
             return ResponseEntity.badRequest().build();
         }
 
@@ -67,12 +66,12 @@ public class ShelterController implements ShelterApi {
     }
 
     @Override
-    public ResponseEntity<Void> deleteShelter(@PathVariable String sheltername) {
-        if (sheltername == null || sheltername.isEmpty()) {
+    public ResponseEntity<Void> deleteShelter(@PathVariable Integer id) {
+        if (id == null) {
             return ResponseEntity.badRequest().build();
         }
 
-        Optional<ShelterDTO> result = shelterService.deleteShelter(sheltername);
+        Optional<ShelterDTO> result = shelterService.deleteShelter(id);
         return result.isPresent()
                 ? ResponseEntity.noContent().build()
                 : ResponseEntity.notFound().build();

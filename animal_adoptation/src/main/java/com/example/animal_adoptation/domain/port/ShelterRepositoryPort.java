@@ -7,9 +7,10 @@ import com.example.animal_adoptation.domain.models.User;
 
 public interface ShelterRepositoryPort {
 	Optional<Shelter> findBysheltername (String sheltername);
-	Shelter save (Shelter shelter);
+	Optional<Shelter> findByShelterId (Integer id);
 	Optional<Shelter> createShelter(Shelter shelter);
+	Shelter save (Shelter shelter);
 	Optional<Shelter> updateShelter(Shelter shelter);
-	Optional<Shelter> deleteShelter(String sheltername);
+	Optional<Shelter> deleteShelter(Integer id);
 	Optional<Shelter> authenticate(String sheltername, String password);
 }

@@ -16,21 +16,21 @@ public interface ShelterRepository extends JpaRepository<ShelterBBD, Integer> {
 
 	Optional<ShelterBBD> findBysheltername(String sheltername);
 
-	@Modifying
+	/*@Modifying
 	@Transactional
 	@Query("UPDATE ShelterBBD s SET s.password = :password WHERE s.sheltername = :sheltername")
 	int updatePassword(@Param("sheltername") String sheltername,
-					   @Param("password") String password);
+					   @Param("password") String password);*/
 
 	@Modifying
 	@Transactional
 	@Query("DELETE FROM ShelterBBD s WHERE s.sheltername = :sheltername")
 	int deleteBysheltername(@Param("sheltername") String sheltername);
 
-	@Modifying
+	/*@Modifying
 	@Transactional
 	@Query("UPDATE ShelterBBD s SET s.sheltername = :newsheltername, s.password = :password WHERE s.id = :id")
 	int updateShelter(@Param("id") int id,
 					  @Param("newsheltername") String newsheltername,
-					  @Param("password") String password);
+					  @Param("password") String password);*/
 }
