@@ -76,19 +76,28 @@ public class UserPersistenceService implements UserRepositoryPort {
     @Override
     public Optional<User> updateUser(User user) {
         try {
-            Optional<UserBBD> existingUser = userRepository.findByUsername(user.getUsername());
-            if (existingUser.isEmpty()) {
-                logger.warn("User not found for username: {}", user.getUsername());
+            Optional<UserBBD> existingUserOpt = userRepository.findById(user.getId());
+            if (existingUserOpt.isEmpty()) {
+                logger.warn("User not found for id: {}", user.getId());
+                return Optional.empty();
+            }
+            boolean hasNewUsername = user.getUsername() != null && !user.getUsername().isBlank();
+            boolean hasNewPassword = user.getPassword() != null && !user.getPassword().isBlank();
+            if (!hasNewUsername && !hasNewPassword) {
+                logger.warn("No valid data was provided for update.");
                 return Optional.empty();
             }
 
-            int rowsAffected = userRepository.updatePassword(user.getUsername(), user.getPassword());
-            if (rowsAffected == 0) {
-                return Optional.empty();
+            UserBBD existingUser = existingUserOpt.get();
+            if (hasNewUsername) {
+                existingUser.setUsername(user.getUsername());
             }
-
-            return userRepository.findByUsername(user.getUsername())
-                    .map(this::convertToDomain);
+            if (hasNewPassword) {
+                String encodedPassword = passwordEncoder.encode(user.getPassword());
+                existingUser.setPassword(encodedPassword);
+            }
+            userRepository.save(existingUser);
+            return Optional.of(convertToDomain(existingUser));
         } catch (Exception e) {
             logger.error("Error updating user: {}", e.getMessage());
             return Optional.empty();

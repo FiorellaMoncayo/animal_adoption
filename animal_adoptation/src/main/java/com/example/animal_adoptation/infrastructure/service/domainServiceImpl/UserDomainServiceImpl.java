@@ -41,10 +41,13 @@ public class UserDomainServiceImpl implements UserDomainService {
 
     @Override
     public Optional<User> updateUser(User user) {
-        if (user.getUsername() == null || user.getUsername().isBlank() ||
-                user.getPassword() == null || user.getPassword().isBlank()) {
-            throw new IllegalArgumentException("User data incomplete");
+        boolean isUsernameValid = user.getUsername() != null && !user.getUsername().isBlank();
+        boolean isPasswordValid = user.getPassword() != null && !user.getPassword().isBlank();
+
+        if(!isUsernameValid && !isPasswordValid) {
+            throw new IllegalArgumentException("At least one field must be provided for update");
         }
+
         return userPersistenceService.updateUser(user);
     }
 

@@ -34,10 +34,10 @@ public interface UserApi {
 	@Operation(summary = "Find a user id")
 	@ApiResponse(description = "Successful operation", responseCode = "200", content = @Content(schema = @Schema(implementation = UserDTO.class)))
 	@ApiResponse(description = "Id not found", responseCode = "404")
-	@GetMapping("/username/{id}")
+	@GetMapping("/id/{id}")
 	ResponseEntity<UserDTO> findByUserId(
 			@Parameter(description = "User id to find", required = true, in = ParameterIn.PATH)
-			@PathVariable("user id") Integer id);
+			@PathVariable("id") Integer id);
 
 	@Operation(summary = "Create user")
 	@ApiResponse(description = "User created", responseCode = "201")
@@ -45,13 +45,13 @@ public interface UserApi {
 	@PostMapping("/create")
 	ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO);
 
-	@Operation(summary = "Update user password")
+	@Operation(summary = "Update user")
 	@ApiResponse(description = "User updated", responseCode = "200")
 	@ApiResponse(description = "User not found", responseCode = "404")
-	@PutMapping("/{username}")
+	@PutMapping("/{id}")
 	ResponseEntity<UserDTO> updateUser(
-			@Parameter(description = "Username to update Password", required = true, in = ParameterIn.PATH)
-			@PathVariable("username") String username,
+			@Parameter(description = "User id to update", required = true, in = ParameterIn.PATH)
+			@PathVariable("id") Integer id,
 			@RequestBody UserDTO userDTO);
 
 	@Operation(summary = "Delete user")

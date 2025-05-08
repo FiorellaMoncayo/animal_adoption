@@ -61,16 +61,10 @@ public class UserApplicationService {
     }
 
     public Optional<UserDTO> updateUser(UserDTO userDTO) {
-        if (userDTO == null) {
+        if (userDTO == null || userDTO.getId() == null) {
             logger.warn("Invalid user data");
             return Optional.empty();
         }
-        if (userDTO.getUsername() == null || userDTO.getUsername().isBlank() ||
-                userDTO.getPassword() == null || userDTO.getPassword().isBlank()) {
-            logger.warn("Incomplete user data");
-            return Optional.empty();
-        }
-
         try {
             User user = convertToDomain(userDTO);
             return userDomainService.updateUser(user)
@@ -98,7 +92,8 @@ public class UserApplicationService {
 
     private User convertToDomain(UserDTO userDTO) {
         return new User(
-                null,
+                //null,
+                userDTO.getId(),
                 userDTO.getUsername(),
                 userDTO.getPassword()
         );

@@ -55,15 +55,14 @@ public class UserController implements UserApi {
     }
 
     @Override
-    public ResponseEntity<UserDTO> updateUser(@PathVariable String username, @RequestBody UserDTO userDTO) {
-        if (userDTO.getUsername() == null || userDTO.getUsername().isEmpty() ||
-                userDTO.getPassword() == null || userDTO.getPassword().isEmpty()) {
+    public ResponseEntity<UserDTO> updateUser(@PathVariable Integer id, @RequestBody UserDTO userDTO) {
+        if (userDTO.getId() == null || !id.equals(userDTO.getId())) {
             return ResponseEntity.badRequest().build();
         }
 
-        if (!username.equals(userDTO.getUsername())) {
+        /*if (userDTO.getPassword() != null && userDTO.getPassword().isEmpty()) {
             return ResponseEntity.badRequest().build();
-        }
+        }*/
 
         return userService.updateUser(userDTO)
                 .map(ResponseEntity::ok)

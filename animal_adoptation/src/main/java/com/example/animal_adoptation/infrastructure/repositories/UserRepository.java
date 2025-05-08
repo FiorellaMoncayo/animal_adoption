@@ -1,6 +1,5 @@
 package com.example.animal_adoptation.infrastructure.repositories;
 
-import aj.org.objectweb.asm.commons.Remapper;
 import com.example.animal_adoptation.infrastructure.entities.UserBBD;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,21 +16,21 @@ public interface UserRepository extends JpaRepository<UserBBD, Integer> {
 
     //Optional<UserBBD> findByUserId(Integer id);
 
-    @Modifying
+    /*@Modifying
     @Transactional
     @Query("UPDATE UserBBD u SET u.password = :password WHERE u.username = :username")
     int updatePassword(@Param("username") String username,
-                       @Param("password") String password);
+                       @Param("password") String password);*/
 
     @Modifying
     @Transactional
     @Query("DELETE FROM UserBBD u WHERE u.username = :username")
     int deleteByUsername(@Param("username") String username);
 
-    @Modifying
+  /*  @Modifying
     @Transactional
     @Query("UPDATE UserBBD u SET u.username = :newUsername, u.password = :password WHERE u.id = :id")
     int updateUser(@Param("id") int id,
                    @Param("newUsername") String newUsername,
-                   @Param("password") String password);
+                   @Param("password") String password);*/
 }
