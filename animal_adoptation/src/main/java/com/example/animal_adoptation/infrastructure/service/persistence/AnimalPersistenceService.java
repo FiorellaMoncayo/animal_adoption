@@ -2,11 +2,9 @@ package com.example.animal_adoptation.infrastructure.service.persistence;
 
 import com.example.animal_adoptation.domain.models.Animal;
 import com.example.animal_adoptation.domain.models.Shelter;
-import com.example.animal_adoptation.domain.models.User;
 import com.example.animal_adoptation.domain.port.AnimalRepositoryPort;
 import com.example.animal_adoptation.infrastructure.entities.AnimalBBD;
 import com.example.animal_adoptation.infrastructure.entities.ShelterBBD;
-import com.example.animal_adoptation.infrastructure.entities.UserBBD;
 import com.example.animal_adoptation.infrastructure.repositories.AnimalRepository;
 import com.example.animal_adoptation.infrastructure.repositories.ShelterRepository;
 import org.slf4j.Logger;
@@ -29,6 +27,31 @@ public class AnimalPersistenceService implements AnimalRepositoryPort {
     public AnimalPersistenceService(AnimalRepository animalRepository, ShelterRepository shelterRepository) {
         this.animalRepository = animalRepository;
         this.shelterRepository = shelterRepository;
+    }
+
+    public Optional<List<Animal>> getAllAnimals() {
+
+        List<AnimalBBD> animals = animalRepository.findAll();
+        if (animals.isEmpty()) {
+            return Optional.of(Collections.emptyList());
+        }
+        return Optional.of(animals.stream()
+                .map(this::convertToDomain)
+                .collect(Collectors.toList()));
+    }
+
+    @Override
+    public Optional<List<Animal>> findByShelter(Integer shelterId) {
+        if (shelterId == null) {
+            return Optional.empty();
+        }
+        List<AnimalBBD> animals = animalRepository.findByShelterId(shelterId);
+        if (animals.isEmpty()) {
+            return Optional.of(Collections.emptyList());
+        }
+        return Optional.of(animals.stream()
+                .map(this::convertToDomain)
+                .collect(Collectors.toList()));
     }
 
     @Override
@@ -59,16 +82,6 @@ public class AnimalPersistenceService implements AnimalRepositoryPort {
         }
         return animalRepository.findByName(name)
                 .map(this::convertToDomain);
-    }
-
-    public Optional<List<Animal>> findByShelter(Integer shelterId) {
-        List<AnimalBBD> animals = animalRepository.findByShelterId(shelterId);
-        if (animals.isEmpty()) {
-            return Optional.empty();
-        }
-        return Optional.of(animals.stream()
-                .map(this::convertToDomain)
-                .collect(Collectors.toList()));
     }
 
     @Override

@@ -22,6 +22,22 @@ public class AnimalDomainServiceImpl implements AnimalDomainService {
     }
 
     @Override
+    public Optional<List<Animal>> getAllAnimals() {
+
+        return animalPersistenceService.getAllAnimals()
+                .map(animals -> animals.isEmpty() ? Collections.<Animal>emptyList() : animals);
+    }
+
+    @Override
+    public Optional<List<Animal>> getAllShelterAnimals(Integer id) {
+        if (id == null || !shelterRepository.existsById(id)) {
+            return Optional.empty();
+        }
+        return animalPersistenceService.findByShelter(id)
+                .map(animals -> animals.isEmpty() ? Collections.<Animal>emptyList() : animals);
+    }
+
+    @Override
     public Optional<Animal> findByReiac(int reiac) {
         return animalPersistenceService.findByReiac(reiac);
     }
@@ -29,17 +45,6 @@ public class AnimalDomainServiceImpl implements AnimalDomainService {
     @Override
     public Optional<Animal> findByName(String name) {
         return animalPersistenceService.findByName(name);
-    }
-
-    @Override
-    public Optional<List<Animal>> findByShelter(Integer id) {
-        if (id == null || !shelterRepository.existsById(id)) {
-            return Optional.empty();
-        }
-        // Asumimos que AnimalPersistenceService tiene un método para buscar por shelterId
-        // Esto requiere una implementación en AnimalPersistenceService
-        return Optional.of(animalPersistenceService.findByShelter(id)
-                .orElse(Collections.emptyList()));
     }
 
     @Override
@@ -63,4 +68,5 @@ public class AnimalDomainServiceImpl implements AnimalDomainService {
         }
         return animalPersistenceService.deleteAnimal(id);
     }
+
 }

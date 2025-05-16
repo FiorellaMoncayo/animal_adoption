@@ -23,6 +23,22 @@ public class AnimalApplicationService {
         this.animalDomainService = animalDomainService;
     }
 
+    public List<AnimalDTO> getAllAnimals() {
+
+        return animalDomainService.getAllAnimals()
+                .map(this::convertAllToDTO)
+                .orElse(Collections.emptyList());
+    }
+
+    public List<AnimalDTO> getAllShelterAnimals(Integer id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("Invalid shelter ID");
+        }
+        return animalDomainService.getAllShelterAnimals(id)
+                .map(this::convertAllToDTO)
+                .orElse(Collections.emptyList());
+    }
+
     public Optional<AnimalDTO> findByReiac(Integer reiac) {
         if (reiac == null) {
             throw new IllegalArgumentException("Reiac cannot be empty");
@@ -37,15 +53,6 @@ public class AnimalApplicationService {
         }
         return animalDomainService.findByName(name)
                 .map(this::convertToDTO);
-    }
-
-    public List<AnimalDTO> findByShelter(Integer id) {
-        if (id == null || id <= 0) {
-            throw new IllegalArgumentException("Invalid shelter ID");
-        }
-        return animalDomainService.findByShelter(id)
-                .map(this::convertAllToDTO)
-                .orElse(Collections.emptyList());
     }
 
     public Optional<AnimalDTO> createAnimal(AnimalDTO animalDTO) {
