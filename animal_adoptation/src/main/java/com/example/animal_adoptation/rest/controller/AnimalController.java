@@ -24,7 +24,6 @@ public class AnimalController implements AnimalApi {
 
     @Override
     public ResponseEntity<List<AnimalDTO>> getAllAnimals() {
-
         List<AnimalDTO> animals = animalService.getAllAnimals();
         return animals.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(animals);
     }
@@ -38,7 +37,6 @@ public class AnimalController implements AnimalApi {
         return animals.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(animals);
     }
 
-    // Existing methods (findByReiac, findByName, etc.) remain unchanged
     @Override
     public ResponseEntity<AnimalDTO> findByReiac(int reiac) {
         return animalService.findByReiac(reiac)
@@ -65,25 +63,41 @@ public class AnimalController implements AnimalApi {
 
     @Override
     public ResponseEntity<AnimalDTO> createAnimal(AnimalDTO animalDTO) {
-        if (animalDTO == null || animalDTO.getReiac() == 0 || animalDTO.getName() == null || animalDTO.getName().isEmpty() ||
-                animalDTO.getShelterId() == null) {
-            return ResponseEntity.badRequest().build();
+        if (animalDTO == null || animalDTO.getReiac() == 0 || 
+            animalDTO.getName() == null || animalDTO.getName().isEmpty() ||
+            animalDTO.getShelterId() == null) {
+            return ResponseEntity.badRequest()
+                    .body(new AnimalDTO(null, 0, "Invalid input: reiac, name, or shelterId is missing", null));
         }
 
-        return animalService.createAnimal(animalDTO)
-                .map(createdAnimal -> ResponseEntity.status(HttpStatus.CREATED).body(createdAnimal))
-                .orElse(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+        try {
+            return animalService.createAnimal(animalDTO)
+                    .map(createdAnimal -> ResponseEntity.status(HttpStatus.CREATED).body(createdAnimal))
+                    .orElse(ResponseEntity.badRequest()
+                            .body(new AnimalDTO(null, 0, "Invalid shelter ID or duplicate reiac", null)));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest()
+                    .body(new AnimalDTO(null, 0, e.getMessage(), null));
+        }
     }
 
     @Override
     public ResponseEntity<AnimalDTO> updateAnimal(int reiac, String name, AnimalDTO animalDTO) {
-        if (animalDTO == null || animalDTO.getReiac() == 0 || animalDTO.getName() == null || animalDTO.getName().isEmpty() ||
-                animalDTO.getShelterId() == null) {
-            return ResponseEntity.badRequest().build();
+        if (animalDTO == null || animalDTO.getReiac() == 0 || 
+            animalDTO.getName() == null || animalDTO.getName().isEmpty() ||
+            animalDTO.getShelterId() == null) {
+            return ResponseEntity.badRequest()
+                    .body(new AnimalDTO(null, 0, "Invalid input: reiac, name, or shelterId is missing", null));
         }
-        return animalService.updateAnimal(animalDTO)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        try {
+            return animalService.updateAnimal(animalDTO)
+                    .map(ResponseEntity::ok)
+                    .orElseGet(() -> ResponseEntity.badRequest()
+                            .body(new AnimalDTO(null, 0, "Animal not found or invalid shelter ID", null)));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest()
+                    .body(new AnimalDTO(null, 0, e.getMessage(), null));
+        }
     }
 
     @Override

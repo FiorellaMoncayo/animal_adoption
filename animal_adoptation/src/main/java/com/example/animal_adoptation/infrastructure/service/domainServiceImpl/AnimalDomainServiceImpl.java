@@ -23,7 +23,6 @@ public class AnimalDomainServiceImpl implements AnimalDomainService {
 
     @Override
     public Optional<List<Animal>> getAllAnimals() {
-
         return animalPersistenceService.getAllAnimals()
                 .map(animals -> animals.isEmpty() ? Collections.<Animal>emptyList() : animals);
     }
@@ -49,14 +48,19 @@ public class AnimalDomainServiceImpl implements AnimalDomainService {
 
     @Override
     public Optional<Animal> createAnimal(Animal animal) {
+        if (animal == null || animal.getShelter() == null || animal.getShelter().getId() == null ||
+            !shelterRepository.existsById(animal.getShelter().getId())) {
+            throw new IllegalArgumentException("Invalid or non-existent shelter");
+        }
         return animalPersistenceService.createAnimal(animal);
     }
 
     @Override
     public Optional<Animal> updateAnimal(Animal animal) {
-        if (animal.getReiac() == 0 || animal.getName() == null || animal.getName().isBlank() ||
-                animal.getShelter() == null) {
-            throw new IllegalArgumentException("Animal data incomplete");
+        if (animal == null || animal.getReiac() == 0 || animal.getName() == null || animal.getName().isBlank() ||
+            animal.getShelter() == null || animal.getShelter().getId() == null ||
+            !shelterRepository.existsById(animal.getShelter().getId())) {
+            throw new IllegalArgumentException("Invalid animal data or non-existent shelter");
         }
         return animalPersistenceService.updateAnimal(animal);
     }
@@ -68,5 +72,4 @@ public class AnimalDomainServiceImpl implements AnimalDomainService {
         }
         return animalPersistenceService.deleteAnimal(id);
     }
-
 }

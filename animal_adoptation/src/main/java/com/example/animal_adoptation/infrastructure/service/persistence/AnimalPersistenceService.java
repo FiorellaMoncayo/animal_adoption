@@ -29,8 +29,8 @@ public class AnimalPersistenceService implements AnimalRepositoryPort {
         this.shelterRepository = shelterRepository;
     }
 
+    @Override
     public Optional<List<Animal>> getAllAnimals() {
-
         List<AnimalBBD> animals = animalRepository.findAll();
         if (animals.isEmpty()) {
             return Optional.of(Collections.emptyList());
@@ -61,8 +61,11 @@ public class AnimalPersistenceService implements AnimalRepositoryPort {
             AnimalBBD savedEntity = animalRepository.save(entity);
             return convertToDomain(savedEntity);
         } catch (DataIntegrityViolationException e) {
-            logger.error("Error saving animal: {}", e.getMessage());
-            throw new IllegalArgumentException("Animal data violation rules", e);
+            logger.error("Error saving animal: reiac={}, shelterId={}: {}", 
+                    domainAnimal.getReiac(), 
+                    domainAnimal.getShelter() != null ? domainAnimal.getShelter().getId() : null, 
+                    e.getMessage());
+            throw new IllegalArgumentException("Animal data violation rules: " + e.getMessage(), e);
         }
     }
 
@@ -87,13 +90,13 @@ public class AnimalPersistenceService implements AnimalRepositoryPort {
     @Override
     public Optional<Animal> createAnimal(Animal animal) {
         if (animalRepository.findByReiac(animal.getReiac()).isPresent()) {
-            throw new DataIntegrityViolationException("Animal already exists");
+            throw new DataIntegrityViolationException("Animal with reiac " + animal.getReiac() + " already exists");
         }
         try {
             Animal createdAnimal = save(animal);
             return Optional.of(createdAnimal);
         } catch (Exception e) {
-            logger.error("Error creating animal: {}", e.getMessage());
+            logger.error("Error creating animal with reiac {}: {}", animal.getReiac(), e.getMessage());
             return Optional.empty();
         }
     }
@@ -117,7 +120,7 @@ public class AnimalPersistenceService implements AnimalRepositoryPort {
             return animalRepository.findById(animal.getId())
                     .map(this::convertToDomain);
         } catch (Exception e) {
-            logger.error("Error updating animal: {}", e.getMessage());
+            logger.error("Error updating animal with id {}: {}", animal.getId(), e.getMessage());
             return Optional.empty();
         }
     }
@@ -142,9 +145,12 @@ public class AnimalPersistenceService implements AnimalRepositoryPort {
         entity.setId(domain.getId());
         entity.setReiac(domain.getReiac());
         entity.setName(domain.getName());
-        if (domain.getShelter() != null) {
-            Optional<ShelterBBD> shelter = shelterRepository.findById(domain.getShelter().getId());
-            shelter.ifPresent(entity::setShelter);
+        if (domain.getShelter() != null && domain.getShelter().getId() != null) {
+            ShelterBBD shelter = shelterRepository.findById(domain.getShelter().getId())
+                    .orElseThrow(() -> new IllegalArgumentException("Shelter with ID " + domain.getShelter().getId() + " not found"));
+            entity.setShelter(shelter);
+        } else {
+            throw new IllegalArgumentException("Shelter is required for animal");
         }
         return entity;
     }
@@ -157,6 +163,8 @@ public class AnimalPersistenceService implements AnimalRepositoryPort {
         if (entity.getShelter() != null) {
             Shelter shelter = new Shelter();
             shelter.setId(entity.getShelter().getId());
+            shelter.setSheltername(entity.getShelter().getSheltername());
+            shelter.setPassword(entity.getShelter().getPassword());
             animal.setShelter(shelter);
         }
         return animal;

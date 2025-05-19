@@ -7,6 +7,7 @@ import java.util.Optional;
 
 public interface AnimalRepositoryPort {
 	
+	Optional<List<Animal>> getAllAnimals();
 	Optional<List<Animal>> findByShelter(Integer shelterId);
     Optional<Animal> findByReiac(int reiac);
     Optional<Animal> findByName(String name);

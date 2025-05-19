@@ -34,7 +34,7 @@ public class AnimalDTO {
 	// Constructor que convierte de Animal a AnimalDTO
 	public AnimalDTO(Animal animal) {
 		Optional.ofNullable(animal).ifPresent(a -> {
-		this.id = a.getId();
+			this.id = a.getId();
 			this.reiac = a.getReiac();
 			this.name = a.getName();
 			this.shelterId = Optional.ofNullable(a.getShelter()).map(Shelter::getId).orElse(null);
@@ -45,5 +45,4 @@ public class AnimalDTO {
 	public Animal toModel() {
 		return new Animal(id, reiac, name, null);
 	}
-
 }
