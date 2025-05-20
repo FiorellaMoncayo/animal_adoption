@@ -53,8 +53,8 @@ public class UserApplicationService {
     }
 
     public Optional<UserDTO> updateUser(UserDTO userDTO) {
-        if (userDTO == null) {
-            logger.warn("Invalid user data");
+        if (userDTO == null || userDTO.getId() == null) {
+            logger.warn("Invalid user data or missing ID");
             return Optional.empty();
         }
         if (userDTO.getUsername() == null || userDTO.getUsername().isBlank() ||
@@ -90,7 +90,7 @@ public class UserApplicationService {
 
     private User convertToDomain(UserDTO userDTO) {
         return new User(
-                null,
+                userDTO.getId(), // Include ID
                 userDTO.getUsername(),
                 userDTO.getPassword()
         );

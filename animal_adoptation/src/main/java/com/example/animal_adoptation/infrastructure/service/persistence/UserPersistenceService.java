@@ -64,28 +64,47 @@ public class UserPersistenceService implements UserRepositoryPort {
         }
     }
 
+
     @Override
     public Optional<User> updateUser(User user) {
         try {
-            Optional<UserBBD> existingUser = userRepository.findByUsername(user.getUsername());
+            if (user.getId() == null) {
+                logger.warn("User ID is null for update");
+                return Optional.empty();
+            }
+            Optional<UserBBD> existingUser = userRepository.findById(user.getId());
             if (existingUser.isEmpty()) {
-                logger.warn("User not found for username: {}", user.getUsername());
+                logger.warn("User not found for ID: {}", user.getId());
                 return Optional.empty();
             }
 
-            int rowsAffected = userRepository.updatePassword(user.getUsername(), user.getPassword());
+            // Check if the new username is taken by another user
+            if (!existingUser.get().getUsername().equals(user.getUsername()) &&
+                    userRepository.findByUsername(user.getUsername()).isPresent()) {
+                logger.warn("Username already exists: {}", user.getUsername());
+                return Optional.empty();
+            }
+
+            int rowsAffected = userRepository.updateUser(
+                    user.getId(),
+                    user.getUsername(),
+                    passwordEncoder.encode(user.getPassword())
+            );
             if (rowsAffected == 0) {
+                logger.warn("No rows affected for user update: {}", user.getUsername());
                 return Optional.empty();
             }
 
-            return userRepository.findByUsername(user.getUsername())
+            return userRepository.findById(user.getId())
                     .map(this::convertToDomain);
+        } catch (DataIntegrityViolationException e) {
+            logger.error("Data integrity violation updating user: {}", e.getMessage());
+            return Optional.empty();
         } catch (Exception e) {
             logger.error("Error updating user: {}", e.getMessage());
             return Optional.empty();
         }
     }
-
     @Override
     public Optional<User> deleteUser(String username) {
         try {
