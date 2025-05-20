@@ -67,21 +67,38 @@ public class ShelterPersistenceService implements ShelterRepositoryPort {
     @Override
     public Optional<Shelter> updateShelter(Shelter shelter) {
         try {
-            Optional<ShelterBBD> existingShelter = shelterRepository.findBysheltername(shelter.getSheltername());
-            if (existingShelter.isEmpty()) {
-                logger.warn("Shelter not found for sheltername: {}", shelter.getSheltername());
+            if (shelter.getId() == null) {
+                logger.warn("Shelter ID is null for update");
                 return Optional.empty();
             }
-            int rowsAffected = shelterRepository.updatePassword(
-                    //existingShelter.get().getId(),
+            Optional<ShelterBBD> existingShelter = shelterRepository.findById(shelter.getId());
+            if (existingShelter.isEmpty()) {
+                logger.warn("Shelter not found for ID: {}", shelter.getId());
+                return Optional.empty();
+            }
+
+            // Check if the new sheltername is taken by another shelter
+            if (!existingShelter.get().getSheltername().equals(shelter.getSheltername()) &&
+                    shelterRepository.findBysheltername(shelter.getSheltername()).isPresent()) {
+                logger.warn("Sheltername already exists: {}", shelter.getSheltername());
+                return Optional.empty();
+            }
+
+            int rowsAffected = shelterRepository.updateShelter(
+                    shelter.getId(),
                     shelter.getSheltername(),
-                    shelter.getPassword()
+                    passwordEncoder.encode(shelter.getPassword())
             );
             if (rowsAffected == 0) {
+                logger.warn("No rows affected for shelter update: {}", shelter.getSheltername());
                 return Optional.empty();
             }
-            return shelterRepository.findBysheltername(shelter.getSheltername())
+
+            return shelterRepository.findById(shelter.getId())
                     .map(this::convertToDomain);
+        } catch (DataIntegrityViolationException e) {
+            logger.error("Data integrity violation updating shelter: {}", e.getMessage());
+            return Optional.empty();
         } catch (Exception e) {
             logger.error("Error updating shelter: {}", e.getMessage());
             return Optional.empty();

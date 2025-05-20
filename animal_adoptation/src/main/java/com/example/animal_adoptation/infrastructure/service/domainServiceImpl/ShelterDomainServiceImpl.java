@@ -45,6 +45,9 @@ public class ShelterDomainServiceImpl implements ShelterDomainService {
                 shelter.getPassword() == null || shelter.getPassword().isBlank()) {
             throw new IllegalArgumentException("Shelter data incomplete");
         }
+        if (shelter.getId() == null) {
+            throw new IllegalArgumentException("Shelter ID cannot be null");
+        }
         return shelterPersistenceService.updateShelter(shelter);
     }
 

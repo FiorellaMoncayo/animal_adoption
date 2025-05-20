@@ -53,7 +53,12 @@ public class ShelterApplicationService {
     }
 
     public Optional<ShelterDTO> updateShelter(ShelterDTO shelterDTO) {
-        if (shelterDTO == null || isInvalidShelterData(shelterDTO)) {
+        if (shelterDTO == null || shelterDTO.getId() == null) {
+            logger.warn("Invalid shelter data or missing ID");
+            return Optional.empty();
+        }
+        if (shelterDTO.getSheltername() == null || shelterDTO.getSheltername().isBlank() ||
+                shelterDTO.getPassword() == null || shelterDTO.getPassword().isBlank()) {
             logger.warn("Invalid or incomplete shelter data");
             return Optional.empty();
         }
@@ -90,7 +95,7 @@ public class ShelterApplicationService {
 
     private Shelter convertToDomain(ShelterDTO shelterDTO) {
         return new Shelter(
-                null,
+                shelterDTO.getId(), // Include ID
                 shelterDTO.getSheltername(),
                 shelterDTO.getPassword()
         );

@@ -42,6 +42,9 @@ public class UserDomainServiceImpl implements UserDomainService {
                 user.getPassword() == null || user.getPassword().isBlank()) {
             throw new IllegalArgumentException("User data incomplete");
         }
+        if (user.getId() == null) {
+            throw new IllegalArgumentException("User ID cannot be null");
+        }
         return userPersistenceService.updateUser(user);
     }
 

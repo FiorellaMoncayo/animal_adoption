@@ -52,15 +52,18 @@ public class ShelterController implements ShelterApi {
 
     @Override
     public ResponseEntity<ShelterDTO> updateShelter(@PathVariable String sheltername, @RequestBody ShelterDTO shelterDTO) {
-        if (shelterDTO.getSheltername() == null || shelterDTO.getSheltername().isEmpty() ||
-                shelterDTO.getPassword() == null || shelterDTO.getPassword().isEmpty()) {
+        if (shelterDTO.getSheltername() == null || shelterDTO.getSheltername().isBlank() ||
+                shelterDTO.getPassword() == null || shelterDTO.getPassword().isBlank()) {
             return ResponseEntity.badRequest().build();
         }
 
-        if (!sheltername.equals(shelterDTO.getSheltername())) {
-            return ResponseEntity.badRequest().build();
+        // Find shelter by sheltername to get ID
+        Optional<ShelterDTO> existingShelter = shelterService.findBysheltername(sheltername);
+        if (existingShelter.isEmpty()) {
+            return ResponseEntity.notFound().build();
         }
 
+        shelterDTO.setId(existingShelter.get().getId()); // Set ID in DTO
         return shelterService.updateShelter(shelterDTO)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
