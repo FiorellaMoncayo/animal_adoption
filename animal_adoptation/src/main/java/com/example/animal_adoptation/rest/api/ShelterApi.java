@@ -50,9 +50,9 @@ public interface ShelterApi {
     @Operation(summary = "Delete shelter")
     @ApiResponse(description = "Shelter deleted", responseCode = "204")
     @ApiResponse(description = "Shelter not found", responseCode = "404")
-    @DeleteMapping("/{sheltername}")
+    @DeleteMapping("/{shelterId}")
     ResponseEntity<Void> deleteShelter(
             @Parameter(description = "Shelter to delete", required = true, in = ParameterIn.PATH)
-            @PathVariable("sheltername") String sheltername);
+            @PathVariable("sheltername") Integer shelterId);
 }
 

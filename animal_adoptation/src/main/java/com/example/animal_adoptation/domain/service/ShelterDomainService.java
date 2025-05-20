@@ -11,6 +11,6 @@ public interface ShelterDomainService {
     Optional<Shelter> findBysheltername (String sheltername);
     Optional<Shelter> createShelter(Shelter shelter);
     Optional<Shelter> updateShelter(Shelter shelter);
-    Optional<Shelter> deleteShelter(String sheltername);
+    Optional<Shelter> deleteShelter(Integer shelterId);
 
 }
