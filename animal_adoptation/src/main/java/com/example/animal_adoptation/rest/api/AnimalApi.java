@@ -21,6 +21,20 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Animal API", description = "API for managing animals")
 @RequestMapping("/animal")
 public interface AnimalApi {
+	
+	@Operation(summary = "Get all animals")
+    @ApiResponse(description = "Successful operation", responseCode = "200", content = @Content(schema = @Schema(implementation = AnimalDTO.class)))
+    @ApiResponse(description = "Animal not found", responseCode = "404")
+    @GetMapping("/list")
+    ResponseEntity<List<AnimalDTO>> getAllAnimals();
+	
+	@Operation(summary = "Get all shelter animals ")
+    @ApiResponse(description = "Successful operation", responseCode = "200", content = @Content(schema = @Schema(implementation = AnimalDTO.class)))
+    @ApiResponse(description = "Animal not found", responseCode = "404")
+    @GetMapping("/shelterList/{id}")
+    ResponseEntity<List<AnimalDTO>> getAllShelterAnimals(
+            @Parameter(description = "Id de shelter que accede para ver su lista", required = true, in = ParameterIn.PATH)
+            @PathVariable("id") Integer id);
 
     @Operation(summary = "Find an animal by REIAC")
     @ApiResponse(description = "Successful operation", responseCode = "200", content = @Content(schema = @Schema(implementation = AnimalDTO.class)))

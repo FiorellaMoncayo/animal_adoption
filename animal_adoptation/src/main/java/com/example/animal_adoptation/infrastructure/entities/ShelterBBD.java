@@ -21,7 +21,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-
 public class ShelterBBD {
 	
     @Id

@@ -49,11 +49,11 @@ public class ShelterDomainServiceImpl implements ShelterDomainService {
     }
 
     @Override
-    public Optional<Shelter> deleteShelter(String sheltername) {
-        if (sheltername == null || sheltername.isBlank()) {
+    public Optional<Shelter> deleteShelter(Integer shelterId) {
+        if (shelterId == null) {
             throw new IllegalArgumentException("Sheltername cannot be empty");
         }
-        return shelterPersistenceService.deleteShelter(sheltername);
+        return shelterPersistenceService.deleteShelter(shelterId);
     }
 
 

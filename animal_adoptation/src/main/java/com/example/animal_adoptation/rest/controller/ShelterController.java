@@ -67,12 +67,12 @@ public class ShelterController implements ShelterApi {
     }
 
     @Override
-    public ResponseEntity<Void> deleteShelter(@PathVariable String sheltername) {
-        if (sheltername == null || sheltername.isEmpty()) {
+    public ResponseEntity<Void> deleteShelter(@PathVariable Integer shelterId) {
+        if (shelterId == null) {
             return ResponseEntity.badRequest().build();
         }
 
-        Optional<ShelterDTO> result = shelterService.deleteShelter(sheltername);
+        Optional<ShelterDTO> result = shelterService.deleteShelter(shelterId);
         return result.isPresent()
                 ? ResponseEntity.noContent().build()
                 : ResponseEntity.notFound().build();

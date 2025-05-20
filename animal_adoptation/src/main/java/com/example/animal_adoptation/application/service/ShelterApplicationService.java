@@ -68,17 +68,17 @@ public class ShelterApplicationService {
         }
     }
 
-    public Optional<ShelterDTO> deleteShelter(String sheltername) {
-        if (sheltername == null || sheltername.isBlank()) {
+    public Optional<ShelterDTO> deleteShelter(Integer shelterId) {
+        if (shelterId == null) {
             logger.warn("Invalid sheltername");
             return Optional.empty();
         }
 
         try {
-            return shelterDomainService.deleteShelter(sheltername)
+            return shelterDomainService.deleteShelter(shelterId)
                     .map(this::convertToDTO);
         } catch (RuntimeException e) {
-            logger.error("Error deleting shelter: {}", sheltername, e);
+            logger.error("Error deleting shelter: {}", shelterId, e);
             return Optional.empty();
         }
     }

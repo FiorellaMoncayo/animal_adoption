@@ -89,16 +89,16 @@ public class ShelterPersistenceService implements ShelterRepositoryPort {
     }
 
     @Override
-    public Optional<Shelter> deleteShelter(String sheltername) {
+    public Optional<Shelter> deleteShelter(Integer shelterId) {
         try {
-            Optional<ShelterBBD> shelter = shelterRepository.findBysheltername(sheltername);
+            Optional<ShelterBBD> shelter = shelterRepository.findById(shelterId);
             if (shelter.isPresent()) {
-                shelterRepository.deleteBysheltername(sheltername);
+                shelterRepository.deleteById(shelterId);
                 return Optional.of(convertToDomain(shelter.get()));
             }
             return Optional.empty();
         } catch (Exception e) {
-            logger.error("Error deleting shelter {}: {}", sheltername, e.getMessage());
+            logger.error("Error deleting shelter {}: {}", shelterId, e.getMessage());
             return Optional.empty();
         }
     }
