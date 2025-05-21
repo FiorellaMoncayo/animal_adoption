@@ -1,7 +1,9 @@
 package com.example.animal_adoptation.application.service;
 
+import com.example.animal_adoptation.application.DTO.AnimalDTO;
 import com.example.animal_adoptation.application.DTO.ShelterDTO;
 import com.example.animal_adoptation.application.DTO.UserDTO;
+import com.example.animal_adoptation.domain.models.Animal;
 import com.example.animal_adoptation.domain.models.Shelter;
 import com.example.animal_adoptation.domain.service.ShelterDomainService;
 import org.slf4j.Logger;
@@ -9,7 +11,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ShelterApplicationService {
@@ -20,6 +25,12 @@ public class ShelterApplicationService {
 
     public ShelterApplicationService(ShelterDomainService shelterDomainService) {
         this.shelterDomainService = shelterDomainService;
+    }
+
+    public List<ShelterDTO> getAllShelters() {
+        return shelterDomainService.getAllShelters()
+                .map(this::convertAllToDTO)
+                .orElse(Collections.emptyList());
     }
 
     public Optional<ShelterDTO> authenticate(String sheltername, String password) {
@@ -115,5 +126,14 @@ public class ShelterApplicationService {
                 shelter.getSheltername(),
                 shelter.getPassword()
         );
+    }
+
+    private List<ShelterDTO> convertAllToDTO(List<Shelter> shelters) {
+        if (shelters == null) {
+            return Collections.emptyList();
+        }
+        return shelters.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
     }
 }

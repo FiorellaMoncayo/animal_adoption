@@ -10,7 +10,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ShelterPersistenceService implements ShelterRepositoryPort {
@@ -26,6 +29,17 @@ public class ShelterPersistenceService implements ShelterRepositoryPort {
     public Optional<Shelter> authenticate(String sheltername, String rawPassword) {
         return findBysheltername(sheltername)
                 .filter(shelter -> passwordEncoder.matches(rawPassword, shelter.getPassword()));
+    }
+
+    @Override
+    public Optional<List<Shelter>> getAllShelters() {
+        List<ShelterBBD> shelters = shelterRepository.findAll();
+        if (shelters.isEmpty()) {
+            return Optional.of(Collections.emptyList());
+        }
+        return Optional.of(shelters.stream()
+                .map(this::convertToDomain)
+                .collect(Collectors.toList()));
     }
 
     @Override

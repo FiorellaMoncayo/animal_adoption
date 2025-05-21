@@ -1,5 +1,6 @@
 package com.example.animal_adoptation.infrastructure.service.domainServiceImpl;
 
+import com.example.animal_adoptation.domain.models.Animal;
 import com.example.animal_adoptation.domain.models.User;
 import com.example.animal_adoptation.domain.service.ShelterDomainService;
 
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.example.animal_adoptation.domain.models.Shelter;
 import com.example.animal_adoptation.infrastructure.service.persistence.ShelterPersistenceService;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -18,6 +21,12 @@ public class ShelterDomainServiceImpl implements ShelterDomainService {
 
     public ShelterDomainServiceImpl(ShelterPersistenceService shelterPersistenceService) {
         this.shelterPersistenceService = shelterPersistenceService;
+    }
+
+    @Override
+    public Optional<List<Shelter>> getAllShelters() {
+        return shelterPersistenceService.getAllShelters()
+                .map(shelters -> shelters.isEmpty() ? Collections.<Shelter>emptyList() : shelters);
     }
 
     @Override

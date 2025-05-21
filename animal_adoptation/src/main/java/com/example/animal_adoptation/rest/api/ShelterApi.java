@@ -1,6 +1,7 @@
 package com.example.animal_adoptation.rest.api;
 
 
+import com.example.animal_adoptation.application.DTO.AnimalDTO;
 import com.example.animal_adoptation.application.DTO.ShelterDTO;
 import com.example.animal_adoptation.application.DTO.UserDTO;
 import com.example.animal_adoptation.domain.models.Shelter;
@@ -14,10 +15,18 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 
+import java.util.List;
+
 @Tag(name = "Shelter API", description = "API for managing shelters")
 @RequestMapping("/shelters")
 
 public interface ShelterApi {
+    @Operation(summary = "Get all shelters")
+    @ApiResponse(description = "Successful operation", responseCode = "200", content = @Content(schema = @Schema(implementation = ShelterDTO.class)))
+    @ApiResponse(description = "Shelters not found", responseCode = "404")
+    @GetMapping("/list")
+    ResponseEntity<List<ShelterDTO>> getAllShelters();
+
     @Operation(summary = "Login Shelter")
     @ApiResponse(description = "Shelter logged in", responseCode = "200", content = @Content(schema = @Schema(implementation = ShelterDTO.class)))
     @ApiResponse(description = "Invalid credentials", responseCode = "401")

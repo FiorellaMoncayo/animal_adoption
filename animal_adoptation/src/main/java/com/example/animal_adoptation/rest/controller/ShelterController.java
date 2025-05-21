@@ -1,5 +1,6 @@
 package com.example.animal_adoptation.rest.controller;
 
+import com.example.animal_adoptation.application.DTO.AnimalDTO;
 import com.example.animal_adoptation.application.DTO.ShelterDTO;
 import com.example.animal_adoptation.application.service.ShelterApplicationService;
 import com.example.animal_adoptation.rest.api.ShelterApi;
@@ -7,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -27,6 +29,11 @@ public class ShelterController implements ShelterApi {
         return shelterService.authenticate(shelterDTO.getSheltername(), shelterDTO.getPassword())
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
+    }
+
+    public ResponseEntity<List<ShelterDTO>> getAllShelters() {
+        List<ShelterDTO> shelters = shelterService.getAllShelters();
+        return shelters.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(shelters);
     }
 
     @Override
