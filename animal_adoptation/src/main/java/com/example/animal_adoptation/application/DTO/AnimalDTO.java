@@ -20,7 +20,7 @@ public class AnimalDTO {
     @JsonProperty("id")
     private Integer id;
     
-    @JsonProperty("reaic")
+    @JsonProperty("reiac")
     private int reiac;
     
     @JsonProperty("name")

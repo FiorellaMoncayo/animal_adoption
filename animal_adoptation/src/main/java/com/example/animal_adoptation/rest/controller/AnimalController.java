@@ -61,11 +61,15 @@ public class AnimalController implements AnimalApi {
 
     @Override
     public ResponseEntity<AnimalDTO> createAnimal(AnimalDTO animalDTO) {
-        if (animalDTO == null || animalDTO.getReiac() == 0 || 
-                animalDTO.getName() == null || animalDTO.getName().isEmpty() ||
-                animalDTO.getShelterId() == null) {
+        System.out.println(animalDTO.getName() + animalDTO.getReiac());
+    	if (animalDTO.getReiac() == 0 || animalDTO.getName() == null || 
+        		animalDTO.getName().isEmpty()) {
             return ResponseEntity.badRequest()
-                    .body(new AnimalDTO(null, 0, "Invalid input: reiac, name, or shelterId is missing", null));
+                    .body(new AnimalDTO(null, 0, "Invalid input: reiac or name is missing", null));
+        }
+        if (animalDTO.getShelterId() == null) {
+            return ResponseEntity.badRequest()
+                    .body(new AnimalDTO(null, 0, "Invalid input: shelter not found is missing", null));
         }
         try {
             return animalService.createAnimal(animalDTO)

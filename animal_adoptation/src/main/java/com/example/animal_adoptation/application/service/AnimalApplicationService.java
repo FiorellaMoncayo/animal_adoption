@@ -36,8 +36,8 @@ public class AnimalApplicationService {
                 .orElse(Collections.emptyList());
     }
 
-    public Optional<AnimalDTO> findByReiac(Integer reiac) {
-        if (reiac == null) {
+    public Optional<AnimalDTO> findByReiac(int reiac) {
+        if (reiac == 0) {
             throw new IllegalArgumentException("Reiac cannot be empty");
         }
         return animalDomainService.findByReiac(reiac)
