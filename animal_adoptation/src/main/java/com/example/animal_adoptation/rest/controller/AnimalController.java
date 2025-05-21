@@ -3,7 +3,6 @@ package com.example.animal_adoptation.rest.controller;
 import com.example.animal_adoptation.application.DTO.AnimalDTO;
 import com.example.animal_adoptation.application.service.AnimalApplicationService;
 import com.example.animal_adoptation.rest.api.AnimalApi;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +14,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/animal")
 public class AnimalController implements AnimalApi {
-
     private final AnimalApplicationService animalService;
 
     public AnimalController(AnimalApplicationService animalService) {
@@ -64,16 +62,15 @@ public class AnimalController implements AnimalApi {
     @Override
     public ResponseEntity<AnimalDTO> createAnimal(AnimalDTO animalDTO) {
         if (animalDTO == null || animalDTO.getReiac() == 0 || 
-            animalDTO.getName() == null || animalDTO.getName().isEmpty() ||
-            animalDTO.getShelterId() == null) {
+                animalDTO.getName() == null || animalDTO.getName().isEmpty() ||
+                animalDTO.getShelterId() == null) {
             return ResponseEntity.badRequest()
                     .body(new AnimalDTO(null, 0, "Invalid input: reiac, name, or shelterId is missing", null));
         }
-
         try {
             return animalService.createAnimal(animalDTO)
                     .map(createdAnimal -> ResponseEntity.status(HttpStatus.CREATED).body(createdAnimal))
-                    .orElse(ResponseEntity.badRequest()
+                    .orElseGet(() -> ResponseEntity.badRequest()
                             .body(new AnimalDTO(null, 0, "Invalid shelter ID or duplicate reiac", null)));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest()
@@ -84,8 +81,8 @@ public class AnimalController implements AnimalApi {
     @Override
     public ResponseEntity<AnimalDTO> updateAnimal(int reiac, String name, AnimalDTO animalDTO) {
         if (animalDTO == null || animalDTO.getReiac() == 0 || 
-            animalDTO.getName() == null || animalDTO.getName().isEmpty() ||
-            animalDTO.getShelterId() == null) {
+                animalDTO.getName() == null || animalDTO.getName().isEmpty() ||
+                animalDTO.getShelterId() == null) {
             return ResponseEntity.badRequest()
                     .body(new AnimalDTO(null, 0, "Invalid input: reiac, name, or shelterId is missing", null));
         }
@@ -105,7 +102,6 @@ public class AnimalController implements AnimalApi {
         if (id == null) {
             return ResponseEntity.badRequest().build();
         }
-        
         Optional<AnimalDTO> result = animalService.deleteAnimal(id);
         return result.isPresent()
                 ? ResponseEntity.noContent().build()

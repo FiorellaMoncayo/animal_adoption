@@ -31,6 +31,11 @@ public class ShelterDomainServiceImpl implements ShelterDomainService {
     }
 
     @Override
+    public Optional<Shelter> findByShelterId(Integer id) {
+        return shelterPersistenceService.findByShelterId(id);
+    }
+    
+    @Override
     public Optional<Shelter> findBysheltername(String sheltername) {
         return shelterPersistenceService.findBysheltername(sheltername);
     }

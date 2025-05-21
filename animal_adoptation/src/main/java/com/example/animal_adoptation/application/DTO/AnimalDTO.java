@@ -16,19 +16,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-
 public class AnimalDTO {
-	
-	@JsonProperty("id")
+    @JsonProperty("id")
     private Integer id;
-	
-	@JsonProperty("reaic")
-	private int reiac;
-
-	@JsonProperty("name")
-	private String name;
-
-	@JsonProperty("shelterId")
+    
+    @JsonProperty("reaic")
+    private int reiac;
+    
+    @JsonProperty("name")
+    private String name;
+    
+    @JsonProperty("shelterId")
     private Integer shelterId;
 	
 	// Constructor que convierte de Animal a AnimalDTO
@@ -37,7 +35,7 @@ public class AnimalDTO {
 			this.id = a.getId();
 			this.reiac = a.getReiac();
 			this.name = a.getName();
-			this.shelterId = Optional.ofNullable(a.getShelter()).map(Shelter::getId).orElse(null);
+			this.shelterId = Optional.ofNullable(a.getShelterId()).orElse(null);
 		});
 	}
 

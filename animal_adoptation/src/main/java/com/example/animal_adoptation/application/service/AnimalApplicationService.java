@@ -2,7 +2,6 @@ package com.example.animal_adoptation.application.service;
 
 import com.example.animal_adoptation.application.DTO.AnimalDTO;
 import com.example.animal_adoptation.domain.models.Animal;
-import com.example.animal_adoptation.domain.models.Shelter;
 import com.example.animal_adoptation.domain.service.AnimalDomainService;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -16,7 +15,6 @@ import static com.example.animal_adoptation.infrastructure.service.persistence.U
 
 @Service
 public class AnimalApplicationService {
-
     private final AnimalDomainService animalDomainService;
 
     public AnimalApplicationService(AnimalDomainService animalDomainService) {
@@ -24,7 +22,6 @@ public class AnimalApplicationService {
     }
 
     public List<AnimalDTO> getAllAnimals() {
-
         return animalDomainService.getAllAnimals()
                 .map(this::convertAllToDTO)
                 .orElse(Collections.emptyList());
@@ -56,15 +53,11 @@ public class AnimalApplicationService {
     }
 
     public Optional<AnimalDTO> createAnimal(AnimalDTO animalDTO) {
-        if (animalDTO == null) {
-            return Optional.empty();
-        }
-        if (animalDTO.getReiac() == 0 ||
+        if (animalDTO == null || animalDTO.getReiac() == 0 ||
                 animalDTO.getName() == null || animalDTO.getName().isBlank() ||
                 animalDTO.getShelterId() == null) {
             return Optional.empty();
         }
-
         try {
             Animal animal = convertToDomain(animalDTO);
             return animalDomainService.createAnimal(animal)
@@ -79,16 +72,12 @@ public class AnimalApplicationService {
     }
 
     public Optional<AnimalDTO> updateAnimal(AnimalDTO animalDTO) {
-        if (animalDTO == null) {
-            logger.warn("Invalid animal data");
-            return Optional.empty();
-        }
-        if (animalDTO.getReiac() == 0 || animalDTO.getName() == null || animalDTO.getName().isBlank() ||
+        if (animalDTO == null || animalDTO.getReiac() == 0 ||
+                animalDTO.getName() == null || animalDTO.getName().isBlank() ||
                 animalDTO.getShelterId() == null) {
             logger.warn("Incomplete animal data");
             return Optional.empty();
         }
-
         try {
             Animal animal = convertToDomain(animalDTO);
             return animalDomainService.updateAnimal(animal)
@@ -104,7 +93,6 @@ public class AnimalApplicationService {
             logger.warn("Invalid id");
             return Optional.empty();
         }
-
         try {
             return animalDomainService.deleteAnimal(id)
                     .map(this::convertToDTO);
@@ -115,25 +103,21 @@ public class AnimalApplicationService {
     }
 
     private Animal convertToDomain(AnimalDTO animalDTO) {
-        Animal animal = new Animal();
-        animal.setId(animalDTO.getId());
-        animal.setReiac(animalDTO.getReiac());
-        animal.setName(animalDTO.getName());
-        if (animalDTO.getShelterId() != null) {
-            Shelter shelter = new Shelter();
-            shelter.setId(animalDTO.getShelterId());
-            animal.setShelter(shelter);
-        }
-        return animal;
+        return Animal.builder()
+                .id(animalDTO.getId())
+                .reiac(animalDTO.getReiac())
+                .name(animalDTO.getName())
+                .shelterId(animalDTO.getShelterId())
+                .build();
     }
 
     private AnimalDTO convertToDTO(Animal animal) {
-        return new AnimalDTO(
-                animal.getId(),
-                animal.getReiac(),
-                animal.getName(),
-                animal.getShelter() != null ? animal.getShelter().getId() : null
-        );
+        return AnimalDTO.builder()
+                .id(animal.getId())
+                .reiac(animal.getReiac())
+                .name(animal.getName())
+                .shelterId(animal.getShelterId())
+                .build();
     }
 
     private List<AnimalDTO> convertAllToDTO(List<Animal> animals) {

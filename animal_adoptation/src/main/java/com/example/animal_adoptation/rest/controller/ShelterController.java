@@ -29,7 +29,13 @@ public class ShelterController implements ShelterApi {
                 .orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
     }
 
-
+    @Override
+    public ResponseEntity<ShelterDTO> findByShelterId(@PathVariable Integer id) {
+        return shelterService.findByShelterId(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+    
     @Override
     public ResponseEntity<ShelterDTO> findBysheltername(@PathVariable String sheltername) {
         return shelterService.findBysheltername(sheltername)

@@ -1,18 +1,17 @@
 package com.example.animal_adoptation.infrastructure.service.domainServiceImpl;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-
 import com.example.animal_adoptation.domain.service.AnimalDomainService;
 import com.example.animal_adoptation.domain.models.Animal;
 import com.example.animal_adoptation.infrastructure.repositories.ShelterRepository;
 import com.example.animal_adoptation.infrastructure.service.persistence.AnimalPersistenceService;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class AnimalDomainServiceImpl implements AnimalDomainService {
-
     private final AnimalPersistenceService animalPersistenceService;
     private final ShelterRepository shelterRepository;
 
@@ -48,8 +47,7 @@ public class AnimalDomainServiceImpl implements AnimalDomainService {
 
     @Override
     public Optional<Animal> createAnimal(Animal animal) {
-        if (animal == null || animal.getShelter() == null || animal.getShelter().getId() == null ||
-            !shelterRepository.existsById(animal.getShelter().getId())) {
+        if (animal == null || animal.getShelterId() == null || !shelterRepository.existsById(animal.getShelterId())) {
             throw new IllegalArgumentException("Invalid or non-existent shelter");
         }
         return animalPersistenceService.createAnimal(animal);
@@ -58,8 +56,7 @@ public class AnimalDomainServiceImpl implements AnimalDomainService {
     @Override
     public Optional<Animal> updateAnimal(Animal animal) {
         if (animal == null || animal.getReiac() == 0 || animal.getName() == null || animal.getName().isBlank() ||
-            animal.getShelter() == null || animal.getShelter().getId() == null ||
-            !shelterRepository.existsById(animal.getShelter().getId())) {
+                animal.getShelterId() == null || !shelterRepository.existsById(animal.getShelterId())) {
             throw new IllegalArgumentException("Invalid animal data or non-existent shelter");
         }
         return animalPersistenceService.updateAnimal(animal);

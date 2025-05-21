@@ -42,6 +42,15 @@ public class ShelterPersistenceService implements ShelterRepositoryPort {
     }
 
     @Override
+    public Optional<Shelter> findByShelterId(Integer id) {
+        if (id == null) {
+            throw new IllegalArgumentException("ID cannot be null");
+        }
+        return shelterRepository.findById(id)
+                .map(this::convertToDomain);
+    }
+    
+    @Override
     public Optional<Shelter> findBysheltername(String sheltername) {
         if (sheltername == null || sheltername.isBlank()) {
             throw new IllegalArgumentException("Sheltername cannot be empty");
