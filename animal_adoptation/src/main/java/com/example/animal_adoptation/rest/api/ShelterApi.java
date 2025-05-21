@@ -31,6 +31,14 @@ public interface ShelterApi {
     ResponseEntity<ShelterDTO> findBysheltername(
             @Parameter(description = "Shelter to find", required = true, in = ParameterIn.PATH)
             @PathVariable("sheltername") String sheltername);
+    
+    @Operation(summary = "Find a shelter id")
+    @ApiResponse(description = "Successful operation", responseCode = "200", content = @Content(schema = @Schema(implementation = ShelterDTO.class)))
+    @ApiResponse(description = "Id not found", responseCode = "404")
+    @GetMapping("/{id}")
+    ResponseEntity<ShelterDTO> findByShelterId(
+            @Parameter(description = "User id to find", required = true, in = ParameterIn.PATH)
+            @PathVariable("id") Integer id);
 
     @Operation(summary = "Create shelter")
     @ApiResponse(description = "Shelter created", responseCode = "201")
@@ -53,6 +61,6 @@ public interface ShelterApi {
     @DeleteMapping("/{shelterId}")
     ResponseEntity<Void> deleteShelter(
             @Parameter(description = "Shelter to delete", required = true, in = ParameterIn.PATH)
-            @PathVariable("sheltername") Integer shelterId);
+            @PathVariable("shelterId") Integer shelterId);
 }
 

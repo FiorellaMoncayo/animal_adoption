@@ -10,9 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class Animal {
-	
-	private Integer id;
-	private int reiac;
-	private String name;
-	private Shelter shelter;
+    private Integer id;
+    private int reiac;
+    private String name;
+    private Integer shelterId;
 }

@@ -1,10 +1,8 @@
 package com.example.animal_adoptation.infrastructure.service.persistence;
 
 import com.example.animal_adoptation.domain.models.Animal;
-import com.example.animal_adoptation.domain.models.Shelter;
 import com.example.animal_adoptation.domain.port.AnimalRepositoryPort;
 import com.example.animal_adoptation.infrastructure.entities.AnimalBBD;
-import com.example.animal_adoptation.infrastructure.entities.ShelterBBD;
 import com.example.animal_adoptation.infrastructure.repositories.AnimalRepository;
 import com.example.animal_adoptation.infrastructure.repositories.ShelterRepository;
 import org.slf4j.Logger;
@@ -19,7 +17,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class AnimalPersistenceService implements AnimalRepositoryPort {
-
     public static final Logger logger = LoggerFactory.getLogger(AnimalPersistenceService.class);
     private final AnimalRepository animalRepository;
     private final ShelterRepository shelterRepository;
@@ -57,15 +54,16 @@ public class AnimalPersistenceService implements AnimalRepositoryPort {
     @Override
     public Animal save(Animal domainAnimal) {
         try {
+            if (domainAnimal.getShelterId() == null || !shelterRepository.existsById(domainAnimal.getShelterId())) {
+                throw new IllegalArgumentException("Shelter with ID " + domainAnimal.getShelterId() + " not found");
+            }
             AnimalBBD entity = convertToEntity(domainAnimal);
             AnimalBBD savedEntity = animalRepository.save(entity);
             return convertToDomain(savedEntity);
         } catch (DataIntegrityViolationException e) {
             logger.error("Error saving animal: reiac={}, shelterId={}: {}", 
-                    domainAnimal.getReiac(), 
-                    domainAnimal.getShelter() != null ? domainAnimal.getShelter().getId() : null, 
-                    e.getMessage());
-            throw new IllegalArgumentException("Animal data violation rules: " + e.getMessage(), e);
+                    domainAnimal.getReiac(), domainAnimal.getShelterId(), e.getMessage());
+            throw new IllegalArgumentException("Animal data violation: " + e.getMessage(), e);
         }
     }
 
@@ -119,7 +117,8 @@ public class AnimalPersistenceService implements AnimalRepositoryPort {
             }
             return animalRepository.findById(animal.getId())
                     .map(this::convertToDomain);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             logger.error("Error updating animal with id {}: {}", animal.getId(), e.getMessage());
             return Optional.empty();
         }
@@ -141,32 +140,20 @@ public class AnimalPersistenceService implements AnimalRepositoryPort {
     }
 
     private AnimalBBD convertToEntity(Animal domain) {
-        AnimalBBD entity = new AnimalBBD();
-        entity.setId(domain.getId());
-        entity.setReiac(domain.getReiac());
-        entity.setName(domain.getName());
-        if (domain.getShelter() != null && domain.getShelter().getId() != null) {
-            ShelterBBD shelter = shelterRepository.findById(domain.getShelter().getId())
-                    .orElseThrow(() -> new IllegalArgumentException("Shelter with ID " + domain.getShelter().getId() + " not found"));
-            entity.setShelter(shelter);
-        } else {
-            throw new IllegalArgumentException("Shelter is required for animal");
-        }
-        return entity;
+        return AnimalBBD.builder()
+                .id(domain.getId())
+                .reiac(domain.getReiac())
+                .name(domain.getName())
+                .shelterId(domain.getShelterId())
+                .build();
     }
 
     private Animal convertToDomain(AnimalBBD entity) {
-        Animal animal = new Animal();
-        animal.setId(entity.getId());
-        animal.setReiac(entity.getReiac());
-        animal.setName(entity.getName());
-        if (entity.getShelter() != null) {
-            Shelter shelter = new Shelter();
-            shelter.setId(entity.getShelter().getId());
-            shelter.setSheltername(entity.getShelter().getSheltername());
-            shelter.setPassword(entity.getShelter().getPassword());
-            animal.setShelter(shelter);
-        }
-        return animal;
+        return Animal.builder()
+                .id(entity.getId())
+                .reiac(entity.getReiac())
+                .name(entity.getName())
+                .shelterId(entity.getShelterId())
+                .build();
     }
 }

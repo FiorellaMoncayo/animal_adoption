@@ -27,6 +27,14 @@ public class ShelterApplicationService {
                 .map(shelter -> new ShelterDTO(shelter.getId(), shelter.getSheltername(), null));
     }
 
+    public Optional<ShelterDTO> findByShelterId(Integer id) {
+        if (id == null) {
+            throw  new IllegalArgumentException("ID cannot be null");
+        }
+        return shelterDomainService.findByShelterId(id)
+                .map(this::convertToDTO);
+    }
+    
     public Optional<ShelterDTO> findBysheltername(String sheltername) {
         if (sheltername == null || sheltername.isBlank()) {
             throw new IllegalArgumentException("Sheltername cannot be empty");
