@@ -8,6 +8,6 @@ public interface UserRepositoryPort {
     Optional<User> createUser(User user);
     User save(User user);
     Optional<User> updateUser(User user);
-    Optional<User> deleteUser(String username);
+    Optional<User> deleteUser(Integer id);
     Optional<User> authenticate(String username, String password);
 }
