@@ -1,6 +1,5 @@
 package com.example.animal_adoptation.rest.api;
 
-
 import com.example.animal_adoptation.application.DTO.AnimalDTO;
 import com.example.animal_adoptation.application.DTO.ShelterDTO;
 import com.example.animal_adoptation.application.DTO.UserDTO;
@@ -19,7 +18,6 @@ import java.util.List;
 
 @Tag(name = "Shelter API", description = "API for managing shelters")
 @RequestMapping("/shelters")
-
 public interface ShelterApi {
     @Operation(summary = "Get all shelters")
     @ApiResponse(description = "Successful operation", responseCode = "200", content = @Content(schema = @Schema(implementation = ShelterDTO.class)))
@@ -46,7 +44,7 @@ public interface ShelterApi {
     @ApiResponse(description = "Id not found", responseCode = "404")
     @GetMapping("/{id}")
     ResponseEntity<ShelterDTO> findByShelterId(
-            @Parameter(description = "User id to find", required = true, in = ParameterIn.PATH)
+            @Parameter(description = "Shelter id to find", required = true, in = ParameterIn.PATH)
             @PathVariable("id") Integer id);
 
     @Operation(summary = "Create shelter")
@@ -55,13 +53,15 @@ public interface ShelterApi {
     @PostMapping("/create")
     ResponseEntity<ShelterDTO> createShelter(@RequestBody ShelterDTO shelterDTO);
 
-    @Operation(summary = "Update shelter password")
-    @ApiResponse(description = "Shelter updated", responseCode = "200")
+    @Operation(summary = "Update shelter by name")
+    @ApiResponse(description = "Shelter updated", responseCode = "200", content = @Content(schema = @Schema(implementation = ShelterDTO.class)))
     @ApiResponse(description = "Shelter not found", responseCode = "404")
+    @ApiResponse(description = "Invalid input", responseCode = "400")
     @PutMapping("/{sheltername}")
     ResponseEntity<ShelterDTO> updateShelter(
-            @Parameter(description = "Shelter to update Password", required = true, in = ParameterIn.PATH)
+            @Parameter(description = "Shelter name to update", required = true, in = ParameterIn.PATH)
             @PathVariable("sheltername") String sheltername,
+            @Parameter(description = "Shelter details to update", required = true)
             @RequestBody ShelterDTO shelterDTO);
 
     @Operation(summary = "Delete shelter")
@@ -72,4 +72,3 @@ public interface ShelterApi {
             @Parameter(description = "Shelter to delete", required = true, in = ParameterIn.PATH)
             @PathVariable("shelterId") Integer shelterId);
 }
-

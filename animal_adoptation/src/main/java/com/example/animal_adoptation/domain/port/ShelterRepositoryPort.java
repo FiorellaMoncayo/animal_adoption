@@ -12,7 +12,7 @@ public interface ShelterRepositoryPort {
     Optional<List<Shelter>> getAllShelters();
     Shelter save (Shelter shelter);
 	Optional<Shelter> createShelter(Shelter shelter);
-	Optional<Shelter> updateShelter(Shelter shelter);
+	Optional<Shelter> updateShelter(String sheltername, Shelter shelter);
 	Optional<Shelter> deleteShelter(Integer shelterId);
 	Optional<Shelter> authenticate(String sheltername, String password);
 }

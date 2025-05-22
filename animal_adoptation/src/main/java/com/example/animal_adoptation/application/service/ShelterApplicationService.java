@@ -40,7 +40,7 @@ public class ShelterApplicationService {
 
     public Optional<ShelterDTO> findByShelterId(Integer id) {
         if (id == null) {
-            throw  new IllegalArgumentException("ID cannot be null");
+            throw new IllegalArgumentException("ID cannot be null");
         }
         return shelterDomainService.findByShelterId(id)
                 .map(this::convertToDTO);
@@ -71,21 +71,22 @@ public class ShelterApplicationService {
         }
     }
 
-    public Optional<ShelterDTO> updateShelter(ShelterDTO shelterDTO) {
-        if (shelterDTO == null || shelterDTO.getId() == null) {
-            logger.warn("Invalid shelter data or missing ID");
-            return Optional.empty();
-        }
-        if (shelterDTO.getSheltername() == null || shelterDTO.getSheltername().isBlank() ||
-                shelterDTO.getPassword() == null || shelterDTO.getPassword().isBlank()) {
-            logger.warn("Invalid or incomplete shelter data");
+    public Optional<ShelterDTO> updateShelter(String sheltername, ShelterDTO shelterDTO) {
+        if (sheltername == null || sheltername.isBlank() || shelterDTO == null) {
+            logger.warn("Invalid shelter data or missing sheltername");
             return Optional.empty();
         }
 
         try {
+            Optional<Shelter> existingShelter = shelterDomainService.findByShelterId(shelterDTO.getId());
+            if (existingShelter.isEmpty()) {
+                logger.warn("Shelter not found for name: {}", sheltername);
+                return Optional.empty();
+            }
+            System.out.println(sheltername + " " + existingShelter.get().getId());
             Shelter shelter = convertToDomain(shelterDTO);
-            return shelterDomainService.updateShelter(shelter)
-                    .map(this::convertToDTO);
+            return shelterDomainService.updateShelter(sheltername, shelter)
+                    .map(this::convertToDTO);            
         } catch (RuntimeException e) {
             logger.error("Error updating shelter", e);
             return Optional.empty();
@@ -111,8 +112,9 @@ public class ShelterApplicationService {
         return shelterDTO.getSheltername() == null || shelterDTO.getSheltername().isBlank() ||
                 shelterDTO.getPassword() == null || shelterDTO.getPassword().isBlank();
     }
-
+    
     private Shelter convertToDomain(ShelterDTO shelterDTO) {
+    	System.out.println(shelterDTO.getSheltername());
         return new Shelter(
                 shelterDTO.getId(), // Include ID
                 shelterDTO.getSheltername(),
@@ -121,6 +123,7 @@ public class ShelterApplicationService {
     }
 
     private ShelterDTO convertToDTO(Shelter shelter) {
+    	System.out.println(shelter.getSheltername());
         return new ShelterDTO(
                 shelter.getId(),
                 shelter.getSheltername(),
