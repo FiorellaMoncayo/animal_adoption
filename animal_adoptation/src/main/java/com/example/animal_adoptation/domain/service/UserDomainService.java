@@ -8,5 +8,5 @@ public interface UserDomainService {
     Optional<User> findByUsername(String username);
     Optional<User> createUser(User user);
     Optional<User> updateUser(User user);
-    Optional<User> deleteUser(String username);
+    Optional<User> deleteUser(Integer id);
 }

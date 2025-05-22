@@ -73,17 +73,17 @@ public class UserApplicationService {
         }
     }
 
-    public Optional<UserDTO> deleteUser(String username) {
-        if (username == null || username.isBlank()) {
-            logger.warn("Invalid username");
+    public Optional<UserDTO> deleteUser(Integer id) {
+        if (id == null) {
+            logger.warn("Invalid ID");
             return Optional.empty();
         }
 
         try {
-            return userDomainService.deleteUser(username)
+            return userDomainService.deleteUser(id)
                     .map(this::convertToDTO);
         } catch (RuntimeException e) {
-            logger.error("Error deleting user: {}", username, e);
+            logger.error("Error deleting user with ID {}: {}", id, e.getMessage(), e);
             return Optional.empty();
         }
     }
