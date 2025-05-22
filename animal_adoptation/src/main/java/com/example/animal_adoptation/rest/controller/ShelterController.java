@@ -11,19 +11,18 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-
 @RestController
 @RequestMapping("/shelters")
 public class ShelterController implements ShelterApi {
     private final ShelterApplicationService shelterService;
 
-    public ShelterController(ShelterApplicationService shelterService){
-        this.shelterService= shelterService;
+    public ShelterController(ShelterApplicationService shelterService) {
+        this.shelterService = shelterService;
     }
 
     @Override
     public ResponseEntity<ShelterDTO> login(@RequestBody ShelterDTO shelterDTO) {
-        if(shelterDTO.getSheltername() == null || shelterDTO.getPassword() == null) {
+        if (shelterDTO.getSheltername() == null || shelterDTO.getPassword() == null) {
             return ResponseEntity.badRequest().build();
         }
         return shelterService.authenticate(shelterDTO.getSheltername(), shelterDTO.getPassword())
@@ -50,7 +49,6 @@ public class ShelterController implements ShelterApi {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-
     @Override
     public ResponseEntity<ShelterDTO> createShelter(@RequestBody ShelterDTO shelterDTO) {
         if (shelterDTO.getSheltername() == null || shelterDTO.getSheltername().isEmpty() ||
@@ -65,19 +63,11 @@ public class ShelterController implements ShelterApi {
 
     @Override
     public ResponseEntity<ShelterDTO> updateShelter(@PathVariable String sheltername, @RequestBody ShelterDTO shelterDTO) {
-        if (shelterDTO.getSheltername() == null || shelterDTO.getSheltername().isBlank() ||
-                shelterDTO.getPassword() == null || shelterDTO.getPassword().isBlank()) {
+        if (sheltername == null || sheltername.isBlank() || shelterDTO == null || shelterDTO.getId() == null) {
             return ResponseEntity.badRequest().build();
         }
-
-        // Find shelter by sheltername to get ID
-        Optional<ShelterDTO> existingShelter = shelterService.findBysheltername(sheltername);
-        if (existingShelter.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        shelterDTO.setId(existingShelter.get().getId()); // Set ID in DTO
-        return shelterService.updateShelter(shelterDTO)
+        System.out.println(sheltername + " " + shelterDTO.getId());
+        return shelterService.updateShelter(sheltername, shelterDTO)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -94,6 +84,3 @@ public class ShelterController implements ShelterApi {
                 : ResponseEntity.notFound().build();
     }
 }
-
-
-

@@ -88,12 +88,13 @@ public class ShelterPersistenceService implements ShelterRepositoryPort {
     }
 
     @Override
-    public Optional<Shelter> updateShelter(Shelter shelter) {
+    public Optional<Shelter> updateShelter(String sheltername, Shelter shelter) {
         try {
             if (shelter.getId() == null) {
                 logger.warn("Shelter ID is null for update");
                 return Optional.empty();
             }
+            
             Optional<ShelterBBD> existingShelter = shelterRepository.findById(shelter.getId());
             if (existingShelter.isEmpty()) {
                 logger.warn("Shelter not found for ID: {}", shelter.getId());
@@ -109,16 +110,17 @@ public class ShelterPersistenceService implements ShelterRepositoryPort {
 
             int rowsAffected = shelterRepository.updateShelter(
                     shelter.getId(),
-                    shelter.getSheltername(),
-                    passwordEncoder.encode(shelter.getPassword())
+                    sheltername
             );
+            
             if (rowsAffected == 0) {
                 logger.warn("No rows affected for shelter update: {}", shelter.getSheltername());
                 return Optional.empty();
             }
-
+            
             return shelterRepository.findById(shelter.getId())
                     .map(this::convertToDomain);
+            
         } catch (DataIntegrityViolationException e) {
             logger.error("Data integrity violation updating shelter: {}", e.getMessage());
             return Optional.empty();
@@ -154,6 +156,7 @@ public class ShelterPersistenceService implements ShelterRepositoryPort {
     }
 
     private Shelter convertToDomain(ShelterBBD entity) {
+    	System.out.println(entity.getSheltername());
         return new Shelter(entity.getId(), entity.getSheltername(), entity.getPassword());
     }
 }

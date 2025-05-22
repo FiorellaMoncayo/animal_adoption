@@ -13,7 +13,7 @@ public interface ShelterDomainService {
     Optional<Shelter> findByShelterId (Integer id);
     Optional<Shelter> findBysheltername (String sheltername);
     Optional<Shelter> createShelter(Shelter shelter);
-    Optional<Shelter> updateShelter(Shelter shelter);
+    Optional<Shelter> updateShelter(String sheltername, Shelter shelter);
     Optional<Shelter> deleteShelter(Integer shelterId);
     Optional<List<Shelter>> getAllShelters();
 }
