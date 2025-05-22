@@ -83,7 +83,7 @@ public class AnimalController implements AnimalApi {
     }
 
     @Override
-    public ResponseEntity<AnimalDTO> updateAnimal(int reiac, String name, AnimalDTO animalDTO) {
+    public ResponseEntity<AnimalDTO> updateAnimal(AnimalDTO animalDTO) {
         if (animalDTO == null || animalDTO.getReiac() == 0 || 
                 animalDTO.getName() == null || animalDTO.getName().isEmpty() ||
                 animalDTO.getShelterId() == null) {

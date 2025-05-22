@@ -61,14 +61,12 @@ public interface AnimalApi {
     ResponseEntity<AnimalDTO> createAnimal(@RequestBody AnimalDTO animalDTO);
 
     @Operation(summary = "Update an animal")
-    @ApiResponse(description = "Animal updated", responseCode = "201")
+    @ApiResponse(description = "Animal updated", responseCode = "200")
     @ApiResponse(description = "Invalid input", responseCode = "400")
-    @PostMapping("/{reiac}/{name}")
+    @ApiResponse(description = "Animal not found", responseCode = "404")
+    @PutMapping("/{updatedAnimal}")
     ResponseEntity<AnimalDTO> updateAnimal(
-            @Parameter(description = "REIAC of the animal to update", required = true, in = ParameterIn.PATH)
-            @PathVariable int reiac,
-            @Parameter(description = "Name of the animal to update", required = true, in = ParameterIn.PATH)
-            @PathVariable String name,
+            @Parameter(description = "Updated animal data", required = true)
             @RequestBody AnimalDTO animalDTO);
 
     @Operation(summary = "Delete an animal")
