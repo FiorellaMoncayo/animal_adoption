@@ -87,8 +87,8 @@ public class UserPersistenceService implements UserRepositoryPort {
 
             int rowsAffected = userRepository.updateUser(
                     user.getId(),
-                    user.getUsername(),
-                    passwordEncoder.encode(user.getPassword())
+                    user.getUsername()
+
             );
             if (rowsAffected == 0) {
                 logger.warn("No rows affected for user update: {}", user.getUsername());
