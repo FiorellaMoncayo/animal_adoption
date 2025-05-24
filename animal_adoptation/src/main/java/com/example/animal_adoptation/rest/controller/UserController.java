@@ -50,8 +50,7 @@ public class UserController implements UserApi {
 
     @Override
     public ResponseEntity<UserDTO> updateUser(@PathVariable String username, @RequestBody UserDTO userDTO) {
-        if (userDTO.getUsername() == null || userDTO.getUsername().isBlank() ||
-                userDTO.getPassword() == null || userDTO.getPassword().isBlank()) {
+        if (userDTO.getUsername() == null || userDTO.getUsername().isBlank()){
             return ResponseEntity.badRequest().build();
         }
 

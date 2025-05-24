@@ -57,8 +57,7 @@ public class UserApplicationService {
             logger.warn("Invalid user data or missing ID");
             return Optional.empty();
         }
-        if (userDTO.getUsername() == null || userDTO.getUsername().isBlank() ||
-                userDTO.getPassword() == null || userDTO.getPassword().isBlank()) {
+        if (userDTO.getUsername() == null || userDTO.getUsername().isBlank()){
             logger.warn("Incomplete user data");
             return Optional.empty();
         }

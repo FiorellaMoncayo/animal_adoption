@@ -38,8 +38,7 @@ public class UserDomainServiceImpl implements UserDomainService {
 
     @Override
     public Optional<User> updateUser(User user) {
-        if (user.getUsername() == null || user.getUsername().isBlank() ||
-                user.getPassword() == null || user.getPassword().isBlank()) {
+        if (user.getUsername() == null || user.getUsername().isBlank()) {
             throw new IllegalArgumentException("User data incomplete");
         }
         if (user.getId() == null) {

@@ -37,12 +37,12 @@ public interface UserApi {
 	@PostMapping("/create")
 	ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO);
 
-	@Operation(summary = "Update user password")
+	@Operation(summary = "Update username")
 	@ApiResponse(description = "User updated", responseCode = "200")
 	@ApiResponse(description = "User not found", responseCode = "404")
 	@PutMapping("/{username}")
 	ResponseEntity<UserDTO> updateUser(
-			@Parameter(description = "Username to update Password", required = true, in = ParameterIn.PATH)
+			@Parameter(description = "Username to update", required = true, in = ParameterIn.PATH)
 			@PathVariable("username") String username,
 			@RequestBody UserDTO userDTO);
 
