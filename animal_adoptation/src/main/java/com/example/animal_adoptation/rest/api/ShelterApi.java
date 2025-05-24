@@ -53,15 +53,15 @@ public interface ShelterApi {
     @PostMapping("/create")
     ResponseEntity<ShelterDTO> createShelter(@RequestBody ShelterDTO shelterDTO);
 
-    @Operation(summary = "Update shelter by name")
+    @Operation(summary = "Update shelter")
     @ApiResponse(description = "Shelter updated", responseCode = "200", content = @Content(schema = @Schema(implementation = ShelterDTO.class)))
     @ApiResponse(description = "Shelter not found", responseCode = "404")
     @ApiResponse(description = "Invalid input", responseCode = "400")
-    @PutMapping("/{sheltername}")
+    @PutMapping("/{shelterId}")
     ResponseEntity<ShelterDTO> updateShelter(
-            @Parameter(description = "Shelter name to update", required = true, in = ParameterIn.PATH)
-            @PathVariable("sheltername") String sheltername,
-            @Parameter(description = "Shelter details to update", required = true)
+            @Parameter(description = "Shelter id", required = true, in = ParameterIn.PATH)
+            @PathVariable("shelterId") Integer shelterId,
+            @Parameter(description = "New shelter info", required = true)
             @RequestBody ShelterDTO shelterDTO);
 
     @Operation(summary = "Delete shelter")

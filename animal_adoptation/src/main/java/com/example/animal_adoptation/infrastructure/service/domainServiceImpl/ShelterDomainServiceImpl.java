@@ -54,19 +54,18 @@ public class ShelterDomainServiceImpl implements ShelterDomainService {
     }
 
     @Override
-    public Optional<Shelter> updateShelter(String sheltername, Shelter shelter) {
-        if (sheltername == null || sheltername.isBlank()) {
+    public Optional<Shelter> updateShelter(Integer shelterId, Shelter shelter) {
+        if (shelter.getSheltername() == null || shelter.getSheltername().isBlank()) {
             throw new IllegalArgumentException("Sheltername cannot be empty");
         }
-        if (shelter.getSheltername() == null || shelter.getSheltername().isBlank()) {
+        if (shelterId == null) {
             throw new IllegalArgumentException("Shelter data incomplete");
         }
-        Optional<Shelter> existingShelter = shelterPersistenceService.findByShelterId(shelter.getId());
+        Optional<Shelter> existingShelter = shelterPersistenceService.findByShelterId(shelterId);
         if (existingShelter.isEmpty()) {
-            throw new IllegalArgumentException("Shelter not found for name: " + sheltername);
+            throw new IllegalArgumentException("Shelter not found by id: " + shelterId);
         }
-        
-        return shelterPersistenceService.updateShelter(sheltername, shelter);
+        return shelterPersistenceService.updateShelter(shelterId, shelter);
     }
 
     @Override

@@ -22,15 +22,21 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 public class ShelterBBD {
-	
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
-    
+
     @Column(name="sheltername", nullable = false)
     private String sheltername;
-    
+
     @Column(name="password", nullable = false)
     private String password;
+
+    @Column(name = "email", nullable = true)
+    private String email;
+
+    @Column(name = "phone", nullable = true)
+    private String phone;
 }

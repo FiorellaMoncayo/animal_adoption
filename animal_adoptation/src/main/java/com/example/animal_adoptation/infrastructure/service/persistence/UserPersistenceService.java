@@ -42,6 +42,15 @@ public class UserPersistenceService implements UserRepositoryPort {
     }
 
     @Override
+    public Optional<User> findByUserId(Integer id) {
+        if (id == null) {
+            throw new IllegalArgumentException("ID cannot be null");
+        }
+        return userRepository.findById(id)
+                .map(this::convertToDomain);
+    }
+
+    @Override
     public Optional<User> findByUsername(String username) {
         if (username == null || username.isBlank()) {
             throw new IllegalArgumentException("Username cannot be empty");

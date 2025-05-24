@@ -22,6 +22,14 @@ public class UserApplicationService {
                 .map(user -> new UserDTO(user.getId(), user.getUsername(), null));
     }
 
+    public Optional<UserDTO> findByUserId(Integer id) {
+        if (id == null) {
+            throw new IllegalArgumentException("UserId not found");
+        }
+        return userDomainService.findByUserId(id)
+                .map(this::convertToDTO);
+    }
+
     public Optional<UserDTO> findByUsername(String username) {
         if (username == null || username.isBlank()) {
             throw new IllegalArgumentException("Username cannot be empty");

@@ -88,39 +88,42 @@ public class ShelterPersistenceService implements ShelterRepositoryPort {
     }
 
     @Override
-    public Optional<Shelter> updateShelter(String sheltername, Shelter shelter) {
+    public Optional<Shelter> updateShelter(Integer shelterId, Shelter shelter) {
         try {
             if (shelter.getId() == null) {
                 logger.warn("Shelter ID is null for update");
                 return Optional.empty();
             }
-            
-            Optional<ShelterBBD> existingShelter = shelterRepository.findById(shelter.getId());
+
+            Optional<ShelterBBD> existingShelter = shelterRepository.findById(shelterId);
             if (existingShelter.isEmpty()) {
                 logger.warn("Shelter not found for ID: {}", shelter.getId());
                 return Optional.empty();
             }
 
             // Check if the new sheltername is taken by another shelter
-            if (!existingShelter.get().getSheltername().equals(shelter.getSheltername()) &&
-                    shelterRepository.findBysheltername(shelter.getSheltername()).isPresent()) {
-                logger.warn("Sheltername already exists: {}", shelter.getSheltername());
-                return Optional.empty();
+            if (!existingShelter.get().getSheltername().equals(shelter.getSheltername())) {
+                if(shelterRepository.findBysheltername(shelter.getSheltername()).isPresent()) {
+                    logger.warn("Sheltername already exists: {}", shelter.getSheltername());
+                    return Optional.empty();
+                }
             }
 
             int rowsAffected = shelterRepository.updateShelter(
-                    shelter.getId(),
-                    sheltername
+                    shelterId,
+                    shelter.getSheltername(),
+                    shelter.getEmail(),
+                    shelter.getPhone()
             );
-            
+
             if (rowsAffected == 0) {
                 logger.warn("No rows affected for shelter update: {}", shelter.getSheltername());
                 return Optional.empty();
             }
-            
+
             return shelterRepository.findById(shelter.getId())
                     .map(this::convertToDomain);
-            
+
         } catch (DataIntegrityViolationException e) {
             logger.error("Data integrity violation updating shelter: {}", e.getMessage());
             return Optional.empty();
@@ -145,18 +148,18 @@ public class ShelterPersistenceService implements ShelterRepositoryPort {
         }
     }
 
-
-
     private ShelterBBD convertToEntity(Shelter domain) {
         ShelterBBD entity = new ShelterBBD();
         //entity.setId(domain.getId());
         entity.setSheltername(domain.getSheltername());
         entity.setPassword(domain.getPassword());
+        entity.setEmail(domain.getEmail());
+        entity.setPhone(domain.getPhone());
         return entity;
     }
 
     private Shelter convertToDomain(ShelterBBD entity) {
-    	System.out.println(entity.getSheltername());
-        return new Shelter(entity.getId(), entity.getSheltername(), entity.getPassword());
+        System.out.println(entity.getSheltername());
+        return new Shelter(entity.getId(), entity.getSheltername(), entity.getPassword(), entity.getEmail(), entity.getPhone());
     }
 }

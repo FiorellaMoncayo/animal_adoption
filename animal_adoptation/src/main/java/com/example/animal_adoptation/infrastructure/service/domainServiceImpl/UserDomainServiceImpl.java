@@ -27,6 +27,11 @@ public class UserDomainServiceImpl implements UserDomainService {
     }
 
     @Override
+    public Optional<User> findByUserId(Integer id) {
+        return userPersistenceService.findByUserId(id);
+    }
+
+    @Override
     public Optional<User> findByUsername(String username) {
         return userPersistenceService.findByUsername(username);
     }

@@ -23,6 +23,14 @@ public interface UserApi {
 	@PostMapping("/login")
 	ResponseEntity<UserDTO> login(@RequestBody UserDTO userDTO);
 
+	@Operation(summary = "Find a user by id")
+	@ApiResponse(description = "Successful operation", responseCode = "200", content = @Content(schema = @Schema(implementation = UserDTO.class)))
+	@ApiResponse(description = "Id not found", responseCode = "404")
+	@GetMapping("/{id}")
+	ResponseEntity<UserDTO> findByUserId(
+			@Parameter(description = "User id to find", required = true, in = ParameterIn.PATH)
+			@PathVariable("id") Integer id);
+
 	@Operation(summary = "Find a user")
 	@ApiResponse(description = "Successful operation", responseCode = "200", content = @Content(schema = @Schema(implementation = UserDTO.class)))
 	@ApiResponse(description = "User not found", responseCode = "404")

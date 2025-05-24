@@ -24,18 +24,26 @@ public class ShelterDTO {
     @JsonProperty("password")
     private String password;
 
+    @JsonProperty("email")
+    private String email;
+
+    @JsonProperty("phone")
+    private String phone;
+
     // Constructor que convierte de Shelter a ShelterDTO
     public ShelterDTO(Shelter shelter) {
         if (shelter != null) {
             this.id = shelter.getId();
             this.sheltername = shelter.getSheltername();
             this.password = shelter.getPassword();
+            this.email = shelter.getEmail();
+            this.phone = shelter.getPhone();
         }
     }
 
     // Metodo para convertir de UserDTO a User
     public Shelter toModel() {
-        return new Shelter(id, sheltername, password);
+        return new Shelter(id, sheltername, password, email, phone);
     }
 }
 

@@ -13,4 +13,6 @@ public class Shelter {
 	private Integer id;
 	private String sheltername;
 	private String password;
+	private String email;
+	private String phone;
 }
