@@ -18,6 +18,7 @@ public class WebSecurityConfig {
                     "/users/**",
                     "/shelters/**",
                     "/animal/**",
+                    "/adoption_requests/**",
                     "/v3/api-docs/**",
                     "/swagger-ui/**",
                     "/swagger-ui.html"

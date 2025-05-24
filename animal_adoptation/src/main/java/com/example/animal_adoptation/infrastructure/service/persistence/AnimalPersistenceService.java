@@ -86,6 +86,15 @@ public class AnimalPersistenceService implements AnimalRepositoryPort {
     }
 
     @Override
+    public Optional<Animal> findById(Integer id) {
+        if (id == null) {
+            return Optional.empty();
+        }
+        return animalRepository.findById(id)
+                .map(this::convertToDomain);
+    }
+
+    @Override
     public Optional<Animal> createAnimal(Animal animal) {
         if (animalRepository.findByReiac(animal.getReiac()).isPresent()) {
             throw new DataIntegrityViolationException("Animal with reiac " + animal.getReiac() + " already exists");

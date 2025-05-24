@@ -8,6 +8,7 @@ import java.util.Optional;
 public interface AnimalDomainService {
     Optional<Animal> findByReiac(int reiac);
     Optional<Animal> findByName(String name);
+    Optional<Animal> findById(Integer id);
     Optional<Animal> createAnimal(Animal animal);
     Optional<Animal> updateAnimal(Animal animal);
     Optional<Animal> deleteAnimal(Integer id);

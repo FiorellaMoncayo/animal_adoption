@@ -27,6 +27,15 @@ public class AnimalDomainServiceImpl implements AnimalDomainService {
     }
 
     @Override
+    public Optional<Animal> findById(Integer id) {
+        if (id == null) {
+            throw new IllegalArgumentException("ID cannot be null");
+        }
+        return animalPersistenceService.findById(id);
+    }
+
+
+    @Override
     public Optional<List<Animal>> getAllShelterAnimals(Integer id) {
         if (id == null || !shelterRepository.existsById(id)) {
             return Optional.empty();

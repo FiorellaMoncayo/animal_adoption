@@ -11,6 +11,7 @@ public interface AnimalRepositoryPort {
 	Optional<List<Animal>> findByShelter(Integer shelterId);
     Optional<Animal> findByReiac(int reiac);
     Optional<Animal> findByName(String name);
+    Optional<Animal> findById(Integer id);
     Optional<Animal> createAnimal(Animal animal);
     Animal save(Animal animal);
     Optional<Animal> updateAnimal(Animal animal);
