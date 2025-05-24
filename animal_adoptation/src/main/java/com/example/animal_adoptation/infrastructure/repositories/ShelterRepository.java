@@ -29,7 +29,9 @@ public interface ShelterRepository extends JpaRepository<ShelterBBD, Integer> {
 
 	@Modifying
 	@Transactional
-	@Query("UPDATE ShelterBBD s SET s.sheltername = :newsheltername WHERE s.id = :id")
+	@Query("UPDATE ShelterBBD s SET s.sheltername = :newsheltername, s.email = :email, s.phone = :phone WHERE s.id = :id")
 	int updateShelter(@Param("id") Integer id,
-					  @Param("newsheltername") String newsheltername);
+					  @Param("newsheltername") String newsheltername,
+					  @Param("email") String email,
+					  @Param("phone") String phone);
 }

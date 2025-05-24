@@ -30,6 +30,13 @@ public class UserController implements UserApi {
     }
 
     @Override
+    public ResponseEntity<UserDTO> findByUserId(@PathVariable Integer id) {
+        return userService.findByUserId(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @Override
     public ResponseEntity<UserDTO> findByUsername(@PathVariable String username) {
         return userService.findByUsername(username)
                 .map(ResponseEntity::ok)
