@@ -11,13 +11,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class CreateAdoptionRequestDTO {
-
     @JsonProperty("userId")
     private Integer userId;
 
     @JsonProperty("animalId")
     private Integer animalId;
-
-    @JsonProperty("shelterId")
-    private Integer shelterId;
 }
