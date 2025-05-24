@@ -38,30 +38,41 @@ public class AdoptionRequestDomainServiceImpl implements AdoptionRequestDomainSe
     }
 
     @Override
-    public Optional<AdoptionRequest> updateAdoptionRequestStatus(Integer requestId, String newStatus) {
+    public Optional<AdoptionRequest> updateAdoptionRequestStatus(Integer requestId, String newStatusString) { // Cambiado a newStatusString
         Optional<AdoptionRequest> existingRequest = adoptionRequestRepositoryPort.findById(requestId);
         if (existingRequest.isEmpty()) {
             return Optional.empty();
         }
 
         AdoptionRequest requestToUpdate = existingRequest.get();
-        // Lógica de validación de transición de estado
-        if (!isValidStatusTransition(requestToUpdate.getStatus(), newStatus)) {
-            throw new IllegalArgumentException("Transición de estado inválida de " + requestToUpdate.getStatus() + " a " + newStatus);
+        AdoptionRequest.AdoptionStatus newStatusEnum;
+
+        try {
+            // Convertir el String de entrada a nuestro Enum
+            newStatusEnum = AdoptionRequest.AdoptionStatus.valueOf(newStatusString);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Estado inválido proporcionado: " + newStatusString, e);
         }
 
-        requestToUpdate.setStatus(newStatus);
+        // Lógica de validación de transición de estado, ahora trabajando con ENUMS
+        if (!isValidStatusTransition(requestToUpdate.getStatus(), newStatusEnum)) {
+            throw new IllegalArgumentException("Transición de estado inválida de " + requestToUpdate.getStatus().name() + " a " + newStatusEnum.name());
+        }
+
+        requestToUpdate.setStatus(newStatusEnum); // Asignar directamente el ENUM
         return adoptionRequestRepositoryPort.updateAdoptionRequest(requestToUpdate);
     }
 
-    private boolean isValidStatusTransition(String currentStatus, String newStatus) {
-        if (currentStatus.equals("PENDING")) {
-            return newStatus.equals("ACCEPTED") || newStatus.equals("REJECTED");
+    private boolean isValidStatusTransition(AdoptionRequest.AdoptionStatus currentStatus, AdoptionRequest.AdoptionStatus newStatus) {
+        // PENDING solo puede ir a ACCEPTED o REJECTED
+        if (currentStatus == AdoptionRequest.AdoptionStatus.PENDING) {
+            return newStatus == AdoptionRequest.AdoptionStatus.ACCEPTED ||
+                    newStatus == AdoptionRequest.AdoptionStatus.REJECTED;
         }
-        // Una vez aceptada o rechazada, quizás no se pueda cambiar el estado
-        // Por ahora ACCEPTED/REJECTED pueden cambiar entre sí (por si hay un error)
-        if (currentStatus.equals("ACCEPTED") || currentStatus.equals("REJECTED")) {
-            return newStatus.equals("ACCEPTED") || newStatus.equals("REJECTED");
+
+        if (currentStatus == AdoptionRequest.AdoptionStatus.ACCEPTED ||
+                currentStatus == AdoptionRequest.AdoptionStatus.REJECTED) {
+            return false;
         }
         return false;
     }

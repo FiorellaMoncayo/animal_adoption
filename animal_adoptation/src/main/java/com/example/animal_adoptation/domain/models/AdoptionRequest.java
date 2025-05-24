@@ -16,15 +16,21 @@ public class AdoptionRequest {
     private Integer userId;
     private Integer animalId;
     private Integer shelterId;
-    private String status;
+    private AdoptionStatus status;
     private LocalDateTime requestDate;
+
+    public enum AdoptionStatus {
+        PENDING, ACCEPTED, REJECTED
+    }
 
     // Constructor para cuando se crea una nueva solicitud (sin ID y con estado inicial)
     public AdoptionRequest(Integer userId, Integer animalId, Integer shelterId) {
         this.userId = userId;
         this.animalId = animalId;
         this.shelterId = shelterId;
-        this.status = "PENDING";
+        this.status = AdoptionStatus.PENDING;
         this.requestDate = LocalDateTime.now();
     }
+
+
 }

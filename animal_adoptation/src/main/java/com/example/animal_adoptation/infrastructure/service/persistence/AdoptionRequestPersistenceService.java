@@ -75,7 +75,7 @@ public class AdoptionRequestPersistenceService implements AdoptionRequestReposit
         try {
             // Actualizar solo los campos que se pueden modificar (ej. status)
             AdoptionRequestBBD entityToUpdate = existingEntity.get();
-            entityToUpdate.setStatus(request.getStatus());
+            entityToUpdate.setStatus(request.getStatus() != null ? request.getStatus().name() : null);
             // No se debería permitir cambiar userId, animalId, shelterId ni requestDate una vez creada.
 
             AdoptionRequestBBD updatedEntity = adoptionRequestRepository.save(entityToUpdate);
@@ -102,19 +102,19 @@ public class AdoptionRequestPersistenceService implements AdoptionRequestReposit
         entity.setUserId(domain.getUserId());
         entity.setAnimalId(domain.getAnimalId());
         entity.setShelterId(domain.getShelterId());
-        entity.setStatus(domain.getStatus());
+        entity.setStatus(domain.getStatus() != null ? domain.getStatus().name() : null);
         entity.setRequestDate(domain.getRequestDate());
         return entity;
     }
 
     private AdoptionRequest convertToDomain(AdoptionRequestBBD entity) {
-        return new AdoptionRequest(
-                entity.getId(),
-                entity.getUserId(),
-                entity.getAnimalId(),
-                entity.getShelterId(),
-                entity.getStatus(),
-                entity.getRequestDate()
-        );
+        return AdoptionRequest.builder()
+                .id(entity.getId())
+                .userId(entity.getUserId())
+                .animalId(entity.getAnimalId())
+                .shelterId(entity.getShelterId())
+                .status(entity.getStatus() != null ? AdoptionRequest.AdoptionStatus.valueOf(entity.getStatus()) : null)
+                .requestDate(entity.getRequestDate())
+                .build();
     }
 }

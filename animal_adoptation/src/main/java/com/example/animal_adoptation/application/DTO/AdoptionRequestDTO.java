@@ -31,7 +31,7 @@ public class AdoptionRequestDTO {
     private String status;
 
     @JsonProperty("requestDate")
-    private LocalDateTime requestDate; // Para que la fecha se envíe y reciba
+    private LocalDateTime requestDate;
 
     // Constructor para convertir de modelo de dominio a DTO
     public AdoptionRequestDTO(AdoptionRequest request) {
@@ -40,13 +40,20 @@ public class AdoptionRequestDTO {
             this.userId = request.getUserId();
             this.animalId = request.getAnimalId();
             this.shelterId = request.getShelterId();
-            this.status = request.getStatus();
+            this.status = request.getStatus() != null ? request.getStatus().name() : null;
             this.requestDate = request.getRequestDate();
         }
     }
 
     // Metodo para convertir de DTO a modelo de dominio
     public AdoptionRequest toModel() {
-        return new AdoptionRequest(id, userId, animalId, shelterId, status, requestDate);
+        return AdoptionRequest.builder()
+                .id(this.id)
+                .userId(this.userId)
+                .animalId(this.animalId)
+                .shelterId(this.shelterId)
+                .status(this.status != null ? AdoptionRequest.AdoptionStatus.valueOf(this.status) : null)
+                .requestDate(this.requestDate)
+                .build();
     }
 }
