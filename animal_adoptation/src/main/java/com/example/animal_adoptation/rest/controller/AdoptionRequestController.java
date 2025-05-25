@@ -55,8 +55,9 @@ public class AdoptionRequestController implements AdoptionRequestApi {
 
     @Override
     public ResponseEntity<AdoptionRequestDTO> updateAdoptionRequestStatus(
-            @PathVariable Integer requestId,
-            @RequestParam String newStatus) {
+            @PathVariable String newStatus,
+            @RequestBody Integer requestId
+    ) {
         try {
             return adoptionRequestService.updateAdoptionRequestStatus(requestId, newStatus)
                     .map(request -> new ResponseEntity<>(request, HttpStatus.OK))

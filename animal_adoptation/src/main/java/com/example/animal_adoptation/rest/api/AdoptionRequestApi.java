@@ -51,12 +51,13 @@ public interface AdoptionRequestApi {
     @ApiResponse(description = "Estado de la solicitud actualizado", responseCode = "200",
             content = @Content(schema = @Schema(implementation = AdoptionRequestDTO.class)))
     @ApiResponse(description = "Solicitud no encontrada o estado inválido", responseCode = "404")
-    @PutMapping("/{requestId}")
+    @PutMapping("/{newStatus}")
     ResponseEntity<AdoptionRequestDTO> updateAdoptionRequestStatus(
-            @Parameter(description = "ID de la solicitud de adopción", required = true, in = ParameterIn.PATH)
-            @PathVariable("requestId") Integer requestId,
             @Parameter(description = "Nuevo estado (PENDING, ACCEPTED, REJECTED)", required = true)
-            @RequestParam("status") String newStatus); // Usamos @RequestParam para el status para simplificar
+            @PathVariable("newStatus") String newStatus,
+            @Parameter(description = "ID de la solicitud de adopción", required = true, in = ParameterIn.PATH)
+            @RequestBody Integer requestId);
+
 
     @Operation(summary = "Eliminar una solicitud de adopción",
             description = "Elimina una solicitud de adopción por su ID.")
