@@ -21,4 +21,6 @@ Si la aplicación se está ejecutando en un servidor remoto, reemplaza `localhos
 - **Maven 3+**  
 - **MySQL (o la base de datos configurada en `application.properties`)**  
 
+## ▶️ 3. links & videos
+https://youtu.be/VbDPpfiMMjk
 
